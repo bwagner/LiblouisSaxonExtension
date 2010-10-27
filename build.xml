@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="SaxonExtensionLibLouis" default="default" basedir=".">
-
+<project name="LibLouisSaxonExtension" default="default" basedir=".">
+	
+	<!--
+	TODO:
+		- separate jars for app and factory.
+		- identify commonalities
+	-->
 	<property name="build.dir" value="bin" />
-	<property name="app.jar" value="saxonxliblouis.jar" />
+	<property name="app.jar" value="liblouissaxonx.jar" />
+	<property name="factory.jar" value="liblouissaxonxfactory.jar" />
 	<property name="src.dir" value="src" />
 	<property name="lib.dir" value="lib" />
 	<path id="classpath.path">

@@ -1,0 +1,20 @@
+Liblouis Saxon Extension
+
+This project provides a command line tool to transform dtbook xml
+source files [1] into a braille format proprietary to sbs [2].
+
+It uses saxon [3] with a java extension that offers translating text
+into braille using liblouis [4].
+
+Prerequisite installs:
+- liblouis [4]
+- java
+- sh
+
+[1] http://en.wikipedia.org/wiki/DTBook
+
+[2] http://www.sbs.ch
+
+[3] http://saxon.sourceforge.net/
+
+[4] http://code.google.com/p/liblouis/
