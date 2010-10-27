@@ -6,6 +6,24 @@ source files [1] into a braille format proprietary to sbs [2].
 It uses saxon [3] with a java extension that offers translating text
 into braille using liblouis [4].
 
+# Usage:
+
+cd LiblouisSaxonExtension
+./dtbook2sbsform.sh dtbook.xml
+# calls saxon.sh, transform dtbook.xml
+# and performs line breaking using linebreak.sh
+# printing output onto stdout
+
+./saxon.sh
+# calls saxon, offering its rich command line interface,
+# includes our extension function
+# (see resources/xsl/dtbook2sbsform.xsl
+
+./linebreak.sh
+# breaks lines according to sbs rules:
+# only lines beginning with a blank will be broken
+# line width is 80 chars.
+
 Prerequisite installs:
 - liblouis [4]
 - java
