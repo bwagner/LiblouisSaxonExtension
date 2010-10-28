@@ -1303,7 +1303,7 @@ i f=3 l=1
 	   neatly works around a bug where liblouis doesn't correctly
 	   announce multi-word emphasis -->
         <xsl:choose>
-          <xsl:when test="count(tokenize(string(.), ' /-')) > 1">
+          <xsl:when test="count(tokenize(string(.), '(\s|/|-)+')) > 1">
             <!-- There are multiple words. Insert a multiple word announcement -->
             <xsl:value-of select="louis:translate(string($braille_tables), '&#x2560;')"/>
             <xsl:apply-templates/>
@@ -1420,7 +1420,7 @@ i f=3 l=1
         <xsl:choose>
           <xsl:when test="$contraction = '2' and @brl:grade &lt; $contraction">
             <xsl:choose>
-              <xsl:when test="count(tokenize(string(.), ' /-')) > 1">
+              <xsl:when test="count(tokenize(string(.), '(\s|/|-)+')) > 1">
                 <!-- There are multiple words. Insert an announcement for a multiple word grade change -->
                 <xsl:value-of select="louis:translate(string($braille_tables), '&#x255A;')"/>
                 <xsl:apply-templates/>
@@ -1490,7 +1490,7 @@ i f=3 l=1
     </xsl:variable>
     <!-- Replace ' ' and '/' with '.' -->
     <xsl:variable name="clean_number">
-      <xsl:for-each select="tokenize(string(.), ' /')">
+      <xsl:for-each select="tokenize(string(.), '(\s|/)+')">
         <xsl:value-of select="."/>
         <xsl:if test="not(position() = last())">.</xsl:if>
       </xsl:for-each>
@@ -1507,8 +1507,8 @@ i f=3 l=1
         <xsl:with-param name="context" select="'denominator'"/>
       </xsl:call-template>
     </xsl:variable>
-    <xsl:variable name="numerator" select="(tokenize(string(.), ' /'))[position()=1]"/>
-    <xsl:variable name="denominator" select="(tokenize(string(.), ' /'))[position()=2]"/>
+    <xsl:variable name="numerator" select="(tokenize(string(.), '(\s|/)+'))[position()=1]"/>
+    <xsl:variable name="denominator" select="(tokenize(string(.), '(\s|/)+'))[position()=2]"/>
     <xsl:value-of select="louis:translate(string($braille_tables), string($numerator))"/>
     <xsl:value-of select="louis:translate(string($downshift_braille_tables), string($denominator))"
     />
@@ -1523,9 +1523,9 @@ i f=3 l=1
         <xsl:with-param name="context" select="'denominator'"/>
       </xsl:call-template>
     </xsl:variable>
-    <xsl:variable name="number" select="(tokenize(string(.), ' /'))[position()=1]"/>
-    <xsl:variable name="numerator" select="(tokenize(string(.), ' /'))[position()=2]"/>
-    <xsl:variable name="denominator" select="(tokenize(string(.), ' /'))[position()=3]"/>
+    <xsl:variable name="number" select="(tokenize(string(.), '(\s|/)+'))[position()=1]"/>
+    <xsl:variable name="numerator" select="(tokenize(string(.), '(\s|/)+'))[position()=2]"/>
+    <xsl:variable name="denominator" select="(tokenize(string(.), '(\s|/)+'))[position()=3]"/>
     <xsl:value-of select="louis:translate(string($braille_tables), string($number))"/>
     <xsl:value-of select="louis:translate(string($braille_tables), string($numerator))"/>
     <xsl:value-of select="louis:translate(string($downshift_braille_tables), string($denominator))"
@@ -1569,7 +1569,7 @@ i f=3 l=1
       <xsl:when
         test="$secondToLastChar='-' and string(number($lastChar))='NaN' and my:isUpper($lastChar)">
         <xsl:variable name="clean_number">
-          <xsl:for-each select="tokenize(substring(.,1,string-length(.)-2), ' -')">
+          <xsl:for-each select="tokenize(substring(.,1,string-length(.)-2), '(\s|-)+')">
             <xsl:value-of select="string(.)"/>
             <xsl:if test="not(position() = last())">.</xsl:if>
           </xsl:for-each>
@@ -1581,7 +1581,7 @@ i f=3 l=1
       </xsl:when>
       <xsl:otherwise>
         <xsl:variable name="clean_number">
-          <xsl:for-each select="tokenize(string(.), ' -')">
+          <xsl:for-each select="tokenize(string(.), '(\s|-)+')">
             <xsl:value-of select="string(.)"/>
             <xsl:if test="not(position() = last())">.</xsl:if>
           </xsl:for-each>
