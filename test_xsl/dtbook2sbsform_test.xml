@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE utfx:tests PUBLIC "-//UTF-X//DTD utfx-tests 1.0//EN" "utfx_tests.dtd">
+<utfx:tests xmlns:utfx="http://utfx.org/test-definition" xmlns:dtb="http://www.daisy.org/z3986/2005/dtbook/">
+  <utfx:stylesheet src="dtbook2latex.xsl" />
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- tests for specific constructs in the text -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <utfx:test>
+    <utfx:name>test for !«</utfx:name>
+      <utfx:assert-equal>
+        <utfx:source>
+	  »Ich bin Bergfahrer!«  
+        </utfx:source>
+        <utfx:expected>
+	  (# B* B7G,R7+)
+        </utfx:expected>
+      </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test for !</utfx:name>
+      <utfx:assert-equal>
+        <utfx:source>
+	  And we look farther on!
+        </utfx:source>
+        <utfx:expected>
+	   +D WE LOOK F)TH7 ON+
+        </utfx:expected>
+      </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test for <em>Italy</em></utfx:name>
+      <utfx:assert-equal>
+        <utfx:source>
+	  <line><em>Italy</em> stands the other side!</line>
+        </utfx:source>
+        <utfx:expected>
+y LINEb
+ _IT:'Y ,]S THE OTH7 SIDE+
+y LINEe
+        </utfx:expected>
+      </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test for <em>Italy</em></utfx:name>
+      <utfx:assert-equal>
+        <utfx:source>
+	  <line>Forever intervene!</line>
+        </utfx:source>
+        <utfx:expected>
+y LINEb
+ F?EV7 *T7VCE+
+y LINEe
+        </utfx:expected>
+      </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test for stick!!!«</utfx:name>
+      <utfx:assert-equal>
+        <utfx:source>
+	  »Sun-block on a stick!!!«
+        </utfx:source>
+        <utfx:expected>
+	  (S/-mBLO$ ON 'A ]I$+++)
+        </utfx:expected>
+	<!-- actual: (S/-mBLO$ ON 'A ]I$!'+'+) -->
+      </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test for und/oder</utfx:name>
+      <utfx:assert-equal>
+        <utfx:source>
+	  Substanz und/oder deren
+        </utfx:source>
+        <utfx:expected>
+	  SUB]+Z ,U!,OD7 D7C
+        </utfx:expected>
+	<!-- actual: SUB]+Z U!,O D7C -->
+      </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test for <abbr>AM</abbr></utfx:name>
+      <utfx:assert-equal>
+        <utfx:source>
+	  <abbr>AM</abbr>- und der <abbr>FM</abbr>-Skala,
+        </utfx:source>
+        <utfx:expected>
+	   >AM'- U R >FM-mSK:A,
+        </utfx:expected>
+	<!-- actual: >AM- U R >FM-mSK:A, -->
+      </utfx:assert-equal>
+  </utfx:test>
+
+</utfx:tests>
