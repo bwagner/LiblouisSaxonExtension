@@ -8,6 +8,6 @@ if [ $# != 1 ] ; then
 fi
 
 ./saxon.sh \
-	-xsl:resources/xsl/dtbook2sbsform.xsl \
+	-xsl:xsl/dtbook2sbsform.xsl \
 	-s:$1 | \
 	./linebreak.sh
