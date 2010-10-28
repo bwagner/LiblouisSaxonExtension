@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ $# != 1 ] ; then
-	PRG=`basename $0`
+	PRG=`basename $0` 
 	echo "Usage: $PRG dtbook.xml\n"
 	echo "\tone dtbook xml source file expected. Exiting.\n"
 	exit 1
