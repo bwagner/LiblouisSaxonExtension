@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="LibLouisSaxonExtension" default="default" basedir=".">
-	
+
 	<!--
 	TODO:
 		- separate jars for app and factory.
@@ -10,6 +10,7 @@
 	<property name="app.jar" value="liblouissaxonx.jar" />
 	<property name="factory.jar" value="liblouissaxonxfactory.jar" />
 	<property name="src.dir" value="src" />
+	<property name="test_src.dir" value="test_src" />
 	<property name="lib.dir" value="lib" />
 	<path id="classpath.path">
 		<pathelement location="${build.dir}" />
@@ -30,6 +31,38 @@
 				<path refid="classpath.path" />
 			</classpath>
 		</javac>
+	</target>
+
+	<target name="test" depends="compile">
+		<junit printsummary="yes" fork="yes" haltonfailure="no" haltonerror="no">
+<!--
+			to see more detailed errors:
+			<formatter type="plain" usefile="false"/>
+-->
+			<formatter type="plain" />
+			<classpath>
+
+				<!-- classes to test -->
+				<pathelement location="${build.dir}" />
+
+				<!-- 3rd party libs -->
+				<pathelement location="${lib.dir}/jna.jar" />
+				<pathelement location="${lib.dir}/louis.jar" />
+				<pathelement location="${lib.dir}/saxon9he.jar" />
+				<!-- junit -->
+				<pathelement location="${lib.dir}/junit-4.8.2.jar" />
+			</classpath>
+			<batchtest>
+				<formatter type="failure" />
+			    <fileset dir="${test_src.dir}">
+			      <include name="**/*Test.java"/>
+			    </fileset>
+			</batchtest>
+			<!--
+			<test name="ch.sbs.liblouis.utils.LineBreakerTest" />
+			<test name="org.liblouis.LouisTransformTest" />
+			-->
+		</junit>
 	</target>
 
 </project>
