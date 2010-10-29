@@ -51,27 +51,9 @@
       select="(my:isLower($a) and my:isLower($b)) or (my:isUpper($a) and my:isUpper($b))"/>
   </xsl:function>
 
-  <xsl:function name="my:tokenizeByCase">
+  <xsl:function name="my:tokenizeByCase" as="item()*">
     <xsl:param name="string"/>
-    <xsl:value-of select="tokenize(my:tokenizeByCase-1($string), ',')"/>
-  </xsl:function>
-
-  <xsl:function name="my:tokenizeByCase-1" as="xs:string">
-    <xsl:param name="string"/>
-    <xsl:choose>
-      <xsl:when test="string-length($string) &lt;= 1">
-        <xsl:value-of select="$string"/>
-      </xsl:when>
-      <xsl:when test="not(my:hasSameCase(substring($string,1,1),substring($string,2,1)))">
-        <!-- TODO: use another character than ',' as a separator, since , is fairly common. Use \u0000 -->
-        <xsl:value-of
-          select="concat(substring($string,1,1),',',my:tokenizeByCase-1(substring($string,2)))"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of
-          select="concat(substring($string,1,1),my:tokenizeByCase-1(substring($string,2)))"/>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:sequence select="tokenize(replace($string,'([0-9]+|[A-Z]+|[a-z]+)', '$1#'), '#')[.]"/>
   </xsl:function>
 
   <xsl:function name="my:containsDot" as="xs:boolean">
