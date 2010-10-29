@@ -4,6 +4,57 @@
   <utfx:stylesheet src="xsl/dtbook2sbsform.xsl" />
 
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- test getTable -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <utfx:test>
+    <utfx:name>getTable for fr and contraction = 2</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'" />      
+    </utfx:stylesheet-params>
+    <utfx:call-template name="getTable"/>
+    <utfx:assert-equal>
+      <utfx:source>
+	<p xml:lang="fr" />
+      </utfx:source>
+      <utfx:expected>
+	Fr-Fr-g2.ctb
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>getTable for fr and contraction = 1</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'1'" />      
+    </utfx:stylesheet-params>
+    <utfx:call-template name="getTable"/>
+    <utfx:assert-equal>
+      <utfx:source>
+	<p xml:lang="fr" />
+      </utfx:source>
+      <utfx:expected>
+	fr-fr-g1.utb
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>getTable for de and contraction = 2</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'" />      
+    </utfx:stylesheet-params>
+    <utfx:call-template name="getTable"/>
+    <utfx:assert-equal>
+      <utfx:source>
+	<p xml:lang="de" />
+      </utfx:source>
+      <utfx:expected>
+	sbs.dis,sbs-de-core6.cti,sbs-de-accents-ch.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-core.mod,sbs-special.mod
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <!-- tests for specific constructs in the text -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <utfx:test>
