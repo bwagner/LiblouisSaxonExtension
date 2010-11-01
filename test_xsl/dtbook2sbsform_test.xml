@@ -129,9 +129,8 @@ y LINEe
         	<stub xml:lang="de">Substanz und/oder deren</stub>
         </utfx:source>
         <utfx:expected>
-	  SUB]+Z ,U!,OD7 D7C
+	  SUB]+Z U!,O D7C
         </utfx:expected>
-	<!-- actual: SUB]+Z U!,O D7C -->
       </utfx:assert-equal>
   </utfx:test>
 
