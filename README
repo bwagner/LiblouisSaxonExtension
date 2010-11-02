@@ -33,7 +33,7 @@ cd LiblouisSaxonExtension
 
 java -Djavax.xml.transform.sax.SAXTransformerFactory YourAppThatUsesJaxp
 Examples can be found in the xsl tests which are performed using
-utf-x [5], once we've included them in this project.
+utf-x [5].
 
 3. Prerequisite installs:
 - liblouis [4]
@@ -50,4 +50,6 @@ utf-x [5], once we've included them in this project.
 
 [4] http://code.google.com/p/liblouis/
 
-[5] http://utf-x.sourceforge.net/
+[5] http://utf-x.sourceforge.net/, however we're using an enhanced version,
+	which has been ported to work with saxon9he:
+	http://github.com/bwagner/utf-x-framework
