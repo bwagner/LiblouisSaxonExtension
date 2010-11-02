@@ -33,7 +33,7 @@ cd LiblouisSaxonExtension
 
 java -Djavax.xml.transform.sax.SAXTransformerFactory YourAppThatUsesJaxp
 Examples can be found in the xsl tests which are performed using
-utf-x [5].
+utf-x [5]. See utfx.sh shell script.
 
 3. Prerequisite installs:
 - liblouis [4]
