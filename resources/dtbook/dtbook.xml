@@ -2,6 +2,23 @@
 <?xml-stylesheet href="dtbook.2005.basic.css" type="text/css"?>
 <!DOCTYPE dtbook PUBLIC "-//NISO//DTD dtbook 2005-3//EN" "http://www.daisy.org/z3986/2005/dtbook-2005-3.dtd" >
 <dtbook xmlns="http://www.daisy.org/z3986/2005/dtbook/" version="2005-3" xml:lang="en-US">
+	<!-- Copyright (C) 2010 Swiss Library for the Blind, Visually Impaired and Print Disabled -->
+	
+	<!-- This file is part of LiblouisSaxonExtension. -->
+	
+	<!-- LiblouisSaxonExtension is free software: you can redistribute it -->
+	<!-- and/or modify it under the terms of the GNU Lesser General Public -->
+	<!-- License as published by the Free Software Foundation, either -->
+	<!-- version 3 of the License, or (at your option) any later version. -->
+	
+	<!-- This program is distributed in the hope that it will be useful, -->
+	<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+	<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU -->
+	<!-- Lesser General Public License for more details. -->
+	
+	<!-- You should have received a copy of the GNU Lesser General Public -->
+	<!-- License along with this program. If not, see -->
+	<!-- <http://www.gnu.org/licenses/>. -->
 	<head>
 		<meta name="dc:Date" content="2008-04-28" />
 	</head>
