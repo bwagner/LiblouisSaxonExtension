@@ -1363,8 +1363,8 @@ i f=3 l=1
     <xsl:choose>
       <xsl:when test="my:containsDot($content)">
         <xsl:variable name="temp">
-          <!-- drop all the spaces -->
-          <xsl:for-each select="tokenize(string($content), ' ')">
+          <!-- drop all whitespace -->
+          <xsl:for-each select="tokenize(string($content), '\s+')">
             <xsl:value-of select="."/>
           </xsl:for-each>
         </xsl:variable>
