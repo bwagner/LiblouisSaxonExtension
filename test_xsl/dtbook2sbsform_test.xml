@@ -20,7 +20,8 @@
 
 <!DOCTYPE utfx:tests PUBLIC "-//UTF-X//DTD utfx-tests 1.0//EN" "utfx_tests.dtd">
 <utfx:tests xmlns:utfx="http://utfx.org/test-definition"
-  xmlns:dtb="http://www.daisy.org/z3986/2005/dtbook/">
+  xmlns:dtb="http://www.daisy.org/z3986/2005/dtbook/"
+  xmlns:brl="http://www.daisy.org/z3986/2009/braille/">
   <utfx:stylesheet src="xsl/dtbook2sbsform.xsl"/>
 
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -158,12 +159,163 @@ y LINEe
     <utfx:name>test for <abbr>AM</abbr></utfx:name>
     <utfx:assert-equal>
       <utfx:source>
-        <stub xml:lang="de"><abbr>AM</abbr>- und der <abbr>FM</abbr>-Skala,</stub>
+        <stub xml:lang="de"><dtb:abbr>AM</dtb:abbr>- und der <dtb:abbr>FM</dtb:abbr>-Skala,</stub>
       </utfx:source>
       <utfx:expected>
-	   >AM'- U R >FM-mSK:A,
-        </utfx:expected>
+				>AM'- U R >FM-mSK:A,
+			</utfx:expected>
       <!-- actual: >AM- U R >FM-mSK:A, -->
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test for em with subelements (http://redmine.sbszh.ch/issues/show/816) </utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'0'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:em><dtb:abbr>US</dtb:abbr>-Justizministerium</dtb:em>
+        </stub>
+      </utfx:source>
+      <utfx:expected>
+				__US-JUSTIZMINISTERIUM'.
+			</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test for whitespace swallowed with adjacing inlines (http://redmine.sbszh.ch/issues/show/818) </utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:em>Mein Mann.</dtb:em>
+          <brl:v-form>Ihr</brl:v-form>
+        </stub>
+      </utfx:source>
+      <utfx:expected>
+				__M6 MN.'. $I				
+			</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test 1 for brl:num role="measure", wenn Zeilenumbruch zwischen Zahl und Einheit steht (http://redmine.sbszh.ch/issues/show/898) </utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+          <brl:num role="measure">24 mm</brl:num>
+        </stub>
+      </utfx:source>
+      <utfx:expected>
+				#BD'MM
+			</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test 2 for brl:num role="measure", wenn Zeilenumbruch zwischen Zahl und Einheit steht (http://redmine.sbszh.ch/issues/show/898) </utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+          <brl:num role="measure">24 
+					mm</brl:num>
+        </stub>
+      </utfx:source>
+      <utfx:expected>
+				#BD MM
+			</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test 3 for wenn Zeilenumbruch zwischen Zahl und Einheit steht sollte Leerzeichen getilgt werden (http://redmine.sbszh.ch/issues/show/898) </utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:abbr>Nr. 
+					25</dtb:abbr>
+        </stub>
+      </utfx:source>
+      <utfx:expected>
+				NR.#BE
+			</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test 1 for brl:homograph (http://redmine.sbszh.ch/issues/show/925) </utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Iron <brl:homograph>M<brl:separator/>an</brl:homograph></stub>
+      </utfx:source>
+      <utfx:expected>
+				IRON MAN				
+			</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test 2 for brl:homograph (http://redmine.sbszh.ch/issues/show/925) </utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Iron <brl:homograph>Ma<brl:separator/>n</brl:homograph>
+        </stub>
+      </utfx:source>
+      <utfx:expected>
+				IRON MAN
+			</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test 2 for Apostroph (pt. 6) vor Einzelbuchstaben mit Punkt innerhalb abbr (http://redmine.sbszh.ch/issues/show/927) </utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:abbr>A. B. D. E. F. G. H. I. J.</dtb:abbr>
+        </stub>
+      </utfx:source>
+      <utfx:expected>
+				A. B. D. E. F. G. H. I. J.
+			</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test 2 for Apostroph (pt. 6) erscheint zweimal bei Apostroph + Einzelbuchstabe (http://redmine.sbszh.ch/issues/show/929) </utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">wie geht's</stub>
+      </utfx:source>
+      <utfx:expected>
+				2 G=T'S
+			</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
