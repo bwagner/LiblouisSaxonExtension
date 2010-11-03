@@ -19,8 +19,9 @@
 <!-- <http://www.gnu.org/licenses/>. -->
 
 <!DOCTYPE utfx:tests PUBLIC "-//UTF-X//DTD utfx-tests 1.0//EN" "utfx_tests.dtd">
-<utfx:tests xmlns:utfx="http://utfx.org/test-definition" xmlns:dtb="http://www.daisy.org/z3986/2005/dtbook/">
-  <utfx:stylesheet src="xsl/dtbook2sbsform.xsl" />
+<utfx:tests xmlns:utfx="http://utfx.org/test-definition"
+  xmlns:dtb="http://www.daisy.org/z3986/2005/dtbook/">
+  <utfx:stylesheet src="xsl/dtbook2sbsform.xsl"/>
 
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <!-- test getTable -->
@@ -28,12 +29,12 @@
   <utfx:test>
     <utfx:name>getTable for fr and contraction = 2</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'" />      
+      <utfx:with-param name="contraction" select="'2'"/>
     </utfx:stylesheet-params>
     <utfx:call-template name="getTable"/>
     <utfx:assert-equal>
       <utfx:source>
-	<p xml:lang="fr" />
+        <p xml:lang="fr"/>
       </utfx:source>
       <utfx:expected>
 	Fr-Fr-g2.ctb
@@ -44,12 +45,12 @@
   <utfx:test>
     <utfx:name>getTable for fr and contraction = 1</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'1'" />      
+      <utfx:with-param name="contraction" select="'1'"/>
     </utfx:stylesheet-params>
     <utfx:call-template name="getTable"/>
     <utfx:assert-equal>
       <utfx:source>
-	<p xml:lang="fr" />
+        <p xml:lang="fr"/>
       </utfx:source>
       <utfx:expected>
 	fr-fr-g1.utb
@@ -60,12 +61,12 @@
   <utfx:test>
     <utfx:name>getTable for de and contraction = 2</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'" />      
+      <utfx:with-param name="contraction" select="'2'"/>
     </utfx:stylesheet-params>
     <utfx:call-template name="getTable"/>
     <utfx:assert-equal>
       <utfx:source>
-	<p xml:lang="de" />
+        <p xml:lang="de"/>
       </utfx:source>
       <utfx:expected>
 	sbs.dis,sbs-de-core6.cti,sbs-de-accents-ch.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-core.mod,sbs-special.mod
@@ -78,92 +79,92 @@
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <utfx:test>
     <utfx:name>test for !«</utfx:name>
-      <utfx:assert-equal>
-        <utfx:source>
-        	<stub xml:lang="de">»Ich bin Bergfahrer!«</stub>  
-        </utfx:source>
-        <utfx:expected>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">»Ich bin Bergfahrer!«</stub>
+      </utfx:source>
+      <utfx:expected>
  	(# B* B7G,R7+)
         </utfx:expected>
-      </utfx:assert-equal>
+    </utfx:assert-equal>
   </utfx:test>
 
   <utfx:test>
     <utfx:name>test for !</utfx:name>
-      <utfx:assert-equal>
-        <utfx:source>
-        	<stub xml:lang="de">And we look farther on!</stub>
-        </utfx:source>
-        <utfx:expected>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">And we look farther on!</stub>
+      </utfx:source>
+      <utfx:expected>
 	   +D WE LOOK F)TH7 ON+
         </utfx:expected>
-      </utfx:assert-equal>
+    </utfx:assert-equal>
   </utfx:test>
 
   <utfx:test>
     <utfx:name>test for <em>Italy</em></utfx:name>
-      <utfx:assert-equal>
-        <utfx:source>
-	  <dtb:line xml:lang="de"><dtb:em>Italy</dtb:em> stands the other side!</dtb:line>
-        </utfx:source>
-        <utfx:expected>
+    <utfx:assert-equal>
+      <utfx:source>
+        <dtb:line xml:lang="de"><dtb:em>Italy</dtb:em> stands the other side!</dtb:line>
+      </utfx:source>
+      <utfx:expected>
 y LINEb
  _IT:'Y ,]S THE OTH7 SIDE+
 y LINEe
         </utfx:expected>
-      </utfx:assert-equal>
+    </utfx:assert-equal>
   </utfx:test>
 
   <utfx:test>
     <utfx:name>test for <em>Italy</em></utfx:name>
-      <utfx:assert-equal>
-        <utfx:source>
-	  <dtb:line xml:lang="de">Forever intervene!</dtb:line>
-        </utfx:source>
-        <utfx:expected>
+    <utfx:assert-equal>
+      <utfx:source>
+        <dtb:line xml:lang="de">Forever intervene!</dtb:line>
+      </utfx:source>
+      <utfx:expected>
 y LINEb
  F?EV7 *T7VCE+
 y LINEe
         </utfx:expected>
-      </utfx:assert-equal>
+    </utfx:assert-equal>
   </utfx:test>
 
   <utfx:test>
     <utfx:name>test for stick!!!«</utfx:name>
-      <utfx:assert-equal>
-        <utfx:source>
-        	<stub xml:lang="de">»Sun-block on a stick!!!«</stub>
-        </utfx:source>
-        <utfx:expected>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">»Sun-block on a stick!!!«</stub>
+      </utfx:source>
+      <utfx:expected>
 	  (S/-mBLO$ ON 'A ]I$+++)
         </utfx:expected>
-	<!-- actual: (S/-mBLO$ ON 'A ]I$!'+'+) -->
-      </utfx:assert-equal>
+      <!-- actual: (S/-mBLO$ ON 'A ]I$!'+'+) -->
+    </utfx:assert-equal>
   </utfx:test>
 
   <utfx:test>
     <utfx:name>test for und/oder</utfx:name>
-      <utfx:assert-equal>
-        <utfx:source>
-        	<stub xml:lang="de">Substanz und/oder deren</stub>
-        </utfx:source>
-        <utfx:expected>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Substanz und/oder deren</stub>
+      </utfx:source>
+      <utfx:expected>
 	  SUB]+Z U!,O D7C
         </utfx:expected>
-      </utfx:assert-equal>
+    </utfx:assert-equal>
   </utfx:test>
 
   <utfx:test>
     <utfx:name>test for <abbr>AM</abbr></utfx:name>
-      <utfx:assert-equal>
-        <utfx:source>
-        	<stub xml:lang="de"><abbr>AM</abbr>- und der <abbr>FM</abbr>-Skala,</stub>
-        </utfx:source>
-        <utfx:expected>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><abbr>AM</abbr>- und der <abbr>FM</abbr>-Skala,</stub>
+      </utfx:source>
+      <utfx:expected>
 	   >AM'- U R >FM-mSK:A,
         </utfx:expected>
-	<!-- actual: >AM- U R >FM-mSK:A, -->
-      </utfx:assert-equal>
+      <!-- actual: >AM- U R >FM-mSK:A, -->
+    </utfx:assert-equal>
   </utfx:test>
 
 </utfx:tests>
