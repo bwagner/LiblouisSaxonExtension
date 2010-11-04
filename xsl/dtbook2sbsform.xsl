@@ -86,12 +86,12 @@
 
   <xsl:function name="my:ends-with-non-word" as="xs:boolean">
     <xsl:param name="string"/>
-    <xsl:value-of select="matches($string, '\W$')"/>
+    <xsl:value-of select="empty($string) or matches($string, '\W$')"/>
   </xsl:function>
 
   <xsl:function name="my:starts-with-non-word" as="xs:boolean">
     <xsl:param name="string"/>
-    <xsl:value-of select="matches($string, '^\W')"/>
+    <xsl:value-of select="empty($string) or matches($string, '^\W')"/>
   </xsl:function>
 
   <xsl:function name="my:starts-with-punctuation" as="xs:boolean">
