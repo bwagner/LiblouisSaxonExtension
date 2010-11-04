@@ -188,10 +188,7 @@ y LINEe
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
-        <stub xml:lang="de">
-          <dtb:em>Mein Mann.</dtb:em>
-          <brl:v-form>Ihr</brl:v-form>
-        </stub>
+        <stub xml:space="preserve" xml:lang="de"><dtb:em>Mein Mann.</dtb:em> <brl:v-form>Ihr</brl:v-form></stub>
       </utfx:source>
       <utfx:expected>__M6 MN.'. $I</utfx:expected>
     </utfx:assert-equal>
