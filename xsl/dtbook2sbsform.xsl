@@ -1371,16 +1371,18 @@ i f=3 l=1
         <xsl:value-of select="louis:translate(string($braille_tables), string($temp))"/>
       </xsl:when>
       <xsl:otherwise>
+        <xsl:variable name="tokens" select="my:tokenizeByCase($content)"/>
         <xsl:variable name="temp">
-          <xsl:for-each select="my:tokenizeByCase($content)">
+          <xsl:for-each select="$tokens">
+	    <xsl:variable name="i" select="position()"/>
             <!-- prepend more upper case sequences longer than one char with > -->
             <xsl:if
-              test="((string-length(.) &gt; 1 or (position()=last())) and my:isUpper(substring(.,1,1))) or my:isNumber((following-sibling::*)[1])">
+              test="((string-length(.) &gt; 1 or (position()=last())) and my:isUpper(substring(.,1,1))) or my:isNumber($tokens[$i+1])">
               <xsl:text>╦</xsl:text>
             </xsl:if>
             <!-- prepend single char upper case with $ (unless it is the last char then prepend with >) -->
             <xsl:if
-              test="string-length(.) = 1 and my:isUpper(substring(.,1,1)) and not(position()=last()) and not(my:isNumber((following-sibling::*)[1]))">
+              test="string-length(.) = 1 and my:isUpper(substring(.,1,1)) and not(position()=last()) and not(my:isNumber($tokens[$i+1]))">
               <xsl:text>╤</xsl:text>
             </xsl:if>
             <!-- prepend the first char with ' if it is lower case -->
@@ -1389,7 +1391,7 @@ i f=3 l=1
             </xsl:if>
             <!-- prepend any lower case sequences that follow an upper case sequence with ' -->
             <xsl:if
-              test="my:isLower(substring(.,1,1)) and string-length((preceding-sibling::*)[1]) &gt; 1 and my:isUpper(substring((preceding-sibling::*)[1],1,1))">
+              test="my:isLower(substring(.,1,1)) and string-length($tokens[$i - 1]) &gt; 1 and my:isUpper(substring($tokens[$i - 1],1,1))">
               <xsl:text>╩</xsl:text>
             </xsl:if>
             <xsl:value-of select="."/>
