@@ -1,44 +1,40 @@
 package org.liblouis;
 
 import net.sf.saxon.expr.XPathContext;
-import net.sf.saxon.functions.ExtensionFunctionCall;
-import net.sf.saxon.functions.ExtensionFunctionDefinition;
-import net.sf.saxon.om.EmptyIterator;
+import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.om.SequenceIterator;
-import net.sf.saxon.om.SingletonIterator;
 import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.trans.XPathException;
+import net.sf.saxon.tree.iter.EmptyIterator;
+import net.sf.saxon.tree.iter.SingletonIterator;
 import net.sf.saxon.value.SequenceType;
 import net.sf.saxon.value.StringValue;
 
-import org.liblouis.Louis;
-
-
 /**
-	* Copyright (C) 2010 Swiss Library for the Blind, Visually Impaired and Print Disabled
-	*
-	* This file is part of LiblouisSaxonExtension.
-	* 	
-	* LiblouisSaxonExtension is free software: you can redistribute it
-	* and/or modify it under the terms of the GNU Lesser General Public
-	* License as published by the Free Software Foundation, either
-	* version 3 of the License, or (at your option) any later version.
-	* 	
-	* This program is distributed in the hope that it will be useful,
-	* but WITHOUT ANY WARRANTY; without even the implied warranty of
-	* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	* Lesser General Public License for more details.
-	* 	
-	* You should have received a copy of the GNU Lesser General Public
-	* License along with this program. If not, see
-	* <http://www.gnu.org/licenses/>.
-	*/
+ * Copyright (C) 2010 Swiss Library for the Blind, Visually Impaired and Print
+ * Disabled
+ * 
+ * This file is part of LiblouisSaxonExtension.
+ * 
+ * LiblouisSaxonExtension is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 public class LouisExtensionFunctionDefinition extends
-		ExtensionFunctionDefinition {
+		net.sf.saxon.lib.ExtensionFunctionDefinition {
 
-	private static final StructuredQName funcname = new StructuredQName("louis",
-			"http://liblouis.org/liblouis", "translate");
+	private static final StructuredQName funcname = new StructuredQName(
+			"louis", "http://liblouis.org/liblouis", "translate");
 
 	@Override
 	public StructuredQName getFunctionQName() {
@@ -67,7 +63,7 @@ public class LouisExtensionFunctionDefinition extends
 	}
 
 	@Override
-	public ExtensionFunctionCall makeCallExpression() {
+	public net.sf.saxon.lib.ExtensionFunctionCall makeCallExpression() {
 		return new ExtensionFunctionCall() {
 
 			@Override
