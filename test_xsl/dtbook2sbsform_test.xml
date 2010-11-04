@@ -96,13 +96,9 @@
     <utfx:name>test for <em>Italy</em></utfx:name>
     <utfx:assert-equal>
       <utfx:source>
-        <dtb:line xml:lang="de"><dtb:em>Italy</dtb:em> stands the other side!</dtb:line>
+        <stub xml:lang="de"><dtb:em>Italy</dtb:em> stands the other side!</stub>
       </utfx:source>
-      <utfx:expected>
-y LINEb
- _IT:'Y ,]S THE OTH7 SIDE+
-y LINEe
-      </utfx:expected>
+      <utfx:expected>_IT:'Y ,]S THE OTH7 SIDE+</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -161,7 +157,7 @@ y LINEe
           <dtb:em><dtb:abbr>US</dtb:abbr>-Justizministerium</dtb:em>
         </stub>
       </utfx:source>
-      <utfx:expected>__US-JUSTIZMINISTERIUM'.</utfx:expected>
+      <utfx:expected>__>US-mJUSTIZMINISTERIUM'.</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -208,7 +204,7 @@ y LINEe
 mm</brl:num>
         </stub>
       </utfx:source>
-      <utfx:expected>#BD MM</utfx:expected>
+      <utfx:expected>#BD'MM</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -266,7 +262,7 @@ mm</brl:num>
           <dtb:abbr>A. B. D. E. F. G. H. I. J.</dtb:abbr>
         </stub>
       </utfx:source>
-      <utfx:expected>A. B. D. E. F. G. H. I. J.</utfx:expected>
+      <utfx:expected>A.B.D.E.F.G.H.I.J.</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -344,7 +340,7 @@ mm</brl:num>
       <utfx:source>
         <stub xml:lang="de">›<dtb:em brl:render="ignore">Test</dtb:em>‹-Beispiel</stub>
       </utfx:source>
-      <utfx:expected>(TE])-m,B,0</utfx:expected>
+      <utfx:expected>'(TE]')-m,B,0</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -357,7 +353,7 @@ mm</brl:num>
       <utfx:source>
         <stub xml:lang="de"><dtb:em brl:render="ignore">›Test‹</dtb:em>-Beispiel</stub>
       </utfx:source>
-      <utfx:expected>(TE])-m,B,0</utfx:expected>
+      <utfx:expected>'(TE]')-m,B,0</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
