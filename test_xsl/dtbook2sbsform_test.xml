@@ -37,9 +37,7 @@
       <utfx:source>
         <p xml:lang="fr"/>
       </utfx:source>
-      <utfx:expected>
-	Fr-Fr-g2.ctb
-      </utfx:expected>
+      <utfx:expected>Fr-Fr-g2.ctb</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -53,9 +51,7 @@
       <utfx:source>
         <p xml:lang="fr"/>
       </utfx:source>
-      <utfx:expected>
-	fr-fr-g1.utb
-      </utfx:expected>
+      <utfx:expected>fr-fr-g1.utb</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -69,9 +65,7 @@
       <utfx:source>
         <p xml:lang="de"/>
       </utfx:source>
-      <utfx:expected>
-	sbs.dis,sbs-de-core6.cti,sbs-de-accents-ch.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-core.mod,sbs-special.mod
-      </utfx:expected>
+      <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents-ch.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-core.mod,sbs-special.mod</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -84,9 +78,7 @@
       <utfx:source>
         <stub xml:lang="de">»Ich bin Bergfahrer!«</stub>
       </utfx:source>
-      <utfx:expected>
- 	(# B* B7G,R7+)
-        </utfx:expected>
+      <utfx:expected>(# B* B7G,R7+)</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -96,9 +88,7 @@
       <utfx:source>
         <stub xml:lang="de">And we look farther on!</stub>
       </utfx:source>
-      <utfx:expected>
-	   +D WE LOOK F)TH7 ON+
-        </utfx:expected>
+      <utfx:expected>+D WE LOOK F)TH7 ON+</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -112,7 +102,7 @@
 y LINEb
  _IT:'Y ,]S THE OTH7 SIDE+
 y LINEe
-        </utfx:expected>
+      </utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -126,7 +116,7 @@ y LINEe
 y LINEb
  F?EV7 *T7VCE+
 y LINEe
-        </utfx:expected>
+      </utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -136,10 +126,7 @@ y LINEe
       <utfx:source>
         <stub xml:lang="de">»Sun-block on a stick!!!«</stub>
       </utfx:source>
-      <utfx:expected>
-	  (S/-mBLO$ ON 'A ]I$+++)
-        </utfx:expected>
-      <!-- actual: (S/-mBLO$ ON 'A ]I$!'+'+) -->
+      <utfx:expected>(S/-mBLO$ ON 'A ]I$+++)</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -149,9 +136,7 @@ y LINEe
       <utfx:source>
         <stub xml:lang="de">Substanz und/oder deren</stub>
       </utfx:source>
-      <utfx:expected>
-	  SUB]+Z U!,O D7C
-        </utfx:expected>
+      <utfx:expected>SUB]+Z U!,O D7C</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -161,10 +146,7 @@ y LINEe
       <utfx:source>
         <stub xml:lang="de"><dtb:abbr>AM</dtb:abbr>- und der <dtb:abbr>FM</dtb:abbr>-Skala,</stub>
       </utfx:source>
-      <utfx:expected>
-				>AM'- U R >FM-mSK:A,
-			</utfx:expected>
-      <!-- actual: >AM- U R >FM-mSK:A, -->
+      <utfx:expected>>AM'- U R >FM-mSK:A,</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -179,9 +161,7 @@ y LINEe
           <dtb:em><dtb:abbr>US</dtb:abbr>-Justizministerium</dtb:em>
         </stub>
       </utfx:source>
-      <utfx:expected>
-				__US-JUSTIZMINISTERIUM'.
-			</utfx:expected>
+      <utfx:expected>__US-JUSTIZMINISTERIUM'.</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -197,9 +177,7 @@ y LINEe
           <brl:v-form>Ihr</brl:v-form>
         </stub>
       </utfx:source>
-      <utfx:expected>
-				__M6 MN.'. $I				
-			</utfx:expected>
+      <utfx:expected>__M6 MN.'. $I</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -214,9 +192,7 @@ y LINEe
           <brl:num role="measure">24 mm</brl:num>
         </stub>
       </utfx:source>
-      <utfx:expected>
-				#BD'MM
-			</utfx:expected>
+      <utfx:expected>#BD'MM</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -229,12 +205,10 @@ y LINEe
       <utfx:source>
         <stub xml:lang="de">
           <brl:num role="measure">24 
-					mm</brl:num>
+mm</brl:num>
         </stub>
       </utfx:source>
-      <utfx:expected>
-				#BD MM
-			</utfx:expected>
+      <utfx:expected>#BD MM</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -247,12 +221,10 @@ y LINEe
       <utfx:source>
         <stub xml:lang="de">
           <dtb:abbr>Nr. 
-					25</dtb:abbr>
+25</dtb:abbr>
         </stub>
       </utfx:source>
-      <utfx:expected>
-				NR.#BE
-			</utfx:expected>
+      <utfx:expected>NR.#BE</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -265,9 +237,7 @@ y LINEe
       <utfx:source>
         <stub xml:lang="de">Iron <brl:homograph>M<brl:separator/>an</brl:homograph></stub>
       </utfx:source>
-      <utfx:expected>
-				IRON MAN				
-			</utfx:expected>
+      <utfx:expected>IRON MAN</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -281,9 +251,7 @@ y LINEe
         <stub xml:lang="de">Iron <brl:homograph>Ma<brl:separator/>n</brl:homograph>
         </stub>
       </utfx:source>
-      <utfx:expected>
-				IRON MAN
-			</utfx:expected>
+      <utfx:expected>IRON MAN</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -298,9 +266,7 @@ y LINEe
           <dtb:abbr>A. B. D. E. F. G. H. I. J.</dtb:abbr>
         </stub>
       </utfx:source>
-      <utfx:expected>
-				A. B. D. E. F. G. H. I. J.
-			</utfx:expected>
+      <utfx:expected>A. B. D. E. F. G. H. I. J.</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -313,9 +279,124 @@ y LINEe
       <utfx:source>
         <stub xml:lang="de">wie geht's</stub>
       </utfx:source>
-      <utfx:expected>
-				2 G=T'S
-			</utfx:expected>
+      <utfx:expected>2 G=T'S</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>&lt;em&gt; innerhalb Anführungszeichen liefern falsches Resultat (http://redmine.sbszh.ch/issues/show/1004)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">»<dtb:em>Test</dtb:em>«</stub>
+      </utfx:source>
+      <utfx:expected>(_TE])</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Problem bei Schrägstrich: Kürzungen (http://redmine.sbszh.ch/issues/show/1005)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Produktion/Test</stub>
+      </utfx:source>
+      <utfx:expected>QDUKTJ!,TE]</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Kursive/Fette Anführungszeichen bei brl:render="ignore" (http://redmine.sbszh.ch/issues/show/1006)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">»<dtb:em brl:render="ignore">Test</dtb:em>«-Beispiel</stub>
+      </utfx:source>
+      <utfx:expected>(TE])-m,B,0</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Kursive/Fette Anführungszeichen bei brl:render="ignore" (http://redmine.sbszh.ch/issues/show/1006)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em brl:render="ignore">»Test«</dtb:em>-Beispiel</stub>
+      </utfx:source>
+      <utfx:expected>(TE])-m,B,0</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Kursive/Fette Anführungszeichen bei brl:render="ignore" (http://redmine.sbszh.ch/issues/show/1006)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">›<dtb:em brl:render="ignore">Test</dtb:em>‹-Beispiel</stub>
+      </utfx:source>
+      <utfx:expected>(TE])-m,B,0</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Kursive/Fette Anführungszeichen bei brl:render="ignore" (http://redmine.sbszh.ch/issues/show/1006)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em brl:render="ignore">›Test‹</dtb:em>-Beispiel</stub>
+      </utfx:source>
+      <utfx:expected>(TE])-m,B,0</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>"ver-" bei teilkursiven Wörtern (http://redmine.sbszh.ch/issues/show/1007)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em>Menschen</dtb:em>versuch</stub>
+      </utfx:source>
+      <utfx:expected>_MC5C'.V7SU4</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Einzelbuchstaben mit Akzenten erhalten fälschlicherweise einen Pt.6 (http://redmine.sbszh.ch/issues/show/1010)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">à la carte</stub>
+      </utfx:source>
+      <utfx:expected>"[ LA 'C)(</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Leerschläge vor und nach Schrägstrich werden getilgt (http://redmine.sbszh.ch/issues/show/1011)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">wort / wort</stub>
+      </utfx:source>
+      <utfx:expected>W?T !, W?T</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
