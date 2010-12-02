@@ -19,9 +19,7 @@
 #
 # TODO: how to repackage saxon9he with RSA, etc. in the single jar
 # TODO: LouisExtensionTransformerFactoryImpl not found when using 
-# TODO: create a jar target for the Factory! Currently putting "bin"
-#       into the classpath. This is not deployable!
-# the -jar call. See:
+#       the -jar call. See:
 # http://stackoverflow.com/questions/2018257/how-to-combine-library-with-my-jar
 # Quoting above:
 #   Executable JARs are launched with the "-jar" argument to the java
@@ -29,10 +27,10 @@
 #   variable are ignored.
 
 SAXON=lib/saxon9he.jar
-LOUIS=lib/jna.jar:lib/louis.jar
+LOUIS=lib/louisFat.jar
 LOUIS_TRANSFORM_FACTORY=-Djavax.xml.transform.TransformerFactory=org.liblouis.transformerfactory.LouisExtensionTransformerFactoryImpl
 UTFX=.:utfx_lib/utfxFat.jar
-LOUIS_SAXON_EXT=bin
+LOUIS_SAXON_EXT=liblouissaxonx.jar
 UTFX_TEST=-Dutfx.test.file=test_xsl/dtbook2sbsform_test.xml
 
 java \

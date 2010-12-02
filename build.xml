@@ -60,10 +60,7 @@
 
 	<target name="test" depends="compile">
 		<junit printsummary="yes" fork="yes" haltonfailure="no" haltonerror="no">
-<!--
-			to see more detailed errors:
-			<formatter type="plain" usefile="false"/>
--->
+
 			<formatter type="plain" usefile="false"/>
 			<classpath>
 
@@ -71,8 +68,7 @@
 				<pathelement location="${build.dir}" />
 
 				<!-- 3rd party libs -->
-				<pathelement location="${lib.dir}/jna.jar" />
-				<pathelement location="${lib.dir}/louis.jar" />
+				<pathelement location="${lib.dir}/louisFat.jar" />
 				<pathelement location="${lib.dir}/saxon9he.jar" />
 				<!-- junit -->
 				<pathelement location="${lib.dir}/junit-4.8.2.jar" />
