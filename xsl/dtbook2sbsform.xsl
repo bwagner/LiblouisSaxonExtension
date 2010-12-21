@@ -214,6 +214,21 @@
             <xsl:text>sbs-de-g2-core.mod,</xsl:text>
           </xsl:if>
         </xsl:if>
+	<xsl:choose>
+	  <xsl:when test="$hyphenation = false()">
+	    <xsl:text>sbs-de-hyph-none.mod,</xsl:text>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:choose>
+	      <xsl:when test="lang('de-1901')">
+		<xsl:text>sbs-de-hyph-old.mod,</xsl:text>
+	      </xsl:when>
+	      <xsl:otherwise>
+		<xsl:text>sbs-de-hyph-new.mod,</xsl:text>
+	      </xsl:otherwise>
+	    </xsl:choose>
+	  </xsl:otherwise>
+	</xsl:choose>
         <xsl:text>sbs-special.mod</xsl:text>
       </xsl:when>
       <xsl:otherwise>
