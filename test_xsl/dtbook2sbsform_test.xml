@@ -30,7 +30,7 @@
   <utfx:test>
     <utfx:name>getTable for fr and contraction = 2</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:call-template name="getTable"/>
     <utfx:assert-equal>
@@ -44,7 +44,7 @@
   <utfx:test>
     <utfx:name>getTable for fr and contraction = 1</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'1'"/>
+      <utfx:with-param name="contraction" select="1"/>
     </utfx:stylesheet-params>
     <utfx:call-template name="getTable"/>
     <utfx:assert-equal>
@@ -58,7 +58,7 @@
   <utfx:test>
     <utfx:name>getTable for de and contraction = 2</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:call-template name="getTable"/>
     <utfx:assert-equal>
@@ -72,7 +72,7 @@
   <utfx:test>
     <utfx:name>getTable for de-1901 and contraction = 2</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:call-template name="getTable"/>
     <utfx:assert-equal>
@@ -86,7 +86,7 @@
   <utfx:test>
     <utfx:name>getTable for de-1901 and contraction = 2 with contraction</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
       <utfx:with-param name="hyphenation" select="true()"/>
     </utfx:stylesheet-params>
     <utfx:call-template name="getTable"/>
@@ -144,7 +144,7 @@
   <utfx:test>
     <utfx:name>&lt;em&gt; with previous text node ending in word</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'0'"/>
+      <utfx:with-param name="contraction" select="0"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -198,7 +198,7 @@ y LINEe
   <utfx:test>
     <utfx:name>test for em with subelements (http://redmine.sbszh.ch/issues/show/816) </utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'0'"/>
+      <utfx:with-param name="contraction" select="0"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -213,7 +213,7 @@ y LINEe
   <utfx:test>
     <utfx:name>test for whitespace swallowed with adjacing inlines (http://redmine.sbszh.ch/issues/show/818) </utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -226,7 +226,7 @@ y LINEe
   <utfx:test>
     <utfx:name>test 1 for brl:num role="measure", wenn Zeilenumbruch zwischen Zahl und Einheit steht (http://redmine.sbszh.ch/issues/show/898) </utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -241,7 +241,7 @@ y LINEe
   <utfx:test>
     <utfx:name>test 2 for brl:num role="measure", wenn Zeilenumbruch zwischen Zahl und Einheit steht (http://redmine.sbszh.ch/issues/show/898) </utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -257,7 +257,7 @@ mm</brl:num>
   <utfx:test>
     <utfx:name>test 3 for wenn Zeilenumbruch zwischen Zahl und Einheit steht sollte Leerzeichen getilgt werden (http://redmine.sbszh.ch/issues/show/898) </utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -273,7 +273,7 @@ mm</brl:num>
   <utfx:test>
     <utfx:name>test 1 for brl:homograph (http://redmine.sbszh.ch/issues/show/925) </utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -286,7 +286,7 @@ mm</brl:num>
   <utfx:test>
     <utfx:name>test 2 for brl:homograph (http://redmine.sbszh.ch/issues/show/925) </utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -300,7 +300,7 @@ mm</brl:num>
   <utfx:test>
     <utfx:name>test für Einzelbuchstaben mit Punkt</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -313,7 +313,7 @@ mm</brl:num>
   <utfx:test>
     <utfx:name>test 2 for Apostroph (pt. 6) vor Einzelbuchstaben mit Punkt innerhalb abbr (http://redmine.sbszh.ch/issues/show/927) </utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -328,7 +328,7 @@ mm</brl:num>
   <utfx:test>
     <utfx:name>test 2 for Apostroph (pt. 6) erscheint zweimal bei Apostroph + Einzelbuchstabe (http://redmine.sbszh.ch/issues/show/929) </utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -341,7 +341,7 @@ mm</brl:num>
   <utfx:test>
     <utfx:name>&lt;em&gt; innerhalb Anführungszeichen liefern falsches Resultat (http://redmine.sbszh.ch/issues/show/1004)</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -354,7 +354,7 @@ mm</brl:num>
   <utfx:test>
     <utfx:name>Problem bei Schrägstrich: Kürzungen (http://redmine.sbszh.ch/issues/show/1005)</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -367,7 +367,7 @@ mm</brl:num>
   <utfx:test>
     <utfx:name>Kursive/Fette Anführungszeichen bei brl:render="ignore" (http://redmine.sbszh.ch/issues/show/1006)</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -380,7 +380,7 @@ mm</brl:num>
   <utfx:test>
     <utfx:name>Kursive/Fette Anführungszeichen bei brl:render="ignore" (http://redmine.sbszh.ch/issues/show/1006)</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -393,7 +393,7 @@ mm</brl:num>
   <utfx:test>
     <utfx:name>Kursive/Fette Anführungszeichen bei brl:render="ignore" (http://redmine.sbszh.ch/issues/show/1006)</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -406,7 +406,7 @@ mm</brl:num>
   <utfx:test>
     <utfx:name>Kursive/Fette Anführungszeichen bei brl:render="ignore" (http://redmine.sbszh.ch/issues/show/1006)</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -419,7 +419,7 @@ mm</brl:num>
   <utfx:test>
     <utfx:name>"ver-" bei teilkursiven Wörtern (http://redmine.sbszh.ch/issues/show/1007)</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -432,7 +432,7 @@ mm</brl:num>
   <utfx:test>
     <utfx:name>Einzelbuchstaben mit Akzenten erhalten fälschlicherweise einen Pt.6 (http://redmine.sbszh.ch/issues/show/1010)</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
@@ -445,7 +445,7 @@ mm</brl:num>
   <utfx:test>
     <utfx:name>Leerschläge vor und nach Schrägstrich werden getilgt (http://redmine.sbszh.ch/issues/show/1011)</utfx:name>
     <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
