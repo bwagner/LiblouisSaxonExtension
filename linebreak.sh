@@ -17,6 +17,8 @@
 # License along with this program. If not, see
 # <http://www.gnu.org/licenses/>.
 
-java \
-	-classpath liblouissaxonx.jar \
-	ch.sbs.liblouis.utils.LineBreaker "$@"
+# Set classpath
+DIR=`dirname $0`
+CP=$DIR/liblouissaxonx.jar
+
+java -cp $CP ch.sbs.liblouis.utils.LineBreaker "$@"

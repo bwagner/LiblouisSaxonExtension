@@ -65,7 +65,36 @@
       <utfx:source>
         <p xml:lang="de"/>
       </utfx:source>
-      <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents-ch.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-core.mod,sbs-special.mod</utfx:expected>
+      <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents-ch.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-core.mod,sbs-de-hyph-none.mod,sbs-special.mod</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>getTable for de-1901 and contraction = 2</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:call-template name="getTable"/>
+    <utfx:assert-equal>
+      <utfx:source>
+        <p xml:lang="de-1901"/>
+      </utfx:source>
+      <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents-ch.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-core.mod,sbs-de-hyph-none.mod,sbs-special.mod</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>getTable for de-1901 and contraction = 2 with contraction</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+      <utfx:with-param name="hyphenation" select="true()"/>
+    </utfx:stylesheet-params>
+    <utfx:call-template name="getTable"/>
+    <utfx:assert-equal>
+      <utfx:source>
+        <p xml:lang="de-1901"/>
+      </utfx:source>
+      <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents-ch.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-white.mod,sbs-de-g2-core.mod,sbs-de-hyph-old.mod,sbs-special.mod</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -265,6 +294,19 @@ mm</brl:num>
         </stub>
       </utfx:source>
       <utfx:expected>IRON MAN</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test für Einzelbuchstaben mit Punkt</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="'2'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">A. B. C. D. E. F. G. H. I. J.</stub>
+      </utfx:source>
+      <utfx:expected>A. B. 'C. D. E. F. G. H. I. J.</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 

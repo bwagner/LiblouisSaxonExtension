@@ -104,7 +104,7 @@
     <xsl:choose>
       <xsl:when test="lang('fr')">
         <xsl:choose>
-          <xsl:when test="$contraction = '2'">
+          <xsl:when test="$contraction = 2">
             <xsl:text>Fr-Fr-g2.ctb</xsl:text>
           </xsl:when>
           <xsl:otherwise>
@@ -117,7 +117,7 @@
       </xsl:when>
       <xsl:when test="lang('en')">
         <xsl:choose>
-          <xsl:when test="$contraction = '2'">
+          <xsl:when test="$contraction = 2">
             <xsl:text>en-us-g2.ctb</xsl:text>
           </xsl:when>
           <xsl:otherwise>
@@ -214,6 +214,21 @@
             <xsl:text>sbs-de-g2-core.mod,</xsl:text>
           </xsl:if>
         </xsl:if>
+	<xsl:choose>
+	  <xsl:when test="$hyphenation = false()">
+	    <xsl:text>sbs-de-hyph-none.mod,</xsl:text>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:choose>
+	      <xsl:when test="lang('de-1901')">
+		<xsl:text>sbs-de-hyph-old.mod,</xsl:text>
+	      </xsl:when>
+	      <xsl:otherwise>
+		<xsl:text>sbs-de-hyph-new.mod,</xsl:text>
+	      </xsl:otherwise>
+	    </xsl:choose>
+	  </xsl:otherwise>
+	</xsl:choose>
         <xsl:text>sbs-special.mod</xsl:text>
       </xsl:when>
       <xsl:otherwise>
@@ -599,7 +614,7 @@ t
         </xsl:when>
         <xsl:otherwise>
           <xsl:choose>
-            <xsl:when test="$contraction='2'">
+            <xsl:when test="$contraction = 2">
               <xsl:text>&#10;" %BC&#10; </xsl:text>
             </xsl:when>
             <xsl:otherwise>
@@ -769,7 +784,7 @@ y e Ziff
             <xsl:value-of select="louis:translate(string($braille_tables), 'zwölft')"/>
           </xsl:if>
           <xsl:choose>
-            <xsl:when test="$contraction='2'">
+            <xsl:when test="$contraction = 2">
               <xsl:text>&#10;" %B7&#10;</xsl:text>
             </xsl:when>
             <xsl:otherwise>
@@ -813,7 +828,7 @@ t
       <xsl:text>&#10;y Volumes&#10;</xsl:text>
     </xsl:if>
     <xsl:choose>
-      <xsl:when test="$contraction='2'">
+      <xsl:when test="$contraction = 2">
         <xsl:text>lv23&#10;</xsl:text>
       </xsl:when>
       <xsl:otherwise>
@@ -824,7 +839,7 @@ t
     <xsl:value-of select="louis:translate(string($braille_tables), 'Schweizerische Bibliothek')"/>
     <xsl:text>&#10;t&#10; </xsl:text>
     <xsl:value-of select="louis:translate(string($braille_tables), 'für Blinde, Seh- und ')"/>
-    <xsl:if test="not($contraction='2')">
+    <xsl:if test="not($contraction = 2)">
       <xsl:text>&#10;t&#10; </xsl:text>
     </xsl:if>
     <xsl:value-of select="louis:translate(string($braille_tables), 'Lesebehinderte')"/>
@@ -856,7 +871,7 @@ i f=1 l=1
       select="louis:translate(string($braille_tables), 'dürfen es aber nicht weiter verbreiten oder öffentlich ')"/>
     <xsl:value-of select="louis:translate(string($braille_tables), 'zugänglich machen.')"/>
     <xsl:choose>
-      <xsl:when test="$contraction='2'">
+      <xsl:when test="$contraction = 2">
         <xsl:text>&#10;lv21&#10; </xsl:text>
       </xsl:when>
       <xsl:otherwise>
@@ -868,7 +883,7 @@ i f=1 l=1
     <xsl:value-of select="louis:translate(string($braille_tables), 'Schweizerische Bibliothek')"/>
     <xsl:text>&#10;a&#10; </xsl:text>
     <xsl:value-of select="louis:translate(string($braille_tables), 'für Blinde, Seh- und ')"/>
-    <xsl:if test="not($contraction='2')">
+    <xsl:if test="not($contraction = 2)">
       <xsl:text>&#10;a&#10; </xsl:text>
     </xsl:if>
     <xsl:value-of select="louis:translate(string($braille_tables), 'Lesebehinderte')"/>
@@ -1148,7 +1163,7 @@ y LEVEL2b
   </xsl:template>
 
   <xsl:template match="dtb:h1|dtb:h2|dtb:h3|dtb:h4|dtb:h5|dtb:h6">
-    <xsl:variable name="level" select="substring(local-name(), 2)"/>
+    <xsl:variable name="level" select="number(substring(local-name(), 2))"/>
     <xsl:text>&#10;y H</xsl:text>
     <xsl:value-of select="$level"/>
     <xsl:text>&#10; </xsl:text>
@@ -1420,7 +1435,7 @@ i f=3 l=1
       <xsl:when test="@brl:grade">
         <!-- announce explicit setting of the contraction -->
         <xsl:choose>
-          <xsl:when test="$contraction = '2' and @brl:grade &lt; $contraction">
+          <xsl:when test="$contraction = 2 and @brl:grade &lt; $contraction">
             <xsl:choose>
               <xsl:when test="count(tokenize(string(.), '(\s|/|-)+')) > 1">
                 <!-- There are multiple words. Insert an announcement for a multiple word grade change -->

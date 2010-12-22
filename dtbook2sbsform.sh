@@ -18,14 +18,15 @@
 # License along with this program. If not, see
 # <http://www.gnu.org/licenses/>.
 
-if [ $# != 1 ] ; then
+if [ $# -lt 1 ] ; then
 	PRG=`basename $0` 
-	echo "Usage: $PRG dtbook.xml\n"
+	echo "Usage: $PRG -s:dtbook.xml PARAMS\n"
 	echo "\tone dtbook xml source file expected. Exiting.\n"
 	exit 1
 fi
 
-./saxon.sh \
-	-xsl:xsl/dtbook2sbsform.xsl \
-	-s:$1 | \
-	./linebreak.sh
+DIR=`dirname $0`
+
+$DIR/saxon.sh \
+    -xsl:$DIR/xsl/dtbook2sbsform.xsl "$@"| \
+    $DIR/linebreak.sh
