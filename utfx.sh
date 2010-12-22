@@ -1,5 +1,5 @@
-
-# Copyright (C) 2010 Swiss Library for the Blind, Visually Impaired and Print Disabled
+# Copyright (C) 2010 Swiss Library for the Blind, Visually Impaired and Print
+# Disabled
 #
 # This file is part of LiblouisSaxonExtension.
 #
@@ -16,12 +16,21 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this program. If not, see
 # <http://www.gnu.org/licenses/>.
+#
+# TODO: how to repackage saxon9he with RSA, etc. in the single jar
+# TODO: LouisExtensionTransformerFactoryImpl not found when using 
+#       the -jar call. See:
+# http://stackoverflow.com/questions/2018257/how-to-combine-library-with-my-jar
+# Quoting above:
+#   Executable JARs are launched with the "-jar" argument to the java
+#   executable, and both the java "-cp" flag and the CLASSPATH environment
+#   variable are ignored.
 
 SAXON=lib/saxon9he.jar
-LOUIS=lib/jna.jar:lib/louis.jar
+LOUIS=lib/louisFat.jar
 LOUIS_TRANSFORM_FACTORY=-Djavax.xml.transform.TransformerFactory=org.liblouis.transformerfactory.LouisExtensionTransformerFactoryImpl
-LOUIS_SAXON_EXT=bin
-UTFX=.:utfx_lib/avalon.jar:utfx_lib/batik.jar:utfx_lib/fop.jar:utfx_lib/JimiProClasses.zip:utfx_lib/junit.jar:utfx_lib/log4j-1.2.8.jar:utfx_lib/resolver.jar:utfx_lib/utfxPatched.jar:utfx_lib/xalan.jar:utfx_lib/xercesImpl.jar:utfx_lib/xercesSamples.jar:utfx_lib/xml-apis.jar
+UTFX=.:utfx_lib/utfxFat.jar
+LOUIS_SAXON_EXT=liblouissaxonx.jar
 UTFX_TEST=-Dutfx.test.file=test_xsl/dtbook2sbsform_test.xml
 
 java \

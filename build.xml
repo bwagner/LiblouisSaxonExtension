@@ -23,6 +23,7 @@
 	TODO:
 		- separate jars for app and factory.
 		- identify commonalities
+		- (for now they're both in ${app.jar})
 	-->
 	<property name="build.dir" value="bin" />
 	<property name="app.jar" value="liblouissaxonx.jar" />
@@ -37,14 +38,20 @@
 		</fileset>
 	</path>
 
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+	</target>
+
 	<target name="default" depends="jar" />
 
 	<target name="jar" depends="compile">
 		<jar jarfile="${app.jar}" basedir="${build.dir}" includes="**/*.class" excludes="**/*Test.class" />
 	</target>
 
-	<target name="compile">
-		<javac srcdir="${src.dir}" destdir="${build.dir}" deprecation="on" debug="on">
+	<target name="compile" depends="init">
+		<javac destdir="${build.dir}" deprecation="on" debug="on">
+			<src path="${src.dir}" />
+			<src path="${test_src.dir}" />
 			<classpath>
 				<path refid="classpath.path" />
 			</classpath>
@@ -53,25 +60,21 @@
 
 	<target name="test" depends="compile">
 		<junit printsummary="yes" fork="yes" haltonfailure="no" haltonerror="no">
-<!--
-			to see more detailed errors:
+
 			<formatter type="plain" usefile="false"/>
--->
-			<formatter type="plain" />
 			<classpath>
 
 				<!-- classes to test -->
 				<pathelement location="${build.dir}" />
 
 				<!-- 3rd party libs -->
-				<pathelement location="${lib.dir}/jna.jar" />
-				<pathelement location="${lib.dir}/louis.jar" />
+				<pathelement location="${lib.dir}/louisFat.jar" />
 				<pathelement location="${lib.dir}/saxon9he.jar" />
 				<!-- junit -->
 				<pathelement location="${lib.dir}/junit-4.8.2.jar" />
 			</classpath>
 			<batchtest>
-				<formatter type="failure" />
+				<formatter type="plain" usefile="false"/>
 			    <fileset dir="${test_src.dir}">
 			      <include name="**/*Test.java"/>
 			    </fileset>
@@ -81,6 +84,13 @@
 			<test name="org.liblouis.LouisTransformTest" />
 			-->
 		</junit>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete file="${app.jar}" />
+		<delete file="${factory.jar}" />
+		<delete file="utfx_log.xml" />
 	</target>
 
 </project>
