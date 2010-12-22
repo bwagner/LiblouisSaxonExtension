@@ -18,6 +18,8 @@
 # License along with this program. If not, see
 # <http://www.gnu.org/licenses/>.
 
-java \
-	-cp lib/saxon9he.jar:lib/louis.jar:lib/jna.jar:liblouissaxonx.jar \
-	org.liblouis.LouisTransform "$@"
+# Set classpath
+DIR=`dirname $0`
+CP=$DIR/lib/saxon9he.jar:$DIR/lib/louis.jar:$DIR/lib/jna.jar:$DIR/liblouissaxonx.jar
+
+java -cp $CP org.liblouis.LouisTransform "$@"
