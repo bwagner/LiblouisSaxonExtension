@@ -20,6 +20,6 @@
 
 # Set classpath
 DIR=`dirname $0`
-CP=$DIR/lib/saxon9he.jar:$DIR/lib/louis.jar:$DIR/lib/jna.jar:$DIR/liblouissaxonx.jar
+CP=$DIR/lib/saxon9he.jar:$DIR/lib/louis.jar:$DIR/lib/jna.jar:$DIR/lib/louisFat.jar:$DIR/liblouissaxonx.jar
 
 java -cp $CP org.liblouis.LouisTransform "$@"
