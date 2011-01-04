@@ -430,6 +430,19 @@ mm</brl:num>
   </utfx:test>
 
   <utfx:test>
+    <utfx:name>teilkursive Wörter (em after)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Liebe<dtb:em>gang</dtb:em></stub>
+      </utfx:source>
+      <utfx:expected>L0;'_G+G</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
     <utfx:name>Einzelbuchstaben mit Akzenten erhalten fälschlicherweise einen Pt.6 (http://redmine.sbszh.ch/issues/show/1010)</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>

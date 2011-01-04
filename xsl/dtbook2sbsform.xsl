@@ -89,9 +89,19 @@
     <xsl:value-of select="empty($string) or matches($string, '\W$')"/>
   </xsl:function>
 
+  <xsl:function name="my:ends-with-word" as="xs:boolean">
+    <xsl:param name="string"/>
+    <xsl:value-of select="not(empty($string)) and matches($string, '\w$')"/>
+  </xsl:function>
+
   <xsl:function name="my:starts-with-non-word" as="xs:boolean">
     <xsl:param name="string"/>
     <xsl:value-of select="empty($string) or matches($string, '^\W')"/>
+  </xsl:function>
+
+  <xsl:function name="my:starts-with-word" as="xs:boolean">
+    <xsl:param name="string"/>
+    <xsl:value-of select="not(empty($string)) and matches($string, '^\w')"/>
   </xsl:function>
 
   <xsl:function name="my:starts-with-punctuation" as="xs:boolean">
@@ -1722,6 +1732,23 @@ i f=3 l=1
       <xsl:call-template name="getTable"/>
     </xsl:variable>
     <xsl:value-of select="louis:translate(string($braille_tables), concat('&#x00B7;',string()))"/>
+  </xsl:template>
+
+  <!-- Handle single word mixed emphasis -->
+  <xsl:template
+    match="text()[lang('de') and my:starts-with-word(string()) and my:ends-with-word(string(preceding::text()[1])) and preceding::*[position()=1 and local-name()='em']]">
+    <xsl:variable name="braille_tables">
+      <xsl:call-template name="getTable"/>
+    </xsl:variable>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('¦',string()))"/>
+  </xsl:template>
+
+  <xsl:template
+    match="text()[lang('de') and my:ends-with-word(string()) and my:starts-with-word(string(following::text()[1])) and following::*[position()=1 and local-name()='em']]">
+    <xsl:variable name="braille_tables">
+      <xsl:call-template name="getTable"/>
+    </xsl:variable>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'¦'))"/>
   </xsl:template>
 
   <xsl:template match="text()">
