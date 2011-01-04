@@ -494,4 +494,18 @@ mm</brl:num>
     </utfx:assert-equal>
   </utfx:test>
 
+  <utfx:test>
+    <utfx:name>Falsches Resultat bei gemischtem Bruch, wenn Zeilenumbruch vorkommt (http://redmine.sbszh.ch/issues/show/1065)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:space="preserve" xml:lang="de"><brl:num role="mixed">4
+                1/2</brl:num></stub>
+      </utfx:source>
+      <utfx:expected>#D#A;</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
 </utfx:tests>
