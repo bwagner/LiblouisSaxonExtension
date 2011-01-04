@@ -139,30 +139,7 @@
         </xsl:variable>
         <xsl:text>sbs.dis,</xsl:text>
         <xsl:text>sbs-de-core6.cti,</xsl:text>
-        <xsl:if test="$context != 'date_month' and $context != 'date_day'">
-          <xsl:choose>
-            <xsl:when test="ancestor-or-self::dtb:span[@brl:accents = 'reduced']">
-              <xsl:text>sbs-de-accents-reduced.cti,</xsl:text>
-            </xsl:when>
-            <xsl:when test="ancestor-or-self::dtb:span[@brl:accents = 'detailed']">
-              <xsl:text>sbs-de-accents.cti,</xsl:text>
-            </xsl:when>
-            <xsl:otherwise>
-              <!-- no local accents are defined -->
-              <xsl:choose>
-                <xsl:when test="$detailed_accented_characters = 'de-accents-ch'">
-                  <xsl:text>sbs-de-accents-ch.cti,</xsl:text>
-                </xsl:when>
-                <xsl:when test="$detailed_accented_characters = 'de-accents-reduced'">
-                  <xsl:text>sbs-de-accents-reduced.cti,</xsl:text>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:text>sbs-de-accents.cti,</xsl:text>
-                </xsl:otherwise>
-              </xsl:choose>
-            </xsl:otherwise>
-          </xsl:choose>
-        </xsl:if>
+        <xsl:text>sbs-de-accents.cti,</xsl:text>
         <xsl:text>sbs-special.cti,</xsl:text>
         <xsl:text>sbs-whitespace.mod,</xsl:text>
         <xsl:if
@@ -229,6 +206,30 @@
 	    </xsl:choose>
 	  </xsl:otherwise>
 	</xsl:choose>
+        <xsl:if test="$context != 'date_month' and $context != 'date_day'">
+          <xsl:choose>
+            <xsl:when test="ancestor-or-self::dtb:span[@brl:accents = 'reduced']">
+              <xsl:text>sbs-de-accents-reduced.mod,</xsl:text>
+            </xsl:when>
+            <xsl:when test="ancestor-or-self::dtb:span[@brl:accents = 'detailed']">
+              <xsl:text>sbs-de-accents.mod,</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+              <!-- no local accents are defined -->
+              <xsl:choose>
+                <xsl:when test="$detailed_accented_characters = 'de-accents-ch'">
+                  <xsl:text>sbs-de-accents-ch.mod,</xsl:text>
+                </xsl:when>
+                <xsl:when test="$detailed_accented_characters = 'de-accents-reduced'">
+                  <xsl:text>sbs-de-accents-reduced.mod,</xsl:text>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:text>sbs-de-accents.mod,</xsl:text>
+                </xsl:otherwise>
+              </xsl:choose>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:if>
         <xsl:text>sbs-special.mod</xsl:text>
       </xsl:when>
       <xsl:otherwise>
@@ -1333,20 +1334,20 @@ i f=3 l=1
                 test="my:ends-with-non-word(preceding-sibling::text()[1]) and not(my:starts-with-non-word(following-sibling::text()[1]))">
                 <xsl:value-of select="louis:translate(string($braille_tables), '&#x255F;')"/>
                 <xsl:apply-templates/>
-                <xsl:value-of select="louis:translate(string($braille_tables), '&#x2563;')"/>
+                <xsl:value-of select="louis:translate(string($braille_tables), '&#x2561;¦')"/>
               </xsl:when>
               <!-- emph is at the end of the word -->
               <xsl:when
                 test="not(my:ends-with-non-word(preceding-sibling::text()[1])) and my:starts-with-non-word(following-sibling::text()[1])">
-                <xsl:value-of select="louis:translate(string($braille_tables), '&#x2561;')"/>
+                <xsl:value-of select="louis:translate(string($braille_tables), '&#x255E;')"/>
                 <xsl:apply-templates/>
               </xsl:when>
               <!-- emph is inside the word -->
               <xsl:when
                 test="not(my:ends-with-non-word(preceding-sibling::text()[1])) and not(my:starts-with-non-word(following-sibling::text()[1]))">
-                <xsl:value-of select="louis:translate(string($braille_tables), '&#x2561;')"/>
+                <xsl:value-of select="louis:translate(string($braille_tables), '&#x255E;')"/>
                 <xsl:apply-templates/>
-                <xsl:value-of select="louis:translate(string($braille_tables), '&#x2563;')"/>
+                <xsl:value-of select="louis:translate(string($braille_tables), '&#x2561;')"/>
               </xsl:when>
               <xsl:otherwise>
                 <xsl:value-of select="louis:translate(string($braille_tables), '&#x255F;')"/>
