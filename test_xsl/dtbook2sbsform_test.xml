@@ -417,7 +417,7 @@ mm</brl:num>
   </utfx:test>
 
   <utfx:test>
-    <utfx:name>"ver-" bei teilkursiven Wörtern (http://redmine.sbszh.ch/issues/show/1007)</utfx:name>
+    <utfx:name>Single word mixed emphasis (em before) (http://redmine.sbszh.ch/issues/show/1007)</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
@@ -430,7 +430,7 @@ mm</brl:num>
   </utfx:test>
 
   <utfx:test>
-    <utfx:name>teilkursive Wörter (em after)</utfx:name>
+    <utfx:name>Single word mixed emphasis (em after)</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
@@ -439,6 +439,19 @@ mm</brl:num>
         <stub xml:lang="de">Liebe<dtb:em>gang</dtb:em></stub>
       </utfx:source>
       <utfx:expected>L0;'_G+G</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Single word mixed emphasis (em inside)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Liebe<dtb:em>Menschen</dtb:em>versuch</stub>
+      </utfx:source>
+      <utfx:expected>L0;'_MC5C'.V7SU4</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
