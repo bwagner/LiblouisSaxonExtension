@@ -1755,7 +1755,7 @@ i f=3 l=1
 
   <!-- handle 'ich' inside text node followed by chars that could be interpreted as numbers -->
   <xsl:template
-    match="text()[lang('de') and matches(string(), 'ich$') and matches(string(following::text()[1]), '^[,;:?!)]')]">
+    match="text()[lang('de') and (matches(string(), '^ich$') or matches(string(), '\Wich$')) and matches(string(following::text()[1]), '^[,;:?!)]')]">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
