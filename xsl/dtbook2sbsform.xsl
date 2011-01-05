@@ -1753,6 +1753,15 @@ i f=3 l=1
     <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'¦'))"/>
   </xsl:template>
 
+  <!-- handle 'ich' inside text node followed by chars that could be interpreted as numbers -->
+  <xsl:template
+    match="text()[lang('de') and matches(string(), 'ich$') and matches(string(following::text()[1]), '^[,;:?!)]')]">
+    <xsl:variable name="braille_tables">
+      <xsl:call-template name="getTable"/>
+    </xsl:variable>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'¦'))"/>
+  </xsl:template>
+
   <xsl:template match="text()">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>

@@ -430,6 +430,45 @@ mm</brl:num>
   </utfx:test>
 
   <utfx:test>
+    <utfx:name>"ich" innerhalb em vor Klammer (http://redmine.sbszh.ch/issues/show/944)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em>ich</dtb:em>) </stub>
+      </utfx:source>
+      <utfx:expected>_I4=</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>"ich" innerhalb em vor Klammer (http://redmine.sbszh.ch/issues/show/944)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em>(ich</dtb:em>) </stub>
+      </utfx:source>
+      <utfx:expected>_=I4=</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>"kleinlich" innerhalb em vor Klammer (http://redmine.sbszh.ch/issues/show/944)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em>kleinlich</dtb:em>) </stub>
+      </utfx:source>
+      <utfx:expected>_KL6_=</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
     <utfx:name>Single word mixed emphasis (em before) (http://redmine.sbszh.ch/issues/show/1007)</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
