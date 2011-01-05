@@ -1341,20 +1341,20 @@ i f=3 l=1
             <xsl:choose>
               <!-- emph is at the beginning of the word -->
               <xsl:when
-                test="my:ends-with-non-word(preceding-sibling::text()[1]) and not(my:starts-with-non-word(following-sibling::text()[1]))">
+                test="my:ends-with-non-word(preceding-sibling::text()[1]) and my:starts-with-word(following-sibling::text()[1])">
                 <xsl:value-of select="louis:translate(string($braille_tables), '&#x255F;')"/>
                 <xsl:apply-templates/>
-                <xsl:value-of select="louis:translate(string($braille_tables), '&#x2561;¦')"/>
+                <xsl:value-of select="louis:translate(string($braille_tables), '&#x2561;')"/>
               </xsl:when>
               <!-- emph is at the end of the word -->
               <xsl:when
-                test="not(my:ends-with-non-word(preceding-sibling::text()[1])) and my:starts-with-non-word(following-sibling::text()[1])">
+                test="my:ends-with-word(preceding-sibling::text()[1]) and my:starts-with-non-word(following-sibling::text()[1])">
                 <xsl:value-of select="louis:translate(string($braille_tables), '&#x255E;')"/>
                 <xsl:apply-templates/>
               </xsl:when>
               <!-- emph is inside the word -->
               <xsl:when
-                test="not(my:ends-with-non-word(preceding-sibling::text()[1])) and not(my:starts-with-non-word(following-sibling::text()[1]))">
+                test="my:ends-with-word(preceding-sibling::text()[1]) and my:starts-with-word(following-sibling::text()[1])">
                 <xsl:value-of select="louis:translate(string($braille_tables), '&#x255E;')"/>
                 <xsl:apply-templates/>
                 <xsl:value-of select="louis:translate(string($braille_tables), '&#x2561;')"/>
@@ -1735,6 +1735,7 @@ i f=3 l=1
   </xsl:template>
 
   <!-- Handle single word mixed emphasis -->
+  <!-- mixed emphasis before-->
   <xsl:template
     match="text()[lang('de') and my:starts-with-word(string()) and my:ends-with-word(string(preceding::text()[1])) and preceding::*[position()=1 and local-name()='em']]">
     <xsl:variable name="braille_tables">
@@ -1743,6 +1744,7 @@ i f=3 l=1
     <xsl:value-of select="louis:translate(string($braille_tables), concat('¦',string()))"/>
   </xsl:template>
 
+  <!-- mixed emphasis after-->
   <xsl:template
     match="text()[lang('de') and my:ends-with-word(string()) and my:starts-with-word(string(following::text()[1])) and following::*[position()=1 and local-name()='em']]">
     <xsl:variable name="braille_tables">
