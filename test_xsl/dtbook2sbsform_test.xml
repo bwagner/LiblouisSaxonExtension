@@ -508,4 +508,26 @@ mm</brl:num>
     </utfx:assert-equal>
   </utfx:test>
 
+  <utfx:test>
+    <utfx:name>Check if unicode chars are eaten by liblouis</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source><stub xml:lang="de">&#x255E;</stub></utfx:source>
+      <utfx:expected>'_</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Check if unicode chars are eaten by liblouis</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source><stub xml:lang="de">&#x2561;</stub></utfx:source>
+      <utfx:expected>'.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
 </utfx:tests>
