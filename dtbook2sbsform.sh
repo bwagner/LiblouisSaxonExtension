@@ -21,7 +21,7 @@
 if [ $# -lt 1 ] ; then
 	PRG=`basename $0` 
 	echo "Usage: $PRG -s:dtbook.xml PARAMS"
-	echo "	one dtbook xml source file expected."
+	echo "       one dtbook xml source file expected."
 	exit 1
 fi
 
