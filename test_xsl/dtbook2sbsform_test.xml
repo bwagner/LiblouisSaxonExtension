@@ -191,7 +191,7 @@ y LINEe
       <utfx:source>
         <stub xml:lang="de"><dtb:abbr>AM</dtb:abbr>- und der <dtb:abbr>FM</dtb:abbr>-Skala,</stub>
       </utfx:source>
-      <utfx:expected>>AM'- U R >FM-mSK:A,</utfx:expected>
+      <utfx:expected>>AM- U R >FM-mSK:A,</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -566,6 +566,32 @@ mm</brl:num>
     <utfx:assert-equal>
       <utfx:source><stub xml:lang="de">&#x2561;</stub></utfx:source>
       <utfx:expected>'.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Quotes w/o context 1</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de"> (&#x00BB;<dtb:abbr>Bsp.</dtb:abbr>!&#x00AB;</stub>
+      </utfx:source>
+      <utfx:expected>=(BSP.+)</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Quotes w/o context 2</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de"> (&#x00AB;<dtb:abbr>Bsp.</dtb:abbr>!&#x00BB;</stub>
+      </utfx:source>
+      <utfx:expected>=(BSP.+)</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 

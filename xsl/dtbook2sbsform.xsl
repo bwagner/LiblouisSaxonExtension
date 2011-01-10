@@ -104,9 +104,29 @@
     <xsl:value-of select="not(empty($string)) and matches($string, '^\w')"/>
   </xsl:function>
 
+  <xsl:function name="my:starts-with-non-whitespace" as="xs:boolean">
+    <xsl:param name="string"/>
+    <xsl:value-of select="not(empty($string)) and matches($string, '^\S')"/>
+  </xsl:function>
+
+  <xsl:function name="my:ends-with-non-whitespace" as="xs:boolean">
+    <xsl:param name="string"/>
+    <xsl:value-of select="not(empty($string)) and matches($string, '\S$')"/>
+  </xsl:function>
+
   <xsl:function name="my:starts-with-punctuation" as="xs:boolean">
     <xsl:param name="string"/>
     <xsl:value-of select="matches($string, '^\p{P}')"/>
+  </xsl:function>
+
+  <xsl:function name="my:starts-with-punctuation-word" as="xs:boolean">
+    <xsl:param name="string"/>
+    <xsl:value-of select="matches($string, '^(\p{P}|[-/])+\W')"/>
+  </xsl:function>
+
+  <xsl:function name="my:ends-with-punctuation-word" as="xs:boolean">
+    <xsl:param name="string"/>
+    <xsl:value-of select="matches($string, '\W([-/]|\p{P})+$')"/>
   </xsl:function>
 
   <xsl:template name="getTable">
@@ -1732,6 +1752,24 @@ i f=3 l=1
       <xsl:call-template name="getTable"/>
     </xsl:variable>
     <xsl:value-of select="louis:translate(string($braille_tables), concat('&#x00B7;',string()))"/>
+  </xsl:template>
+
+  <!-- Handle text nodes ending with punctuation -->
+  <xsl:template
+    match="text()[lang('de') and my:ends-with-punctuation-word(string()) and my:starts-with-non-whitespace(string(following::text()[1]))]">
+    <xsl:variable name="braille_tables">
+      <xsl:call-template name="getTable"/>
+    </xsl:variable>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'¦¦'))"/>
+  </xsl:template>
+
+  <!-- Handle text nodes starting with punctuation -->
+  <xsl:template
+    match="text()[lang('de') and my:starts-with-punctuation-word(string()) and my:ends-with-non-whitespace(string(preceding::text()[1]))]">
+    <xsl:variable name="braille_tables">
+      <xsl:call-template name="getTable"/>
+    </xsl:variable>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('¦¦', string()))"/>
   </xsl:template>
 
   <!-- Handle single word mixed emphasis -->
