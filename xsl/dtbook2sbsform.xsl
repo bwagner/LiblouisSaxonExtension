@@ -1284,8 +1284,15 @@ i f=3 l=1
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <!-- Prepend an asterisk to the noteref to announce it -->
-    <xsl:value-of select="louis:translate(string($braille_tables), concat('*',string(.)))"/>
+    <xsl:choose>
+      <xsl:when test="matches(string(),'^\d')">
+	<!-- Prepend an asterisk to the noteref to announce it -->
+	<xsl:value-of select="louis:translate(string($braille_tables), concat('*',string(.)))"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:value-of select="louis:translate(string($braille_tables), string(.))"/>
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:text>&#10;* &#10; </xsl:text>
   </xsl:template>
 
