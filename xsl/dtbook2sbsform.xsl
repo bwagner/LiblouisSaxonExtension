@@ -196,7 +196,7 @@
           <xsl:text>sbs-de-core.mod,</xsl:text>
         </xsl:if>
         <xsl:if
-          test="$context = 'name_capitalized' or ($context = 'abbr' and not(my:containsDot(.))) or ($actual_contraction = '0' and $context != 'date_day' and $context != 'date_month')">
+          test="$context = 'name_capitalized' or ($context = 'abbr' and not(my:containsDot(.))) or ($actual_contraction &lt;= '1' and $context != 'date_day' and $context != 'date_month')">
           <xsl:text>sbs-de-g0-core.mod,</xsl:text>
         </xsl:if>
         <xsl:if
