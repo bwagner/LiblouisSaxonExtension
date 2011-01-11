@@ -939,18 +939,21 @@ b
 O
 y e Titlepage
 </xsl:text>
-    <xsl:text>
-y BOOKb
-y BrlVol
-xxxxxxxxxxxxxxxxxxxxxxxxxx Klappentext etc. xxxxxxxxxxxxxxxxxxxxxxxxxx
-O
-</xsl:text>
+    <xsl:text>xxx ====================== ENDE SBSFORM.MAK ====================== xxx&#10;</xsl:text>
+  </xsl:template>
+
+  <xsl:template name="rest-of-frontmatter">
+    <xsl:text>&#10;y BOOKb&#10;</xsl:text>
+    <xsl:if test="//dtb:note">
+      <xsl:call-template name="insert_footnotes"/>
+    </xsl:if>
+    <xsl:text>y BrlVol&#10;</xsl:text>
+    <xsl:text>xxxxxxxxxxxxxxxxxxxxxxxxxx Klappentext etc. xxxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
+    <xsl:text>O&#10;</xsl:text>
     <xsl:apply-templates
       select="//dtb:frontmatter/dtb:level1[not(@class) or (@class!='titlepage' and @class!='toc')]"/>
     <xsl:text>O&#10;</xsl:text>
-    <xsl:text>xxx ====================== ENDE SBSFORM.MAK ====================== xxx&#10;</xsl:text>
     <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Buchinhalt xxxxxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
-
   </xsl:template>
 
   <xsl:template match="/">
@@ -1004,9 +1007,6 @@ O
   </xsl:template>
 
   <xsl:template match="dtb:dtbook">
-    <xsl:if test="//dtb:note">
-      <xsl:call-template name="insert_footnotes"/>
-    </xsl:if>
     <xsl:choose>
       <xsl:when test="$include_macros = true()">
         <xsl:call-template name="sbsform-macro-definitions"/>
@@ -1015,6 +1015,7 @@ O
         <xsl:text>&#10;U dtbook.mak&#10;</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
+    <xsl:call-template name="rest-of-frontmatter"/>
     <xsl:apply-templates/>
   </xsl:template>
 
