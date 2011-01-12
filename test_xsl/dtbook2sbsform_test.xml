@@ -610,7 +610,20 @@ mm</brl:num>
   </utfx:test>
 
   <utfx:test>
-    <utfx:name>Uncommon quote after num</utfx:name>
+    <utfx:name>Quotes w/o context 2</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de"> (&#x00AB;<dtb:abbr>Bsp.</dtb:abbr>!&#x00BB;</stub>
+      </utfx:source>
+      <utfx:expected>=(BSP.+)</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Quotes with phone number</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
@@ -621,5 +634,88 @@ mm</brl:num>
       <utfx:expected>#JGI.AFJ.BB.BB')</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Many quoted paras</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de">
+	  <dtb:p>«Sag mal, bist du Kommunist?»</dtb:p>
+	  <dtb:p>«Nein, und schon gar nicht in sowjetischem Sinn.»</dtb:p>
+	<dtb:p>«Du <dtb:em>bist</dtb:em></dtb:p>
+	</stub>
+      </utfx:source>
+      <utfx:expected>
+y P
+ (SG MAL, B] DU KX/I]?(
+y P
+ (N6, U 5 GAR N * SOWJETI5[ S*N.)
+y P
+ (DU _B] 
+</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+<!--   <utfx:test> -->
+<!--     <utfx:name>footnote with standard placement</utfx:name> -->
+<!--     <utfx:stylesheet-params> -->
+<!--       <utfx:with-param name="contraction" select="2"/> -->
+<!--       <utfx:with-param name="footnote_placement" select="'standard'"/> -->
+<!--     </utfx:stylesheet-params> -->
+<!--     <utfx:assert-equal> -->
+<!--       <utfx:source> -->
+<!-- 	<stub xml:lang="de"> -->
+<!-- 	Foo -->
+<!-- 	<dtb:noteref idref="#footnote1">1</dtb:noteref> -->
+<!-- 	Bar -->
+<!-- 	<dtb:noteref idref="#footnote2">2</dtb:noteref> -->
+<!-- 	Baz -->
+<!-- 	</stub> -->
+<!--       </utfx:source> -->
+<!--       <utfx:expected> -->
+<!--  FOO '*#A -->
+<!-- *  -->
+<!--   BAR '*#B -->
+<!-- *  -->
+<!--   BAZ -->
+<!-- </utfx:expected> -->
+<!--     </utfx:assert-equal> -->
+<!--   </utfx:test> -->
+
+<!--   <utfx:test> -->
+<!--     <utfx:name>footnote with end_vol placement</utfx:name> -->
+<!--     <utfx:stylesheet-params> -->
+<!--       <utfx:with-param name="contraction" select="2"/> -->
+<!--       <utfx:with-param name="footnote_placement" select="'end_vol'"/> -->
+<!--     </utfx:stylesheet-params> -->
+<!--     <utfx:assert-equal> -->
+<!--       <utfx:source> -->
+<!-- 	<stub xml:lang="de"> -->
+<!-- 	<brl:volume brl:grade="2"/> -->
+<!-- 	Foo -->
+<!-- 	<dtb:noteref idref="#footnote1">1</dtb:noteref> -->
+<!-- 	<dtb:noteref idref="#footnote2">2</dtb:noteref> -->
+<!-- 	Bar -->
+<!-- 	<dtb:note id="footnote1"><dtb:p>This is a test</dtb:p></dtb:note> -->
+<!-- 	<dtb:note id="footnote2"><dtb:p>This is another test</dtb:p></dtb:note> -->
+<!-- 	Baz -->
+<!-- 	<brl:volume brl:grade="2"/> -->
+<!-- 	</stub> -->
+<!--       </utfx:source> -->
+<!--       <utfx:expected> -->
+<!-- y EndVol -->
+<!-- y BrlVol -->
+<!--  FOO '*#A'*#B BAR  BAZ  -->
+<!-- y P -->
+<!--  THIS IS 'A TE] -->
+<!-- y P  -->
+<!--  THIS IS +OTH7 TE] -->
+<!-- y EndVol -->
+<!-- y BrlVol</utfx:expected> -->
+<!--     </utfx:assert-equal> -->
+<!--   </utfx:test> -->
 
 </utfx:tests>
