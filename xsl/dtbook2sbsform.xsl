@@ -909,7 +909,7 @@ t
         select="louis:translate(string($braille_tables), 'Rucksackbuch Nr.')"/>
       <xsl:value-of
         select="louis:translate(string($braille_tables), string(//dtb:meta[@name='sbs:ReihenNummer']/@content))"/>
-      <xsl:text>t&#10; </xsl:text>
+      <xsl:text>&#10;t&#10; </xsl:text>
       <xsl:text> PUNKT POINT PUNTO</xsl:text> <!-- FIXME: Pass this with grade 0 through liblouis " PUNKT POINT PUNTO"-->
       <xsl:text>&#10;</xsl:text>
     </xsl:if>
