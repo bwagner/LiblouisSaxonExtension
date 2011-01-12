@@ -47,6 +47,14 @@
     <xsl:value-of select="count(//brl:volume[@brl:grade=$contraction]) + 1"/>
   </xsl:variable>
 
+  <xsl:variable name="book_type">
+    <xsl:choose>
+      <xsl:when test="//dtb:meta[@name='sbs:BuchReihe']/@content='PPP'">rucksack</xsl:when>
+      <xsl:when test="//dtb:meta[@name='sbs:BuchReihe']/@content='SJW'">sjw</xsl:when>
+      <xsl:otherwise>standard</xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
   <xsl:function name="my:isLower" as="xs:boolean">
     <xsl:param name="char"/>
     <xsl:value-of select="$char=lower-case($char)"/>
@@ -740,7 +748,7 @@ y e Ziff
     </xsl:if>
 
     <xsl:if test="$volumes &gt; 1">
-      <xsl:text>y b Volumes&#10;lv16&#10;t&#10; </xsl:text>
+      <xsl:text>y b Volumes&#10;t&#10; </xsl:text>
       <xsl:value-of select="louis:translate(string($braille_tables),'In ')"/>
       <xsl:choose>
         <xsl:when test="$volumes &lt; 13">
@@ -855,52 +863,137 @@ t
  </xsl:text>
     <xsl:apply-templates select="//dtb:doctitle"/>
     <xsl:text>&#10;u-&#10;</xsl:text>
+    <xsl:if test="$book_type = 'sjw'">
+      <xsl:text>l2&#10;t&#10; </xsl:text>
+      <xsl:call-template name="handle_abbr">
+        <xsl:with-param name="context" select="'abbr'"/>
+        <xsl:with-param name="content" select="'SJW-'"/>
+      </xsl:call-template>
+      <xsl:value-of
+        select="louis:translate(string($braille_tables), 'Heft Nr.')"/>
+      <xsl:value-of
+        select="louis:translate(string($braille_tables), string(//dtb:meta[@name='sbs:ReihenNummer']/@content))"/>
+      <xsl:text>&#10;</xsl:text>
+    </xsl:if>
     <xsl:if test="$volumes &gt; 1">
+      <!-- Leerzeilencheck hierhin verschoben, Leerzeile aus "y b Volumes" entfernt! -->
+      <xsl:variable name="leer">
+        <xsl:choose>
+          <xsl:when test="$book_type = 'rucksack'">5</xsl:when>
+          <xsl:when test="$book_type = 'sjw'">4</xsl:when>
+          <xsl:otherwise>6</xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+      <xsl:text>&#10;l</xsl:text>
+      <xsl:choose>
+        <xsl:when test="$contraction = 2">
+          <xsl:value-of select="$leer"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$leer -1"/>
+        </xsl:otherwise>
+      </xsl:choose>
       <xsl:text>&#10;y Volumes&#10;</xsl:text>
+    </xsl:if>
+    <xsl:if test="$book_type = 'rucksack'">
+      <xsl:choose>
+        <xsl:when test="$contraction = 2">
+          <xsl:text>lv22&#10;</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:text>lv21&#10;</xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:text>t&#10; </xsl:text>
+      <xsl:value-of
+        select="louis:translate(string($braille_tables), 'Rucksackbuch Nr.')"/>
+      <xsl:value-of
+        select="louis:translate(string($braille_tables), string(//dtb:meta[@name='sbs:ReihenNummer']/@content))"/>
+      <xsl:text>t&#10; </xsl:text>
+      <xsl:text> PUNKT POINT PUNTO</xsl:text> <!-- FIXME: Pass this with grade 0 through liblouis " PUNKT POINT PUNTO"-->
+      <xsl:text>&#10;</xsl:text>
     </xsl:if>
     <xsl:choose>
       <xsl:when test="$contraction = 2">
-        <xsl:text>lv23&#10;</xsl:text>
+        <xsl:text>lv25&#10;</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>lv22&#10;</xsl:text>
+        <xsl:text>lv24&#10;</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>t&#10; </xsl:text>
-    <xsl:value-of select="louis:translate(string($braille_tables), 'Schweizerische Bibliothek')"/>
+    <xsl:value-of
+      select="louis:translate(string($braille_tables), 'Schweizerische Bibliothek')"/>
     <xsl:text>&#10;t&#10; </xsl:text>
-    <xsl:value-of select="louis:translate(string($braille_tables), 'für Blinde, Seh- und ')"/>
+    <xsl:value-of
+      select="louis:translate(string($braille_tables), 'für Blinde, Seh- und ')"/>
     <xsl:if test="not($contraction = 2)">
       <xsl:text>&#10;t&#10; </xsl:text>
     </xsl:if>
-    <xsl:value-of select="louis:translate(string($braille_tables), 'Lesebehinderte')"/>
-    <xsl:text>&#10;l&#10;t&#10; </xsl:text>
-    <xsl:call-template name="handle_abbr">
-      <xsl:with-param name="context" select="'abbr'"/>
-      <xsl:with-param name="content" select="'SBS'"/>
-    </xsl:call-template>
-    <xsl:text> </xsl:text>
     <xsl:value-of
-      select="louis:translate(string($braille_tables), string(substring-before(//dtb:meta[@name='dc:Date']/@content,'-')))"/>
+      select="louis:translate(string($braille_tables), 'Lesebehinderte')"/>
     <xsl:text>
 p
 L
 i f=1 l=1
  </xsl:text>
-    <xsl:value-of
-      select="louis:translate(string($braille_tables), 'Dieses Braillebuch ist die ausschließlich ')"/>
-    <xsl:value-of
-      select="louis:translate(string($braille_tables), 'für die Nutzung durch Lesebehinderte Menschen ')"/>
-    <xsl:value-of
-      select="louis:translate(string($braille_tables), 'bestimmte zugängliche Version eines urheberrechtlich ')"/>
-    <xsl:value-of select="louis:translate(string($braille_tables), 'geschützten Werks. ')"/>
-    <xsl:value-of select="louis:translate(string($vform_braille_tables), 'Sie ')"/>
-    <xsl:value-of select="louis:translate(string($braille_tables), 'können ')"/>
-    <xsl:value-of
-      select="louis:translate(string($braille_tables), 'es im Rahmen des Urheberrechts persönlich nutzen, ')"/>
-    <xsl:value-of
-      select="louis:translate(string($braille_tables), 'dürfen es aber nicht weiter verbreiten oder öffentlich ')"/>
-    <xsl:value-of select="louis:translate(string($braille_tables), 'zugänglich machen.')"/>
+
+    <xsl:choose>
+      <xsl:when test="$book_type = 'sjw'">
+        <xsl:value-of
+          select="louis:translate(string($braille_tables), 'Brailleausgabe mit freundlicher Genehmigung des ')"/>
+        <xsl:call-template name="handle_abbr">
+          <xsl:with-param name="context" select="'abbr'"/>
+          <xsl:with-param name="content" select="'SJW'"/>
+        </xsl:call-template>
+        <xsl:value-of
+          select="louis:translate(string($braille_tables), ' Schweizerischen Jugenschriftenwerks, Zürich.')"/>
+        <xsl:text>l#10; </xsl:text>
+        <xsl:value-of
+          select="louis:translate(string($braille_tables), 'Wir danken dem ')"/>
+        <xsl:call-template name="handle_abbr">
+          <xsl:with-param name="context" select="'abbr'"/>
+          <xsl:with-param name="content" select="'SJW-'"/>
+        </xsl:call-template>
+        <xsl:value-of
+          select="louis:translate(string($braille_tables), '¦Verlag für die Bereitstellung der Daten.')"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of
+          select="louis:translate(string($braille_tables), 'Dieses Braillebuch ist die ausschließlich ')"/>
+        <xsl:value-of
+          select="louis:translate(string($braille_tables), 'für die Nutzung durch Lesebehinderte Menschen ')"/>
+        <xsl:value-of
+          select="louis:translate(string($braille_tables), 'bestimmte zugängliche Version eines urheberrechtlich ')"/>
+        <xsl:value-of
+          select="louis:translate(string($braille_tables), 'geschützten Werks. ')"/>
+        <xsl:value-of
+          select="louis:translate(string($vform_braille_tables), 'Sie ')"/>
+        <xsl:value-of select="louis:translate(string($braille_tables), 'können ')"/>
+        <xsl:value-of
+          select="louis:translate(string($braille_tables), 'es im Rahmen des Urheberrechts persönlich nutzen, ')"/>
+        <xsl:value-of
+          select="louis:translate(string($braille_tables), 'dürfen es aber nicht weiter verbreiten oder öffentlich ')"/>
+        <xsl:value-of
+          select="louis:translate(string($braille_tables), 'zugänglich machen.')"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:if test="$book_type = 'rucksack'">
+      <xsl:choose>
+        <xsl:when test="$contraction = 2">
+          <xsl:text>&#10;lv18&#10; </xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:text>&#10;lv17&#10; </xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:text>PUNKT POINT PUNTO'- </xsl:text> <!-- FIXME: Pass this with grade 0 through liblouis "PUNKT POINT PUNTO &#x2013;"-->
+      <xsl:text>&#10;a&#10; </xsl:text>
+      <xsl:value-of
+        select="louis:translate(string($braille_tables), 'Rucksackbuch Nr.')"/>
+      <xsl:value-of
+        select="louis:translate(string($braille_tables), string(//dtb:meta[@name='sbs:ReihenNummer']/@content))"/>
+    </xsl:if>
     <xsl:choose>
       <xsl:when test="$contraction = 2">
         <xsl:text>&#10;lv21&#10; </xsl:text>
@@ -909,16 +1002,23 @@ i f=1 l=1
         <xsl:text>&#10;lv20&#10; </xsl:text>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:value-of select="louis:translate(string($braille_tables), 'Verlag, Satz und Druck')"/>
+    <xsl:value-of
+      select="louis:translate(string($braille_tables), 'Verlag, Satz und Druck')"/>
     <xsl:text>&#10;a&#10; </xsl:text>
-    <xsl:value-of select="louis:translate(string($braille_tables), 'Schweizerische Bibliothek')"/>
+    <xsl:value-of
+      select="louis:translate(string($braille_tables), 'Schweizerische Bibliothek')"/>
     <xsl:text>&#10;a&#10; </xsl:text>
-    <xsl:value-of select="louis:translate(string($braille_tables), 'für Blinde, Seh- und ')"/>
+    <xsl:value-of
+      select="louis:translate(string($braille_tables), 'für Blinde, Seh- und ')"/>
     <xsl:if test="not($contraction = 2)">
       <xsl:text>&#10;a&#10; </xsl:text>
     </xsl:if>
-    <xsl:value-of select="louis:translate(string($braille_tables), 'Lesebehinderte')"/>
+    <xsl:value-of
+      select="louis:translate(string($braille_tables), 'Lesebehinderte, Zürich')"/>
     <xsl:text>&#10;a&#10; </xsl:text>
+    <xsl:value-of
+      select="louis:translate(string($braille_tables), 'www.sbs-online.ch')"/>
+    <xsl:text>&#10;l&#10; </xsl:text>
     <xsl:call-template name="handle_abbr">
       <xsl:with-param name="context" select="'abbr'"/>
       <xsl:with-param name="content" select="'SBS'"/>
@@ -926,19 +1026,19 @@ i f=1 l=1
     <xsl:text> </xsl:text>
     <xsl:value-of
       select="louis:translate(string($braille_tables), string(substring-before(//dtb:meta[@name='dc:Date']/@content,'-')))"/>
-    <xsl:text>&#10;l&#10; </xsl:text>
-    <xsl:value-of select="louis:translate(string($braille_tables), 'www.sbs-online.ch')"/>
-    <xsl:text>&#10;p&#10;L5&#10; </xsl:text>
+    <xsl:text>&#10;p&#10;xxx Titelblatt der Originalausgabe (Gestaltung der Vorlage nachempfinden)</xsl:text>
+    <xsl:text>&#10;L5&#10; </xsl:text>
     <xsl:apply-templates select="//dtb:docauthor"/>
     <xsl:text>&#10;l2&#10; </xsl:text>
     <xsl:apply-templates select="//dtb:doctitle"/>
     <xsl:text>&#10;u-&#10;l&#10; </xsl:text>
-    <xsl:apply-templates select="//dtb:frontmatter/dtb:level1[@class='titlepage']" mode="titlepage"/>
+    <xsl:apply-templates
+      select="//dtb:frontmatter/dtb:level1[@class='titlepage']" mode="titlepage"/>
     <xsl:text>
 b
 O
 y e Titlepage
-</xsl:text>
+    </xsl:text>
     <xsl:text>xxx ====================== ENDE SBSFORM.MAK ====================== xxx&#10;</xsl:text>
   </xsl:template>
 
