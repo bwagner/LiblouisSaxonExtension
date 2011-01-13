@@ -49,7 +49,6 @@
 	<target name="jar" depends="compile, git.revision">
 		<manifest file="${app.manifest}">
 			<attribute name="Built-By" value="${user.name}" />
-			<attribute name="Main-Class" value="org.liblouis.LouisTransform" />
 			<attribute name="Implementation-Version" value="${repository.version}" />
 		</manifest>
 		<jar jarfile="${app.jar}" basedir="${build.dir}" includes="**/*.class" excludes="**/*Test.class" manifest="${app.manifest}" />
