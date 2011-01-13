@@ -56,6 +56,20 @@
   </utfx:test>
 
   <utfx:test>
+    <utfx:name>getTable for de and contraction = 1</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
+    <utfx:call-template name="getTable"/>
+    <utfx:assert-equal>
+      <utfx:source>
+        <p xml:lang="de"/>
+      </utfx:source>
+      <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents.cti,sbs-special.cti,sbs-whitespace.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g0-core.mod,sbs-de-g1-core.mod,sbs-de-hyph-none.mod,sbs-de-accents-ch.mod,sbs-special.mod</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
     <utfx:name>getTable for de and contraction = 2</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
@@ -65,7 +79,7 @@
       <utfx:source>
         <p xml:lang="de"/>
       </utfx:source>
-      <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents-ch.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-core.mod,sbs-de-hyph-none.mod,sbs-special.mod</utfx:expected>
+      <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-core.mod,sbs-de-hyph-none.mod,sbs-de-accents-ch.mod,sbs-special.mod</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -79,7 +93,7 @@
       <utfx:source>
         <p xml:lang="de-1901"/>
       </utfx:source>
-      <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents-ch.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-core.mod,sbs-de-hyph-none.mod,sbs-special.mod</utfx:expected>
+      <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-core.mod,sbs-de-hyph-none.mod,sbs-de-accents-ch.mod,sbs-special.mod</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -94,7 +108,7 @@
       <utfx:source>
         <p xml:lang="de-1901"/>
       </utfx:source>
-      <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents-ch.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-white.mod,sbs-de-g2-core.mod,sbs-de-hyph-old.mod,sbs-special.mod</utfx:expected>
+      <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-white.mod,sbs-de-g2-core.mod,sbs-de-hyph-old.mod,sbs-de-accents-ch.mod,sbs-special.mod</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -191,7 +205,7 @@ y LINEe
       <utfx:source>
         <stub xml:lang="de"><dtb:abbr>AM</dtb:abbr>- und der <dtb:abbr>FM</dtb:abbr>-Skala,</stub>
       </utfx:source>
-      <utfx:expected>>AM'- U R >FM-mSK:A,</utfx:expected>
+      <utfx:expected>>AM- U R >FM-mSK:A,</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -417,7 +431,59 @@ mm</brl:num>
   </utfx:test>
 
   <utfx:test>
-    <utfx:name>"ver-" bei teilkursiven Wörtern (http://redmine.sbszh.ch/issues/show/1007)</utfx:name>
+    <utfx:name>"ich" innerhalb em vor Komma (http://redmine.sbszh.ch/issues/show/944)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em>ich</dtb:em>, </stub>
+      </utfx:source>
+      <utfx:expected>_I4,</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>"ich" innerhalb em vor Klammer (http://redmine.sbszh.ch/issues/show/944)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em>ich</dtb:em>) </stub>
+      </utfx:source>
+      <utfx:expected>_I4=</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>"ich" innerhalb em vor Klammer (http://redmine.sbszh.ch/issues/show/944)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em>(ich</dtb:em>) </stub>
+      </utfx:source>
+      <utfx:expected>_=I4=</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>"mich" innerhalb em vor Klammer (http://redmine.sbszh.ch/issues/show/944)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em>mich</dtb:em>) </stub>
+      </utfx:source>
+      <utfx:expected>_M#=</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Single word mixed emphasis (em before) (http://redmine.sbszh.ch/issues/show/1007)</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
@@ -426,6 +492,32 @@ mm</brl:num>
         <stub xml:lang="de"><dtb:em>Menschen</dtb:em>versuch</stub>
       </utfx:source>
       <utfx:expected>_MC5C'.V7SU4</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Single word mixed emphasis (em after)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Liebe<dtb:em>gang</dtb:em></stub>
+      </utfx:source>
+      <utfx:expected>L0;'_G+G</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Single word mixed emphasis (em inside)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Liebe<dtb:em>Menschen</dtb:em>versuch</stub>
+      </utfx:source>
+      <utfx:expected>L0;'_MC5C'.V7SU4</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -454,5 +546,176 @@ mm</brl:num>
       <utfx:expected>W?T !, W?T</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Falsches Resultat bei gemischtem Bruch, wenn Zeilenumbruch vorkommt (http://redmine.sbszh.ch/issues/show/1065)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:space="preserve" xml:lang="de"><brl:num role="mixed">4
+                1/2</brl:num></stub>
+      </utfx:source>
+      <utfx:expected>#D#A;</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Check if unicode chars are eaten by liblouis</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source><stub xml:lang="de">&#x255E;</stub></utfx:source>
+      <utfx:expected>'_</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Check if unicode chars are eaten by liblouis</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source><stub xml:lang="de">&#x2561;</stub></utfx:source>
+      <utfx:expected>'.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Quotes w/o context 1</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de"> (&#x00BB;<dtb:abbr>Bsp.</dtb:abbr>!&#x00AB;</stub>
+      </utfx:source>
+      <utfx:expected>=(BSP.+)</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Quotes w/o context 2</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de"> (&#x00AB;<dtb:abbr>Bsp.</dtb:abbr>!&#x00BB;</stub>
+      </utfx:source>
+      <utfx:expected>=(BSP.+)</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Quotes w/o context 2</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de"> (&#x00AB;<dtb:abbr>Bsp.</dtb:abbr>!&#x00BB;</stub>
+      </utfx:source>
+      <utfx:expected>=(BSP.+)</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Quotes with phone number</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de"><brl:num role="phone">079 160 22 22</brl:num>&#x00BB;</stub>
+      </utfx:source>
+      <utfx:expected>#JGI.AFJ.BB.BB')</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Many quoted paras</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de">
+	  <dtb:p>«Sag mal, bist du Kommunist?»</dtb:p>
+	  <dtb:p>«Nein, und schon gar nicht in sowjetischem Sinn.»</dtb:p>
+	<dtb:p>«Du <dtb:em>bist</dtb:em></dtb:p>
+	</stub>
+      </utfx:source>
+      <utfx:expected>
+y P
+ (SG MAL, B] DU KX/I]?(
+y P
+ (N6, U 5 GAR N * SOWJETI5[ S*N.)
+y P
+ (DU _B] 
+</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+<!--   <utfx:test> -->
+<!--     <utfx:name>footnote with standard placement</utfx:name> -->
+<!--     <utfx:stylesheet-params> -->
+<!--       <utfx:with-param name="contraction" select="2"/> -->
+<!--       <utfx:with-param name="footnote_placement" select="'standard'"/> -->
+<!--     </utfx:stylesheet-params> -->
+<!--     <utfx:assert-equal> -->
+<!--       <utfx:source> -->
+<!-- 	<stub xml:lang="de"> -->
+<!-- 	Foo -->
+<!-- 	<dtb:noteref idref="#footnote1">1</dtb:noteref> -->
+<!-- 	Bar -->
+<!-- 	<dtb:noteref idref="#footnote2">2</dtb:noteref> -->
+<!-- 	Baz -->
+<!-- 	</stub> -->
+<!--       </utfx:source> -->
+<!--       <utfx:expected> -->
+<!--  FOO '*#A -->
+<!-- *  -->
+<!--   BAR '*#B -->
+<!-- *  -->
+<!--   BAZ -->
+<!-- </utfx:expected> -->
+<!--     </utfx:assert-equal> -->
+<!--   </utfx:test> -->
+
+<!--   <utfx:test> -->
+<!--     <utfx:name>footnote with end_vol placement</utfx:name> -->
+<!--     <utfx:stylesheet-params> -->
+<!--       <utfx:with-param name="contraction" select="2"/> -->
+<!--       <utfx:with-param name="footnote_placement" select="'end_vol'"/> -->
+<!--     </utfx:stylesheet-params> -->
+<!--     <utfx:assert-equal> -->
+<!--       <utfx:source> -->
+<!-- 	<stub xml:lang="de"> -->
+<!-- 	<brl:volume brl:grade="2"/> -->
+<!-- 	Foo -->
+<!-- 	<dtb:noteref idref="#footnote1">1</dtb:noteref> -->
+<!-- 	<dtb:noteref idref="#footnote2">2</dtb:noteref> -->
+<!-- 	Bar -->
+<!-- 	<dtb:note id="footnote1"><dtb:p>This is a test</dtb:p></dtb:note> -->
+<!-- 	<dtb:note id="footnote2"><dtb:p>This is another test</dtb:p></dtb:note> -->
+<!-- 	Baz -->
+<!-- 	<brl:volume brl:grade="2"/> -->
+<!-- 	</stub> -->
+<!--       </utfx:source> -->
+<!--       <utfx:expected> -->
+<!-- y EndVol -->
+<!-- y BrlVol -->
+<!--  FOO '*#A'*#B BAR  BAZ  -->
+<!-- y P -->
+<!--  THIS IS 'A TE] -->
+<!-- y P  -->
+<!--  THIS IS +OTH7 TE] -->
+<!-- y EndVol -->
+<!-- y BrlVol</utfx:expected> -->
+<!--     </utfx:assert-equal> -->
+<!--   </utfx:test> -->
 
 </utfx:tests>

@@ -31,6 +31,8 @@
 	<property name="src.dir" value="src" />
 	<property name="test_src.dir" value="test_src" />
 	<property name="lib.dir" value="lib" />
+	<property name="app.manifest" value="MANIFEST.MF"/>
+
 	<path id="classpath.path">
 		<pathelement location="${build.dir}" />
 		<fileset dir="${lib.dir}">
@@ -44,8 +46,18 @@
 
 	<target name="default" depends="jar" />
 
-	<target name="jar" depends="compile">
-		<jar jarfile="${app.jar}" basedir="${build.dir}" includes="**/*.class" excludes="**/*Test.class" />
+	<target name="jar" depends="compile, git.revision">
+	  	<manifest file="${app.manifest}">
+	    		<attribute name="Built-By" value="${user.name}"/>
+	    		<attribute name="Main-Class" value="org.liblouis.LouisTransform"/>
+			<attribute name="Implementation-Version" 
+				   value="${repository.version}"/> 
+	  	</manifest>
+		<jar jarfile="${app.jar}" 
+		     basedir="${build.dir}" 
+		     includes="**/*.class" 
+		     excludes="**/*Test.class" 
+		     manifest="${app.manifest}" />
 	</target>
 
 	<target name="compile" depends="init">
@@ -91,6 +103,24 @@
 		<delete file="${app.jar}" />
 		<delete file="${factory.jar}" />
 		<delete file="utfx_log.xml" />
+		<delete file="${app.manifest}" />
+	</target>
+
+	<available file=".git" type="dir" property="git.present"/>
+
+	<target name="git.revision" description="Store git revision in ${repository.version}" if="git.present">
+	  <exec executable="git" outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
+	    <arg value="describe"/>
+	    <arg value="--tags"/>
+	    <arg value="--always"/>
+	    <arg value="HEAD"/>
+	  </exec>
+	  <condition property="repository.version" value="${git.revision}" else="unknown">
+	    <and>
+	      <isset property="git.revision"/>
+	      <length string="${git.revision}" trim="yes" length="0" when="greater"/>
+	    </and>
+	  </condition>
 	</target>
 
 </project>
