@@ -718,4 +718,316 @@ y P
 <!--     </utfx:assert-equal> -->
 <!--   </utfx:test> -->
 
+  <!-- Element tests -->
+  <utfx:test>
+    <utfx:name>Translation of h1</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:h1 xml:lang="de">foo</dtb:h1>
+      </utfx:source>
+      <utfx:expected>y H1
+ FOO</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of h1 with with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:h1 xml:lang="de" brl:class="foo">foo</dtb:h1>
+      </utfx:source>
+      <utfx:expected>y H1_foo
+ FOO</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of h2</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:h2 xml:lang="de">foo</dtb:h2>
+      </utfx:source>
+      <utfx:expected>y H2
+ FOO</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of h2 with with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:h2 xml:lang="de" brl:class="foo">foo</dtb:h2>
+      </utfx:source>
+      <utfx:expected>y H2_foo
+ FOO</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of p</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:p xml:lang="de">foo</dtb:p>
+      </utfx:source>
+      <utfx:expected>y P
+ FOO</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of h2 with with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:p xml:lang="de" brl:class="foo">foo</dtb:p>
+      </utfx:source>
+      <utfx:expected>y P_foo
+ FOO</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of Blockquote</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:blockquote xml:lang="de"></dtb:blockquote>
+      </utfx:source>
+      <utfx:expected>
+y BLQUOb
+
+y BLQUOe
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of Blockquote with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:blockquote xml:lang="de" brl:class="foo"></dtb:blockquote>
+      </utfx:source>
+      <utfx:expected>
+y BLQUOb_foo
+
+y BLQUOe_foo
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of epigraph</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:epigraph xml:lang="de"></dtb:epigraph>
+      </utfx:source>
+      <utfx:expected>
+y EPIGRb
+
+y EPIGRe
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of epigraph with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:epigraph xml:lang="de" brl:class="foo"></dtb:epigraph>
+      </utfx:source>
+      <utfx:expected>
+y EPIGRb_foo
+
+y EPIGRe_foo
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of author</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:author xml:lang="de">Hans</dtb:author>
+      </utfx:source>
+      <utfx:expected>
+y AUTHOR
+ H+S
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of author with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:author xml:lang="de" brl:class="foo">Hans</dtb:author>
+      </utfx:source>
+      <utfx:expected>
+y AUTHOR_foo
+ H+S
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of byline</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:byline xml:lang="de">Hans</dtb:byline>
+      </utfx:source>
+      <utfx:expected>
+y BYLINE
+ H+S
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of byline with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:byline xml:lang="de" brl:class="foo">Hans</dtb:byline>
+      </utfx:source>
+      <utfx:expected>
+y BYLINE_foo
+ H+S
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of list</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:list xml:lang="de"></dtb:list>
+      </utfx:source>
+      <utfx:expected>
+y PLISTb
+
+y PLISTe
+
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of list with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:list xml:lang="de" brl:class="foo"></dtb:list>
+      </utfx:source>
+      <utfx:expected>
+y PLISTb_foo
+
+y PLISTe_foo
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of li</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:li xml:lang="de"></dtb:li>
+      </utfx:source>
+      <utfx:expected>
+y LI
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of li with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:li xml:lang="de" brl:class="foo"></dtb:li>
+      </utfx:source>
+      <utfx:expected>
+y LI_foo
+
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of poem</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:poem xml:lang="de"></dtb:poem>
+      </utfx:source>
+      <utfx:expected>
+y POEMb
+
+y POEMe
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of poem with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:poem xml:lang="de" brl:class="foo"></dtb:poem>
+      </utfx:source>
+      <utfx:expected>
+y POEMb_foo
+
+y POEMe_foo
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of linegroup</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:linegroup xml:lang="de"></dtb:linegroup>
+      </utfx:source>
+      <utfx:expected>
+y LINEGROUPb
+ 
+y LINEGROUPe
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of linegroup with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:linegroup xml:lang="de" brl:class="foo"></dtb:linegroup>
+      </utfx:source>
+      <utfx:expected>
+y LINEGROUPb_foo
+ 
+y LINEGROUPe_foo
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of line</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:line xml:lang="de"></dtb:line>
+      </utfx:source>
+      <utfx:expected>
+y LINEb
+ 
+y LINEe
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of line with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:line xml:lang="de" brl:class="foo"></dtb:line>
+      </utfx:source>
+      <utfx:expected>
+y LINEb_foo
+ 
+y LINEe_foo
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
 </utfx:tests>

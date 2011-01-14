@@ -457,91 +457,129 @@ u,
     </xsl:if>
 
     <xsl:if test="//dtb:level6">
-      <xsl:text>
-y b LEVEL6b
-lm1
-Y
-y e LEVEL6b
-y b LEVEL6e
-y e LEVEL6e
-y b H6
-lm1
-Y
-</xsl:text>
+      <xsl:text>&#10;y b LEVEL6b&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>Y&#10;</xsl:text>
+      <xsl:text>y e LEVEL6b&#10;</xsl:text>
+      <xsl:text>y b LEVEL6e&#10;</xsl:text>
+      <xsl:text>y e LEVEL6e&#10;</xsl:text>
+      <xsl:text>y b H6&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>Y&#10;</xsl:text>
       <xsl:if test="$toc_level &gt; 5">
-        <xsl:text>H`B+
-H`i F=11
-Y
-H`B-
-</xsl:text>
+	<xsl:text>H`B+&#10;</xsl:text>
+	<xsl:text>H`i F=11&#10;</xsl:text>
+	<xsl:text>Y&#10;</xsl:text>
+	<xsl:text>H`B-&#10;</xsl:text>
       </xsl:if>
       <xsl:if test="$footer_level &gt; 5">
-        <xsl:text>Y
-</xsl:text>
+	<xsl:text>Y&#10;</xsl:text>
       </xsl:if>
       <xsl:text>y e H6&#10;</xsl:text>
     </xsl:if>
 
-    <xsl:if test="//dtb:p">
-      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxx Absatz, Leerzeile, Separator xxxxxxxxxxxxxxxxxxxx
-y b P
-i f=3 l=1
-y e P
-</xsl:text>
-    </xsl:if>
-    <xsl:if test="//dtb:p[contains(@class, 'precedingemptyline')]">
-      <xsl:text>y b BLANK
-lm1
-n2
-y e BLANK
-</xsl:text>
-    </xsl:if>
-    <xsl:if test="//dtb:p[contains(@class, 'precedingseparator')]">
-      <xsl:text>y b SEPARATOR
-lm1
-t::::::
-lm1
-y e SEPARATOR
-</xsl:text>
-    </xsl:if>
-    <xsl:if test="//dtb:p[contains(@class, 'noindent')]">
-      <xsl:text>y b P_noi
-i f=1 l=1
-y e P_noi
-</xsl:text>
-    </xsl:if>
-
-    <xsl:if test="//dtb:author">
-      <xsl:text>y b AUTHOR
-r
-y e AUTHOR
-</xsl:text>
-    </xsl:if>
-
-    <xsl:if test="//dtb:byline">
-      <xsl:text>y b BYLINE
-r
-y e BYLINE
-</xsl:text>
-    </xsl:if>
-
-    <xsl:if test="//dtb:blockquote">
-      <xsl:text>
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx Blockquote xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-y b BLQUOb
-lm1
-n2
-i A=2
-y e BLQUOb
-y b BLQUOe
-i A=0
-lm1
-n2
-y e BLQUOe
-</xsl:text>
+    <xsl:if test="//dtb:*[@brl:class]">
+      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxx Makros mit Class Attributen xxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
+      <!-- Elements that only have a start macro -->
+      <xsl:for-each-group select="//dtb:author[@brl:class]|//dtb:byline[@brl:class]|//dtb:li[@brl:class]|//dtb:p[@brl:class]|//dtb:h1[@brl:class]|//dtb:h2[@brl:class]|//dtb:h3[@brl:class]|//dtb:h4[@brl:class]|//dtb:h5[@brl:class]|//dtb:h6[@brl:class]" group-by="local-name()">
+	<xsl:variable name="element-name" select="current-grouping-key()"/>
+	<xsl:variable name="makro-name" select="upper-case($element-name)"/>
+	<xsl:for-each select="distinct-values(//dtb:*[local-name() = $element-name]/@brl:class)">
+	  <xsl:text>&#10;y b </xsl:text>
+	  <xsl:value-of select="$makro-name"/><xsl:text>_</xsl:text>
+	  <xsl:value-of select="."/><xsl:text>&#10;</xsl:text>
+	  <xsl:text>X TODO: Fix this macro&#10;</xsl:text>
+	  <xsl:text>y e </xsl:text>
+	  <xsl:value-of select="$makro-name"/><xsl:text>_</xsl:text>
+	  <xsl:value-of select="."/><xsl:text>&#10;&#10;</xsl:text>
+	</xsl:for-each>
+      </xsl:for-each-group>
+      <!-- Elements that have both a start and an end macro -->
+      <xsl:for-each-group select="//dtb:blockquote[@brl:class]|//dtb:epigraph[@brl:class]|//dtb:list[@brl:class]|//dtb:poem[@brl:class]|//dtb:linegroup[@brl:class]|//dtb:line[@brl:class]" group-by="local-name()">
+	<xsl:variable name="element-name" select="current-grouping-key()"/>
+	<xsl:variable name="makro-name" >
+	  <xsl:choose>
+	    <xsl:when test="$element-name = 'blockquote'">BLQUO</xsl:when>
+	    <xsl:when test="$element-name = 'epigraph'">EPIGR</xsl:when>
+	    <xsl:otherwise>
+	      <xsl:value-of select="upper-case($element-name)"/>
+	    </xsl:otherwise>
+	  </xsl:choose>
+	</xsl:variable>
+	<xsl:for-each select="distinct-values(//dtb:*[local-name() = $element-name]/@brl:class)">
+	  <xsl:text>&#10;y b </xsl:text>
+	  <xsl:value-of select="$makro-name"/><xsl:text>b_</xsl:text>
+	  <xsl:value-of select="."/><xsl:text>&#10;</xsl:text>
+	  <xsl:text>X TODO: Fix this macro&#10;</xsl:text>
+	  <xsl:text>y e </xsl:text>
+	  <xsl:value-of select="$makro-name"/><xsl:text>_</xsl:text>
+	  <xsl:value-of select="."/><xsl:text>&#10;&#10;</xsl:text>
+	  <xsl:text>&#10;y b </xsl:text>
+	  <xsl:value-of select="$makro-name"/><xsl:text>e_</xsl:text>
+	  <xsl:value-of select="."/><xsl:text>&#10;</xsl:text>
+	  <xsl:text>X TODO: Fix this macro&#10;</xsl:text>
+	  <xsl:text>y e </xsl:text>
+	  <xsl:value-of select="$makro-name"/><xsl:text>_</xsl:text>
+	  <xsl:value-of select="."/><xsl:text>&#10;&#10;</xsl:text>
+	</xsl:for-each>
+      </xsl:for-each-group>
     </xsl:if>
 
-    <xsl:if test="//dtb:epigraph">
+    <xsl:if test="//dtb:p[not(@brl:class)]">
+      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxx Absatz, Leerzeile, Separator xxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
+      <xsl:text>y b P&#10;</xsl:text>
+      <xsl:text>i f=3 l=1&#10;</xsl:text>
+      <xsl:text>y e P&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="//dtb:p[not(@brl:class) and contains(@class, 'precedingemptyline')]">
+      <xsl:text>y b BLANK&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>y e BLANK&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="//dtb:p[not(@brl:class) and contains(@class, 'precedingseparator')]">
+      <xsl:text>y b SEPARATOR&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>t::::::&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>y e SEPARATOR&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="//dtb:p[not(@brl:class) and contains(@class, 'noindent')]">
+      <xsl:text>y b P_noi&#10;</xsl:text>
+      <xsl:text>i f=1 l=1&#10;</xsl:text>
+      <xsl:text>y e P_noi&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="//dtb:author[not(@brl:class)]">
+      <xsl:text>y b AUTHOR&#10;</xsl:text>
+      <xsl:text>r&#10;</xsl:text>
+      <xsl:text>y e AUTHOR&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="//dtb:byline[not(@brl:class)]">
+      <xsl:text>y b BYLINE&#10;</xsl:text>
+      <xsl:text>r&#10;</xsl:text>
+      <xsl:text>y e BYLINE&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="//dtb:blockquote[not(@brl:class)]">
+      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxxxxxxx Blockquote xxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
+      <xsl:text>y b BLQUOb&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>i A=2&#10;</xsl:text>
+      <xsl:text>y e BLQUOb&#10;</xsl:text>
+      <xsl:text>y b BLQUOe&#10;</xsl:text>
+      <xsl:text>i A=0&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>y e BLQUOe&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="//dtb:epigraph[not(@brl:class)]">
       <xsl:text>
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxx Epigraph xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 y b EPIGRb
@@ -557,74 +595,64 @@ y e EPIGRe
 </xsl:text>
     </xsl:if>
 
-    <xsl:if test="//dtb:poem">
-      <xsl:text>
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Poem xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-y b POEMb
-lm1
-n2
-i A=2
-y e POEMb
-y b POEMe
-i A=0
-lm1
-n2
-y e POEMe
-
-y b LINEb
-i f=1 l=3
-B+
-y e LINEb
-y b LINEe
-B-
-y e LINEe
-</xsl:text>
+    <xsl:if test="//dtb:poem[not(@brl:class)]|//dtb:line[not(@brl:class)]">
+      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Poem xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;&#10;</xsl:text>
+      <xsl:text>y b POEMb&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>i A=2&#10;</xsl:text>
+      <xsl:text>y e POEMb&#10;</xsl:text>
+      <xsl:text>y b POEMe&#10;</xsl:text>
+      <xsl:text>i A=0&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>y e POEMe&#10;&#10;</xsl:text>
+      
+      <xsl:text>y b LINEb&#10;</xsl:text>
+      <xsl:text>i f=1 l=3&#10;</xsl:text>
+      <xsl:text>B+&#10;</xsl:text>
+      <xsl:text>y e LINEb&#10;</xsl:text>
+      <xsl:text>y b LINEe&#10;</xsl:text>
+      <xsl:text>B-&#10;</xsl:text>
+      <xsl:text>y e LINEe&#10;</xsl:text>
     </xsl:if>
 
-    <xsl:if test="//dtb:linegroup">
-      <xsl:text>
-y b LINEGROUPb
-lm1
-n2
-y e LINEGROUPb
-y b LINEGROUPe
-y e LINEGROUPe
-</xsl:text>
+    <xsl:if test="//dtb:linegroup[not(@brl:class)]">
+      <xsl:text>&#10;y b LINEGROUPb;&#10;</xsl:text>
+      <xsl:text>lm1;&#10;</xsl:text>
+      <xsl:text>n2;&#10;</xsl:text>
+      <xsl:text>y e LINEGROUPb;&#10;</xsl:text>
+      <xsl:text>y b LINEGROUPe;&#10;</xsl:text>
+      <xsl:text>y e LINEGROUPe;&#10;</xsl:text>
     </xsl:if>
 
-    <xsl:if test="//dtb:list">
-      <xsl:text>
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Listen xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    <xsl:if test="//dtb:list[not(@brl:class)]|//dtb:li[not(@brl:class)]">
+      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Listen xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#10;&#10;</xsl:text>
 
-y b PLISTb ; Vorformatierte Liste
-lm1
-i f=1 l=3
-n2
-y e PLISTb
-y b PLISTe
-i f=3 l=1
-lm1
-n2
-y e PLISTe
-</xsl:text>
-      <xsl:text>y b LI
-a
-y e LI
-</xsl:text>
+      <xsl:text>y b PLISTb ; Vorformatierte Liste&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>i f=1 l=3&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>y e PLISTb&#10;</xsl:text>
+      <xsl:text>y b PLISTe&#10;</xsl:text>
+      <xsl:text>i f=3 l=1&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>y e PLISTe&#10;</xsl:text>
+
+      <xsl:text>y b LI&#10;</xsl:text>
+      <xsl:text>a&#10;</xsl:text>
+      <xsl:text>y e LI&#10;</xsl:text>
     </xsl:if>
 
-    <xsl:text>
-xxxxxxxxxxxxxxxxxxxxxxxxxxx Bandeinteilung xxxxxxxxxxxxxxxxxxxxxxxxxxx
-y b BrlVol
-?vol:vol+1
-y Titlepage
-</xsl:text>
+    <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxxxxx Bandeinteilung xxxxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
+    <xsl:text>y b BrlVol&#10;</xsl:text>
+    <xsl:text>?vol:vol+1&#10;</xsl:text>
+    <xsl:text>y Titlepage&#10;</xsl:text>
     <xsl:if test="$volumes &gt; 1 and $toc_level &gt; 0">
-      <xsl:text>
-xy InhTit
-H`lm1
-H`n5
-</xsl:text>
+      <xsl:text>&#10;xy InhTit&#10;</xsl:text>
+      <xsl:text>H`lm1&#10;</xsl:text>
+      <xsl:text>H`n5&#10;</xsl:text>
       <xsl:choose>
         <xsl:when test="$volumes &lt; 13">
           <xsl:text>"H`t%B</xsl:text>
@@ -1256,6 +1284,9 @@ y LEVEL2b
       <xsl:when test="contains(@class, 'noindent')">
         <xsl:text>y P_noi&#10; </xsl:text>
       </xsl:when>
+      <xsl:when test="exists(@brl:class)">
+        <xsl:text>y P_</xsl:text><xsl:value-of select="@brl:class"/><xsl:text>&#10; </xsl:text>
+      </xsl:when>
       <xsl:otherwise>
         <xsl:text>y P&#10; </xsl:text>
       </xsl:otherwise>
@@ -1264,13 +1295,19 @@ y LEVEL2b
   </xsl:template>
 
   <xsl:template match="dtb:list">
-    <xsl:text>&#10;y PLISTb&#10;</xsl:text>
+    <xsl:text>&#10;y PLISTb</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>&#10;y PLISTe&#10;</xsl:text>
+    <xsl:text>&#10;y PLISTe</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:li">
-    <xsl:text>&#10;y LI&#10; </xsl:text>
+    <xsl:text>&#10;y LI</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10; </xsl:text>
     <xsl:apply-templates/>
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
@@ -1298,6 +1335,7 @@ y LEVEL2b
     <xsl:variable name="level" select="number(substring(local-name(), 2))"/>
     <xsl:text>&#10;y H</xsl:text>
     <xsl:value-of select="$level"/>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
     <xsl:text>&#10; </xsl:text>
     <xsl:apply-templates
       select="*[local-name() != 'toc-line' and local-name() != 'running-line']|text()"/>
@@ -1337,21 +1375,33 @@ y LEVEL2b
   </xsl:template>
 
   <xsl:template match="dtb:blockquote">
-    <xsl:text>&#10;y BLQUOb&#10;</xsl:text>
+    <xsl:text>&#10;y BLQUOb</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>&#10;y BLQUOe&#10;</xsl:text>
+    <xsl:text>&#10;y BLQUOe</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:epigraph">
-    <xsl:text>&#10;y EPIGRb&#10;</xsl:text>
+    <xsl:text>&#10;y EPIGRb</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>&#10;y EPIGRe&#10;</xsl:text>
+    <xsl:text>&#10;y EPIGRe</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:poem">
-    <xsl:text>&#10;y POEMb&#10;</xsl:text>
+    <xsl:text>&#10;y POEMb</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>&#10;y POEMe&#10;</xsl:text>
+    <xsl:text>&#10;y POEMe</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template name="insert_footnotes">
@@ -1397,25 +1447,37 @@ i f=3 l=1
   </xsl:template>
 
   <xsl:template match="dtb:author">
-    <xsl:text>&#10;y AUTHOR&#10; </xsl:text>
+    <xsl:text>&#10;y AUTHOR</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10; </xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template match="dtb:byline">
-    <xsl:text>&#10;y BYLINE&#10; </xsl:text>
+    <xsl:text>&#10;y BYLINE</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10; </xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template match="dtb:linegroup">
-    <xsl:text>&#10;y LINEGROUPb&#10;</xsl:text>
+    <xsl:text>&#10;y LINEGROUPb</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10; </xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>&#10;y LINEGROUPe&#10;</xsl:text>
+    <xsl:text>&#10;y LINEGROUPe</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10; </xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:line">
-    <xsl:text>&#10;y LINEb&#10; </xsl:text>
+    <xsl:text>&#10;y LINEb</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10; </xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>&#10;y LINEe&#10;</xsl:text>
+    <xsl:text>&#10;y LINEe</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10; </xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:br">
