@@ -495,7 +495,7 @@ u,
 	</xsl:for-each>
       </xsl:for-each-group>
       <!-- Elements that have both a start and an end macro -->
-      <xsl:for-each-group select="//dtb:blockquote[@brl:class]|//dtb:epigraph[@brl:class]|//dtb:list[@brl:class]|//dtb:poem[@brl:class]|//dtb:linegroup[@brl:class]|//dtb:line[@brl:class]" group-by="local-name()">
+      <xsl:for-each-group select="//dtb:blockquote[@brl:class]|//dtb:epigraph[@brl:class]|//dtb:list[@brl:class]|//dtb:poem[@brl:class]|//dtb:linegroup[@brl:class]|//dtb:line[@brl:class]|//dtb:div[@brl:class]" group-by="local-name()">
 	<xsl:variable name="element-name" select="current-grouping-key()"/>
 	<xsl:variable name="makro-name" >
 	  <xsl:choose>
@@ -1626,7 +1626,11 @@ i f=3 l=1
     <xsl:apply-templates/>
   </xsl:template>
 
-  <xsl:template match="dtb:acronym"> </xsl:template>
+  <xsl:template match="dtb:div">
+    <xsl:value-of select="concat('&#10;y DIVb_', @brl:class, '&#10;')"/>
+    <xsl:apply-templates/>
+    <xsl:value-of select="concat('&#10;y DIVe_', @brl:class, '&#10;')"/>
+  </xsl:template>
 
   <xsl:template match="dtb:span[lang('de')]">
     <xsl:variable name="braille_tables">

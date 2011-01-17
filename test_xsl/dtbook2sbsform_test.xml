@@ -1081,4 +1081,19 @@ y LINEe_foo
     </utfx:assert-equal>
   </utfx:test>
 
+  <utfx:test>
+    <utfx:name>div element</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:div brl:class="foo" xml:lang="de">
+	</dtb:div>
+      </utfx:source>
+      <utfx:expected>
+y DIVb_foo
+
+y DIVe_foo
+</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
 </utfx:tests>
