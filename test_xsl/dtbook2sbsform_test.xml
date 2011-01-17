@@ -1030,4 +1030,39 @@ y LINEe_foo
       </utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Selection feature</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<brl:select xml:lang="de">
+	  <brl:whenBraille>
+	    <brl:literal>Foo</brl:literal>
+	  </brl:whenBraille>
+	  <brl:otherwise>Bar</brl:otherwise>
+	</brl:select>
+      </utfx:source>
+      <utfx:expected>Foo</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Selection feature with literals with grade attrs</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<brl:select xml:lang="de">
+	  <brl:whenBraille>
+	    <brl:literal brl:grade="1">Foo</brl:literal>
+	    <brl:literal brl:grade="2">Bar</brl:literal>
+	  </brl:whenBraille>
+	  <brl:otherwise>Baz</brl:otherwise>
+	</brl:select>
+      </utfx:source>
+      <utfx:expected>Bar</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
 </utfx:tests>

@@ -1628,9 +1628,6 @@ i f=3 l=1
 
   <xsl:template match="dtb:acronym"> </xsl:template>
 
-  <!-- Ignore stuff which isn't meant for Braille output -->
-  <xsl:template match="dtb:span[lang('de') and @brl:showin = 'notInBraille']" priority="1000"/>
-
   <xsl:template match="dtb:span[lang('de')]">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
@@ -1920,6 +1917,12 @@ i f=3 l=1
     <xsl:if test="not(exists(@brl:grade)) or (exists(@brl:grade) and @brl:grade  = $contraction)">
       <xsl:value-of select="."/>
     </xsl:if>
+  </xsl:template>
+
+  <!-- Content selection -->
+  <xsl:template match="brl:select[lang('de')]">
+    <xsl:apply-templates select="brl:whenBraille"/>
+    <!-- Ignore the otherwise element -->
   </xsl:template>
 
   <!-- Text nodes are translated with liblouis -->
