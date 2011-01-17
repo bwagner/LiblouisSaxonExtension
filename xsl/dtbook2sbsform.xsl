@@ -1913,16 +1913,21 @@ i f=3 l=1
     </xsl:if>
   </xsl:template>
 
+  <!-- Content selection -->
+  <xsl:template match="brl:select[lang('de')]">
+    <xsl:apply-templates select="brl:whenBraille"/>
+    <!-- Ignore the brl:otherwise element -->
+  </xsl:template>
+
+  <xsl:template match="brl:whenBraille[lang('de')]">
+    <xsl:apply-templates />
+    <!-- Ignore the brl:otherwise element -->
+  </xsl:template>
+
   <xsl:template match="brl:literal[lang('de')]">
     <xsl:if test="not(exists(@brl:grade)) or (exists(@brl:grade) and @brl:grade  = $contraction)">
       <xsl:value-of select="."/>
     </xsl:if>
-  </xsl:template>
-
-  <!-- Content selection -->
-  <xsl:template match="brl:select[lang('de')]">
-    <xsl:apply-templates select="brl:whenBraille"/>
-    <!-- Ignore the otherwise element -->
   </xsl:template>
 
   <!-- Text nodes are translated with liblouis -->

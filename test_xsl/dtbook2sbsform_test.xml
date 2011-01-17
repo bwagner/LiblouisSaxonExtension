@@ -1065,4 +1065,20 @@ y LINEe_foo
     </utfx:assert-equal>
   </utfx:test>
 
+  <utfx:test>
+    <utfx:name>Selection feature with mixed literals and text nodes</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<brl:select xml:lang="de">
+	  <brl:whenBraille>
+	    Foo
+	    <brl:literal>Bar</brl:literal>
+	  </brl:whenBraille>
+	  <brl:otherwise>Baz</brl:otherwise>
+	</brl:select>
+      </utfx:source>
+      <utfx:expected>FOO Bar</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
 </utfx:tests>
