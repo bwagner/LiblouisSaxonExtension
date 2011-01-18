@@ -49,8 +49,8 @@
 
   <xsl:variable name="book_type">
     <xsl:choose>
-      <xsl:when test="//dtb:meta[@name='sbs:BuchReihe']/@content='PPP'">rucksack</xsl:when>
-      <xsl:when test="//dtb:meta[@name='sbs:BuchReihe']/@content='SJW'">sjw</xsl:when>
+      <xsl:when test="//dtb:meta[@name='prod:series']/@content='PPP'">rucksack</xsl:when>
+      <xsl:when test="//dtb:meta[@name='prod:series']/@content='SJW'">sjw</xsl:when>
       <xsl:otherwise>standard</xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
@@ -900,7 +900,7 @@ t
       <xsl:value-of
         select="louis:translate(string($braille_tables), 'Heft Nr.')"/>
       <xsl:value-of
-        select="louis:translate(string($braille_tables), string(//dtb:meta[@name='sbs:ReihenNummer']/@content))"/>
+        select="louis:translate(string($braille_tables), string(//dtb:meta[@name='prod:seriesNumber']/@content))"/>
       <xsl:text>&#10;</xsl:text>
     </xsl:if>
     <xsl:if test="$volumes &gt; 1">
@@ -936,7 +936,7 @@ t
       <xsl:value-of
         select="louis:translate(string($braille_tables), 'Rucksackbuch Nr.')"/>
       <xsl:value-of
-        select="louis:translate(string($braille_tables), string(//dtb:meta[@name='sbs:ReihenNummer']/@content))"/>
+        select="louis:translate(string($braille_tables), string(//dtb:meta[@name='prod:seriesNumber']/@content))"/>
       <xsl:text>&#10;t&#10; </xsl:text>
       <xsl:text> PUNKT POINT PUNTO</xsl:text> <!-- FIXME: Pass this with grade 0 through liblouis " PUNKT POINT PUNTO"-->
       <xsl:text>&#10;</xsl:text>
@@ -1020,7 +1020,7 @@ i f=1 l=1
       <xsl:value-of
         select="louis:translate(string($braille_tables), 'Rucksackbuch Nr.')"/>
       <xsl:value-of
-        select="louis:translate(string($braille_tables), string(//dtb:meta[@name='sbs:ReihenNummer']/@content))"/>
+        select="louis:translate(string($braille_tables), string(//dtb:meta[@name='prod:seriesNumber']/@content))"/>
     </xsl:if>
     <xsl:choose>
       <xsl:when test="$contraction = 2">
