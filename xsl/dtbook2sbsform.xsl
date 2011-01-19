@@ -42,6 +42,7 @@
   <xsl:param name="enable_capitalization" select="false()"/>
   <xsl:param name="detailed_accented_characters">de-accents-ch</xsl:param>
   <xsl:param name="include_macros" select="true()"/>
+  <xsl:param name="footnote_placement">standard</xsl:param>
 
   <xsl:variable name="volumes">
     <xsl:value-of select="count(//brl:volume[@brl:grade=$contraction]) + 1"/>
@@ -523,6 +524,13 @@ u,
 	  <xsl:value-of select="."/><xsl:text>&#10;&#10;</xsl:text>
 	</xsl:for-each>
       </xsl:for-each-group>
+    </xsl:if>
+
+    <xsl:if test="//dtb:note and $footnote_placement != 'standard'">
+      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxx Notes xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
+      <xsl:text>y b Notes&#10;</xsl:text>
+      <xsl:text>X TODO: Fix this macro&#10;</xsl:text>
+      <xsl:text>y e Notes&#10;</xsl:text>
     </xsl:if>
 
     <xsl:if test="//dtb:p[not(@brl:class)]">
@@ -1072,7 +1080,7 @@ y e Titlepage
 
   <xsl:template name="rest-of-frontmatter">
     <xsl:text>&#10;y BOOKb&#10;</xsl:text>
-    <xsl:if test="//dtb:note">
+    <xsl:if test="//dtb:note and $footnote_placement = 'standard'">
       <xsl:call-template name="insert_footnotes"/>
     </xsl:if>
     <xsl:text>y BrlVol&#10;</xsl:text>
@@ -1163,18 +1171,23 @@ y e Titlepage
   <xsl:template match="dtb:frontmatter"> </xsl:template>
 
   <xsl:template match="dtb:bodymatter">
-    <xsl:text>
-y BODYb
-i j=</xsl:text>
+    <xsl:text>&#10;y BODYb&#10;</xsl:text>
+    <xsl:text>i j=</xsl:text>
     <!-- value of first pagenum within body -->
     <xsl:value-of select="descendant::dtb:pagenum[1]/text()"/>
-    <xsl:text>
-</xsl:text>
-
+    <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>
-y BODYe
-</xsl:text>
+    <!-- Apply end notes of last volume -->
+    <xsl:if test="$footnote_placement = 'end_vol'">
+      <xsl:variable name="notes" select="//dtb:note[not(following::brl:volume[@brl:grade = $contraction])]"/>
+      <xsl:if test="exists($notes)">
+	<xsl:text>&#10;y Notes&#10;</xsl:text>
+	<xsl:for-each select="$notes">
+	  <xsl:apply-templates />
+	</xsl:for-each>
+      </xsl:if>
+    </xsl:if>
+    <xsl:text>&#10;&#10;y BODYe&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:doctitle">
@@ -1186,28 +1199,20 @@ y BODYe
   </xsl:template>
 
   <xsl:template match="dtb:level1">
-    <xsl:text>
-y LEVEL1b
-</xsl:text>
+    <xsl:text>&#10;y LEVEL1b&#10;</xsl:text>
     <!-- add a comment if the first child is not a pagenum -->
     <xsl:if test="not(name(child::*[1])='pagenum')">
-      <xsl:text>.xNOPAGENUM
-</xsl:text>
+      <xsl:text>.xNOPAGENUM&#10;</xsl:text>
     </xsl:if>
     <xsl:apply-templates/>
-    <xsl:text>
-y LEVEL1e
-</xsl:text>
+    <xsl:text>&#10;y LEVEL1e&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:level2">
-    <xsl:text>
-y LEVEL2b
-</xsl:text>
+    <xsl:text>&#10;y LEVEL2b&#10;</xsl:text>
     <!-- add a comment if the first child is not a pagenum -->
     <xsl:if test="not(name(child::*[1])='pagenum')">
-      <xsl:text>.xNOPAGENUM
-</xsl:text>
+      <xsl:text>.xNOPAGENUM&#10;</xsl:text>
     </xsl:if>
     <xsl:apply-templates/>
     <xsl:text>&#10;y LEVEL2e&#10;</xsl:text>
@@ -1262,13 +1267,23 @@ y LEVEL2b
     <xsl:text>&#10;</xsl:text>
     <xsl:choose>
       <xsl:when test="position()=1">
-        <xsl:text>p </xsl:text>
+	<xsl:choose>
+	  <xsl:when test="$footnote_placement = 'standard'">
+	    <xsl:text>p </xsl:text>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:text>a </xsl:text>
+	  </xsl:otherwise>
+	</xsl:choose>
       </xsl:when>
       <xsl:otherwise>
         <xsl:text>w </xsl:text>
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>&#10; </xsl:text>
+    <!-- <xsl:if test="position()=1 and $footnote_placement = 'standard'"> -->
+    <!--   <xsl:value-of select="louis:translate(string($braille_tables), '*'))"/> -->
+    <!-- </xsl:if> -->
     <xsl:apply-templates/>
   </xsl:template>
 
@@ -1913,6 +1928,17 @@ i f=3 l=1
 
   <xsl:template match="brl:volume[lang('de')]">
     <xsl:if test="@brl:grade = $contraction">
+      <!-- Apply end notes -->
+      <xsl:if test="$footnote_placement = 'end_vol'">
+	<xsl:variable name="V" select="current()"/>
+	<xsl:variable name="notes" select="$V/preceding::dtb:note[following::brl:volume[@brl:grade = $contraction and position() = 1] is $V]"/>
+	<xsl:if test="exists($notes)">
+	  <xsl:text>&#10;y Notes&#10;</xsl:text>
+	  <xsl:for-each select="$notes">
+	    <xsl:apply-templates/>
+	  </xsl:for-each>
+	</xsl:if>
+      </xsl:if>
       <xsl:text>&#10;y EndVol&#10;y BrlVol&#10;</xsl:text>
     </xsl:if>
   </xsl:template>
