@@ -1198,6 +1198,27 @@ y e Titlepage
     <xsl:apply-templates/>
   </xsl:template>
 
+  <xsl:template name="handle_level_endnotes">
+    <xsl:variable name="level">
+      <xsl:choose>
+	<xsl:when test="local-name() = 'level1'">1</xsl:when>
+	<xsl:when test="local-name() = 'level2'">2</xsl:when>
+	<xsl:when test="local-name() = 'level3'">3</xsl:when>
+	<xsl:when test="local-name() = 'level4'">4</xsl:when>
+	<xsl:otherwise>NoMatch</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:if test="$footnote_placement = concat('level', $level)">
+      <xsl:variable name="notes" select="current()//dtb:note"/>
+      <xsl:if test="exists($notes)">
+	<xsl:text>&#10;y Notes&#10;</xsl:text>
+	<xsl:for-each select="$notes">
+	  <xsl:apply-templates/>
+	</xsl:for-each>
+      </xsl:if>
+    </xsl:if>
+  </xsl:template>
+
   <xsl:template match="dtb:level1">
     <xsl:text>&#10;y LEVEL1b&#10;</xsl:text>
     <!-- add a comment if the first child is not a pagenum -->
@@ -1205,6 +1226,7 @@ y e Titlepage
       <xsl:text>.xNOPAGENUM&#10;</xsl:text>
     </xsl:if>
     <xsl:apply-templates/>
+    <xsl:call-template name="handle_level_endnotes"/>
     <xsl:text>&#10;y LEVEL1e&#10;</xsl:text>
   </xsl:template>
 
@@ -1215,6 +1237,7 @@ y e Titlepage
       <xsl:text>.xNOPAGENUM&#10;</xsl:text>
     </xsl:if>
     <xsl:apply-templates/>
+    <xsl:call-template name="handle_level_endnotes"/>
     <xsl:text>&#10;y LEVEL2e&#10;</xsl:text>
   </xsl:template>
 
@@ -1225,6 +1248,7 @@ y e Titlepage
       <xsl:text>.xNOPAGENUM&#10;</xsl:text>
     </xsl:if>
     <xsl:apply-templates/>
+    <xsl:call-template name="handle_level_endnotes"/>
     <xsl:text>&#10;y LEVEL3e&#10;</xsl:text>
   </xsl:template>
 
@@ -1235,6 +1259,7 @@ y e Titlepage
       <xsl:text>.xNOPAGENUM&#10;</xsl:text>
     </xsl:if>
     <xsl:apply-templates/>
+    <xsl:call-template name="handle_level_endnotes"/>
     <xsl:text>&#10;y LEVEL4e&#10;</xsl:text>
   </xsl:template>
 
