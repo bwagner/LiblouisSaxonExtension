@@ -659,64 +659,63 @@ y P
     </utfx:assert-equal>
   </utfx:test>
 
-<!--   <utfx:test> -->
-<!--     <utfx:name>footnote with standard placement</utfx:name> -->
-<!--     <utfx:stylesheet-params> -->
-<!--       <utfx:with-param name="contraction" select="2"/> -->
-<!--       <utfx:with-param name="footnote_placement" select="'standard'"/> -->
-<!--     </utfx:stylesheet-params> -->
-<!--     <utfx:assert-equal> -->
-<!--       <utfx:source> -->
-<!-- 	<stub xml:lang="de"> -->
-<!-- 	Foo -->
-<!-- 	<dtb:noteref idref="#footnote1">1</dtb:noteref> -->
-<!-- 	Bar -->
-<!-- 	<dtb:noteref idref="#footnote2">2</dtb:noteref> -->
-<!-- 	Baz -->
-<!-- 	</stub> -->
-<!--       </utfx:source> -->
-<!--       <utfx:expected> -->
-<!--  FOO '*#A -->
-<!-- *  -->
-<!--   BAR '*#B -->
-<!-- *  -->
-<!--   BAZ -->
-<!-- </utfx:expected> -->
-<!--     </utfx:assert-equal> -->
-<!--   </utfx:test> -->
+  <utfx:test>
+    <utfx:name>footnote with standard placement</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+      <utfx:with-param name="footnote_placement" select="'standard'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de">
+	Foo
+	<dtb:noteref idref="#footnote1">1</dtb:noteref>
+	Bar
+	<dtb:noteref idref="#footnote2">2</dtb:noteref>
+	Baz
+	</stub>
+      </utfx:source>
+      <utfx:expected>
+ FOO '*#A
+* 
+  BAR '*#B
+* 
+  BAZ
+</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
 
-<!--   <utfx:test> -->
-<!--     <utfx:name>footnote with end_vol placement</utfx:name> -->
-<!--     <utfx:stylesheet-params> -->
-<!--       <utfx:with-param name="contraction" select="2"/> -->
-<!--       <utfx:with-param name="footnote_placement" select="'end_vol'"/> -->
-<!--     </utfx:stylesheet-params> -->
-<!--     <utfx:assert-equal> -->
-<!--       <utfx:source> -->
-<!-- 	<stub xml:lang="de"> -->
-<!-- 	<brl:volume brl:grade="2"/> -->
-<!-- 	Foo -->
-<!-- 	<dtb:noteref idref="#footnote1">1</dtb:noteref> -->
-<!-- 	<dtb:noteref idref="#footnote2">2</dtb:noteref> -->
-<!-- 	Bar -->
-<!-- 	<dtb:note id="footnote1"><dtb:p>This is a test</dtb:p></dtb:note> -->
-<!-- 	<dtb:note id="footnote2"><dtb:p>This is another test</dtb:p></dtb:note> -->
-<!-- 	Baz -->
-<!-- 	<brl:volume brl:grade="2"/> -->
-<!-- 	</stub> -->
-<!--       </utfx:source> -->
-<!--       <utfx:expected> -->
-<!-- y EndVol -->
-<!-- y BrlVol -->
-<!--  FOO '*#A'*#B BAR  BAZ  -->
-<!-- y P -->
-<!--  THIS IS 'A TE] -->
-<!-- y P  -->
-<!--  THIS IS +OTH7 TE] -->
-<!-- y EndVol -->
-<!-- y BrlVol</utfx:expected> -->
-<!--     </utfx:assert-equal> -->
-<!--   </utfx:test> -->
+  <utfx:test>
+    <utfx:name>footnote with end_vol placement</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+      <utfx:with-param name="footnote_placement" select="'end_vol'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de">Hi Ha <dtb:note id="footnote1"><dtb:p>This is a test</dtb:p></dtb:note><dtb:note id="footnote2"><dtb:p>This is another test</dtb:p></dtb:note>Ho<brl:volume brl:grade="2"/>Foo Bar <dtb:note id="footnote3"><dtb:p>This is a test</dtb:p></dtb:note><dtb:note id="footnote4"><dtb:p>This is another test</dtb:p></dtb:note>Baz<brl:volume brl:grade="2"/></stub>
+      </utfx:source>
+      <utfx:expected>HI HA HO
+y Notes
+
+a 
+ THIS IS 'A TE]
+a 
+ THIS IS +OTH7 TE]
+y EndVol
+y BrlVol
+FOO BAR BAZ
+y Notes
+
+a 
+ THIS IS 'A TE]
+a 
+ THIS IS +OTH7 TE]
+y EndVol
+y BrlVol
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
 
   <!-- Element tests -->
   <utfx:test>
@@ -1070,10 +1069,7 @@ y LINEe_foo
     <utfx:assert-equal>
       <utfx:source>
 	<brl:select xml:lang="de">
-	  <brl:whenBraille>
-	    Foo
-	    <brl:literal>Bar</brl:literal>
-	  </brl:whenBraille>
+	  <brl:whenBraille>Foo <brl:literal>Bar</brl:literal></brl:whenBraille>
 	  <brl:otherwise>Baz</brl:otherwise>
 	</brl:select>
       </utfx:source>
