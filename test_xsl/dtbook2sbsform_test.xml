@@ -171,7 +171,7 @@
 y LINEb
  FOO
 y LINEe
-
+ 
 y LINEb
  _BAR
 y LINEe
@@ -660,6 +660,26 @@ y P
   </utfx:test>
 
   <utfx:test>
+    <utfx:name>Many quoted paras 2</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de">
+	  <dtb:p>«Okay. Aber ich würde es auch gar nicht wissen; bin erst ein paar Jahre in den <dtb:abbr>USA</dtb:abbr>.»</dtb:p>
+	  <dtb:p>Sie hatte von Anfang an den Akzent bemerkt, der den Ausländer verriet, und fragte: «Na, und woher kommst du?»</dtb:p>
+	</stub>
+      </utfx:source>
+      <utfx:expected>y P
+ (OKA'Y. A # 8E % \ GAR N W^C; B* 7] 6 PAAR JRE * E &gt;USA.)
+y P
+ S HE V +F+G + E AKZCT ;M7KT, R E \L@ND7 -R0T, U FR(: (NA, U WOH7 KX] DU?)
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
     <utfx:name>footnote with standard placement</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
@@ -667,18 +687,12 @@ y P
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
-	<stub xml:lang="de">
-	Foo
-	<dtb:noteref idref="#footnote1">1</dtb:noteref>
-	Bar
-	<dtb:noteref idref="#footnote2">2</dtb:noteref>
-	Baz
-	</stub>
+	<stub xml:lang="de">Foo<dtb:noteref idref="#footnote1">1</dtb:noteref>	Bar<dtb:noteref idref="#footnote2">2</dtb:noteref> Baz</stub>
       </utfx:source>
       <utfx:expected>
- FOO '*#A
+ FOO'*#A
 * 
-  BAR '*#B
+  BAR'*#B
 * 
   BAZ
 </utfx:expected>
