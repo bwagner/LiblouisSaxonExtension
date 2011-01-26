@@ -333,6 +333,41 @@
       <xsl:text>y e REARe&#10;</xsl:text>
     </xsl:if>
 
+    
+    <xsl:if test="//dtb:frontmatter//dtb:level1[not(@class) or (@class!='titlepage' and @class!='toc')]">
+      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxx Frontmatter Levels und Headings xxxxxxxxxxxxx&#10;</xsl:text>
+      <xsl:if test="//dtb:frontmatter//dtb:level1[not(@class) or (@class!='titlepage' and @class!='toc')]/dtb:h1">
+	<xsl:text>y b H1_FRONT&#10;</xsl:text>
+	<xsl:text>n6&#10;</xsl:text>
+	<xsl:text>L&#10;</xsl:text>
+	<xsl:text>i f=1 l=1&#10;</xsl:text>
+	<xsl:text>Y&#10;</xsl:text>
+	<xsl:text>u&#10;</xsl:text>
+	<xsl:text>i f=3 l=1&#10;</xsl:text>
+	<xsl:text>y e H1_FRONT&#10;</xsl:text>
+      </xsl:if>
+      <xsl:if test="//dtb:frontmatter//dtb:level1[not(@class) or (@class!='titlepage' and @class!='toc')]//dtb:h2">
+	<xsl:text>y b H2_FRONT&#10;</xsl:text>
+	<xsl:text>n6&#10;</xsl:text>
+	<xsl:text>L&#10;</xsl:text>
+	<xsl:text>i f=1 l=1&#10;</xsl:text>
+	<xsl:text>Y&#10;</xsl:text>
+	<xsl:text>u&#10;</xsl:text>
+	<xsl:text>i f=3 l=1&#10;</xsl:text>
+	<xsl:text>y e H2_FRONT&#10;</xsl:text>
+      </xsl:if>
+      <xsl:if test="//dtb:frontmatter//dtb:level1[not(@class) or (@class!='titlepage' and @class!='toc')]//dtb:h3">
+	<xsl:text>y b H3_FRONT&#10;</xsl:text>
+	<xsl:text>n5&#10;</xsl:text>
+	<xsl:text>L&#10;</xsl:text>
+	<xsl:text>i f=1 l=1&#10;</xsl:text>
+	<xsl:text>Y&#10;</xsl:text>
+	<xsl:text>u,&#10;</xsl:text>
+	<xsl:text>i f=3 l=1&#10;</xsl:text>
+	<xsl:text>y e H3_FRONT&#10;</xsl:text>
+      </xsl:if>
+    </xsl:if>
+
     <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxx Levels und Headings xxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
     <xsl:text>y b LEVEL1b&#10;</xsl:text>
     <xsl:text>p&#10;</xsl:text>
@@ -1053,7 +1088,7 @@ i f=1 l=1
       select="louis:translate(string($braille_tables), 'Lesebehinderte, Zürich')"/>
     <xsl:text>&#10;a&#10; </xsl:text>
     <xsl:value-of
-      select="louis:translate(string($braille_tables), 'www.sbs-online.ch')"/>
+      select="louis:translate(string($braille_tables), 'www.sbs.ch')"/>
     <xsl:text>&#10;l&#10; </xsl:text>
     <xsl:call-template name="handle_abbr">
       <xsl:with-param name="context" select="'abbr'"/>
@@ -1070,11 +1105,9 @@ i f=1 l=1
     <xsl:text>&#10;u-&#10;l&#10; </xsl:text>
     <xsl:apply-templates
       select="//dtb:frontmatter/dtb:level1[@class='titlepage']" mode="titlepage"/>
-    <xsl:text>
-b
-O
-y e Titlepage
-    </xsl:text>
+    <xsl:text>&#10;b&#10;</xsl:text>
+    <xsl:text>O&#10;</xsl:text>
+    <xsl:text>y e Titlepage&#10;</xsl:text>
     <xsl:text>xxx ====================== ENDE SBSFORM.MAK ====================== xxx&#10;</xsl:text>
   </xsl:template>
 
@@ -1217,6 +1250,23 @@ y e Titlepage
 	</xsl:for-each>
       </xsl:if>
     </xsl:if>
+  </xsl:template>
+
+  <!-- Frontmatter handling -->
+  <xsl:template match="dtb:frontmatter//dtb:level1">
+    <xsl:text>&#10;z&#10;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="dtb:frontmatter//dtb:level2|dtb:frontmatter//dtb:level3">
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="dtb:frontmatter//dtb:h1|dtb:frontmatter//dtb:h2|dtb:frontmatter//dtb:h3">
+    <xsl:variable name="level" select="number(substring(local-name(), 2))"/>
+    <xsl:value-of select="concat('&#10;y H',$level,'_FRONT&#10; ')"/>
+    <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template match="dtb:level1">
@@ -1445,25 +1495,19 @@ y e Titlepage
   </xsl:template>
 
   <xsl:template name="insert_footnotes">
-    <xsl:text>&#10;i b=</xsl:text>
-    <xsl:value-of select="$cells_per_line"/>
-    <xsl:text>&#10;i s=</xsl:text>
-    <xsl:value-of select="$lines_per_page"/>
-    <xsl:text>
-"N %Y.nf
-O
-I L=n
-i f=1 l=3 w=5</xsl:text>
+    <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Fussnoten xxxxxxxxxxxxxxxxxxxxxxxxxxxx&#10;&#10;</xsl:text>
+    <xsl:text>"N %Y.nf&#10;</xsl:text>
+    <xsl:text>O&#10;</xsl:text>
+    <xsl:text>I L=n&#10;</xsl:text>
+    <xsl:text>i f=1 l=3 w=5&#10;</xsl:text>
     <xsl:for-each select="//dtb:note">
       <xsl:apply-templates/>
     </xsl:for-each>
-    <xsl:text>
-O
-"N %Y.f
-I *=j L=j
-i f=3 l=1
-"* %Y.nf
-</xsl:text>
+    <xsl:text>&#10;O&#10;</xsl:text>
+    <xsl:text>"N %Y.f&#10;</xsl:text>
+    <xsl:text>I *=j L=j&#10;</xsl:text>
+    <xsl:text>i f=3 l=1&#10;</xsl:text>
+    <xsl:text>"* %Y.nf&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:note">
@@ -2012,6 +2056,15 @@ i f=3 l=1
       <xsl:call-template name="getTable"/>
     </xsl:variable>
     <xsl:value-of select="louis:translate(string($braille_tables), concat('¦¦', string()))"/>
+  </xsl:template>
+
+  <!-- Handle text nodes starting and ending with punctuation -->
+  <xsl:template
+    match="text()[lang('de') and my:starts-with-punctuation-word(string()) and my:ends-with-non-whitespace(string(preceding::text()[1])) and my:ends-with-punctuation-word(string()) and my:starts-with-non-whitespace(string(following::text()[1]))]" priority="100">
+    <xsl:variable name="braille_tables">
+      <xsl:call-template name="getTable"/>
+    </xsl:variable>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('¦¦', string(), '¦¦'))"/>
   </xsl:template>
 
   <!-- Handle single word mixed emphasis -->
