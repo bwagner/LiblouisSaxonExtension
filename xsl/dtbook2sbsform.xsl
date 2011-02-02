@@ -1974,9 +1974,10 @@ i f=1 l=1
           />
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of
-            select="louis:translate(string($braille_tables), format-number(. cast as xs:integer,'#'))"
-          />
+	  <xsl:if test="matches(string(.), '\d+')">
+	    <xsl:value-of
+		select="louis:translate(string($braille_tables), format-number(. cast as xs:integer,'#'))"/>
+	  </xsl:if>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:for-each>
