@@ -98,7 +98,7 @@
   </utfx:test>
 
   <utfx:test>
-    <utfx:name>getTable for de-1901 and contraction = 2 with contraction</utfx:name>
+    <utfx:name>getTable for de-1901 and contraction = 2 with hyphenation</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
       <utfx:with-param name="hyphenation" select="true()"/>
@@ -109,6 +109,20 @@
         <p xml:lang="de-1901"/>
       </utfx:source>
       <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-white.mod,sbs-de-g2-core.mod,sbs-de-hyph-old.mod,sbs-de-accents-ch.mod,sbs-special.mod</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>getTable for de and contraction = 1 and accents reduced</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
+    <utfx:call-template name="getTable"/>
+    <utfx:assert-equal>
+      <utfx:source>
+        <dtb:span brl:accents="reduced" xml:lang="de"/>
+      </utfx:source>
+      <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents.cti,sbs-special.cti,sbs-whitespace.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g0-core.mod,sbs-de-g1-core.mod,sbs-de-hyph-none.mod,sbs-de-accents-reduced.mod,sbs-special.mod</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -1138,12 +1152,21 @@ y DIVe_foo
 
   <utfx:test>
     <utfx:name>Datum: Tag Monat</utfx:name>
-    <!-- FEHLER (crash) mit DataType gMonthDay -->
     <utfx:assert-equal>
       <utfx:source>
         <stub xml:lang="de"><brl:date value="--01-01">1.1.</brl:date></stub>
       </utfx:source>
       <utfx:expected>#,A</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Span inside span</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de"><brl:span brl:accents="reduced">Bèr</brl:span> <dtb:span xml:lang="de" brl:grade="2">Bèr <brl:span brl:accents="reduced">Bèr</brl:span></dtb:span></stub>
+      </utfx:source>
+      <utfx:expected>B"ER -.B"^R B"ER'.</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
   
@@ -1191,9 +1214,7 @@ y P
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
-        <stub xml:lang="de"><dtb:em>Ich</dtb:em>, <dtb:strong>ich</dtb:strong>; <brl:emph>ich</brl:emph>:
-          <dtb:em>ich</dtb:em>? <dtb:strong>ich</dtb:strong>! (<brl:emph>ich</brl:emph>)
-          «<dtb:strong>ich</dtb:strong>» »<brl:emph>ich</brl:emph>«.</stub>
+        <stub xml:lang="de"><dtb:em>Ich</dtb:em>, <dtb:strong>ich</dtb:strong>; <brl:emph>ich</brl:emph>: <dtb:em>ich</dtb:em>? <dtb:strong>ich</dtb:strong>! (<brl:emph>ich</brl:emph>) «<dtb:strong>ich</dtb:strong>» »<brl:emph>ich</brl:emph>«.</stub>
       </utfx:source>
       <utfx:expected>_I4, _I4; _I4: _I4? _I4+ =_I4= (_I4) (_I4).</utfx:expected>
     </utfx:assert-equal>
