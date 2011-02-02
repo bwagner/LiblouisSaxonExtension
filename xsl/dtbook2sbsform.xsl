@@ -2031,6 +2031,15 @@ i f=1 l=1
 
   <!-- Text nodes are translated with liblouis -->
 
+  <!-- Handle comma after ordinals and after fraction-->
+  <xsl:template
+    match="text()[lang('de') and preceding::*[position()=1 and local-name()='num' and (@role='ordinal' or @role='fraction' or @ role='mixed')] and matches(string(), '^,')]" priority="100">
+    <xsl:variable name="braille_tables">
+      <xsl:call-template name="getTable"/>
+    </xsl:variable>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('&#x256C;',string()))"/>
+  </xsl:template>
+
   <!-- Handle punctuation after a number and after ordinals -->
   <xsl:template
     match="text()[lang('de') and (my:ends-with-number(string(preceding::text()[1])) or preceding::*[position()=1 and local-name()='num' and @role='ordinal']) and my:starts-with-punctuation(string())]">
@@ -2051,7 +2060,7 @@ i f=1 l=1
 
   <!-- Handle text nodes starting with punctuation -->
   <xsl:template
-    match="text()[lang('de') and my:starts-with-punctuation-word(string()) and my:ends-with-non-whitespace(string(preceding::text()[1]))]">
+    match="text()[lang('de') and my:starts-with-punctuation-word(string()) and my:ends-with-non-whitespace(string(preceding::text()[1])) and not (my:ends-with-number(string(preceding::text()[1])) or preceding::*[position()=1 and local-name()='num' and @role='ordinal'])]">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>

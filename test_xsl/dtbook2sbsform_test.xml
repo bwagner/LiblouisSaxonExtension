@@ -1288,8 +1288,7 @@ y P
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
-        <stub xml:lang="de"><brl:num role="fraction">1/3</brl:num>? <brl:num role="fraction">2/5</brl:num>, (<brl:num role="fraction">13/15</brl:num>) 
-           <brl:num role="mixed">3 2/5</brl:num>? <brl:num role="mixed">1 12/19</brl:num>, (<brl:num role="mixed">3 24/25</brl:num>)</stub>
+        <stub xml:lang="de"><brl:num role="fraction">1/3</brl:num>? <brl:num role="fraction">2/5</brl:num>, (<brl:num role="fraction">13/15</brl:num>) <brl:num role="mixed">3 2/5</brl:num>? <brl:num role="mixed">1 12/19</brl:num>, (<brl:num role="mixed">3 24/25</brl:num>)</stub>
       </utfx:source>
       <utfx:expected>#A:'? #B?', =#AC,?'= #C#B?'? #A#AB,*', =#C#BD;?'=</utfx:expected>
     </utfx:assert-equal>
