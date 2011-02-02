@@ -548,14 +548,14 @@ u,
 	  <xsl:value-of select="."/><xsl:text>&#10;</xsl:text>
 	  <xsl:text>X TODO: Fix this macro&#10;</xsl:text>
 	  <xsl:text>y e </xsl:text>
-	  <xsl:value-of select="$makro-name"/><xsl:text>_</xsl:text>
+	  <xsl:value-of select="$makro-name"/><xsl:text>b_</xsl:text>
 	  <xsl:value-of select="."/><xsl:text>&#10;&#10;</xsl:text>
 	  <xsl:text>&#10;y b </xsl:text>
 	  <xsl:value-of select="$makro-name"/><xsl:text>e_</xsl:text>
 	  <xsl:value-of select="."/><xsl:text>&#10;</xsl:text>
 	  <xsl:text>X TODO: Fix this macro&#10;</xsl:text>
 	  <xsl:text>y e </xsl:text>
-	  <xsl:value-of select="$makro-name"/><xsl:text>_</xsl:text>
+	  <xsl:value-of select="$makro-name"/><xsl:text>e_</xsl:text>
 	  <xsl:value-of select="."/><xsl:text>&#10;&#10;</xsl:text>
 	</xsl:for-each>
       </xsl:for-each-group>
