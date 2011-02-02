@@ -1126,4 +1126,270 @@ y DIVe_foo
     </utfx:assert-equal>
   </utfx:test>
 
+  <utfx:test>
+    <utfx:name>Datum: Tag Monat Jahr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><brl:date value="2011-01-01">1.1.2011</brl:date></stub>
+      </utfx:source>
+      <utfx:expected>#,A#BJAA</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Datum: Tag Monat</utfx:name>
+    <!-- FEHLER (crash) mit DataType gMonthDay -->
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><brl:date value="--01-01">1.1.</brl:date></stub>
+      </utfx:source>
+      <utfx:expected>#,A</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Downgrading</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="1">Vollschrift</dtb:span> kurz kurz kurz</dtb:p>
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="0">Basisschrift</dtb:span> kurz kurz kurz</dtb:p>
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="1">Vollschrift schrift schrift</dtb:span> kurz kurz kurz</dtb:p>
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="0">Basisschrift schrift schrift</dtb:span> kurz kurz kurz</dtb:p>
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="1">Vollschrift/Vollschrift</dtb:span> kurz kurz kurz</dtb:p>
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="0">Basisschrift/Basisschrift</dtb:span> kurz kurz kurz</dtb:p>
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="1">Vollschrift-Vollschrift</dtb:span> kurz kurz kurz</dtb:p>
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="0">Basisschrift-Basisschrift</dtb:span> kurz kurz kurz</dtb:p>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y P
+ KZ5T 5T 5T '.VOLL5RIFT KZ KZ KZ
+y P
+ KZ5T 5T 5T '.BASISSCHRIFT KZ KZ KZ
+y P
+ KZ5T 5T 5T -.VOLL5RIFT 5RIFT 5RIFT'. KZ KZ KZ
+y P
+ KZ5T 5T 5T -.BASISSCHRIFT SCHRIFT SCHRIFT'. KZ KZ KZ
+y P
+ KZ5T 5T 5T -.VOLL5RIFT!,VOLL5RIFT'. KZ KZ KZ
+y P
+ KZ5T 5T 5T -.BASISSCHRIFT!,BASISSCHRIFT'. KZ KZ KZ
+y P
+ KZ5T 5T 5T -.VOLL5RIFT-mVOLL5RIFT'. KZ KZ KZ
+y P
+ KZ5T 5T 5T -.BASISSCHRIFT-mBASISSCHRIFT'. KZ KZ KZ</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+ 
+  <utfx:test>
+    <utfx:name>Wort "ich" am Ende von Inlines mit nachfolgendem Satzzeichen</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em>Ich</dtb:em>, <dtb:strong>ich</dtb:strong>; <brl:emph>ich</brl:emph>:
+          <dtb:em>ich</dtb:em>? <dtb:strong>ich</dtb:strong>! (<brl:emph>ich</brl:emph>)
+          «<dtb:strong>ich</dtb:strong>» »<brl:emph>ich</brl:emph>«.</stub>
+      </utfx:source>
+      <utfx:expected>_I4, _I4; _I4: _I4? _I4+ =_I4= (_I4) (_I4).</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Emphasis: Wortgrenzenerkennung bei "-" und "/"</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em>Wort</dtb:em>, <dtb:strong>Wort</dtb:strong>, <brl:emph>Wort</brl:emph>. <dtb:em>Zwei Wörter</dtb:em>, <dtb:strong>eins/zwei</dtb:strong>, <brl:emph>eins-zwei</brl:emph>.</stub>
+      </utfx:source>
+      <utfx:expected>_W?T, _W?T, _W?T. __ZW3 W9RT7'., __6S!,ZW3'., __6S-mZW3'..</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Separator ist keine Wortgrenze</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><brl:homograph>testor<brl:separator/>test</brl:homograph></stub>
+      </utfx:source>
+      <utfx:expected>TE]?(]</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Braille-Literal</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Musik <brl:select><brl:whenBraille><brl:literal>@#Lv._@&gt;&amp;2K</brl:literal></brl:whenBraille> 
+            <brl:otherwise>[Note E im Bassschlüssel]</brl:otherwise></brl:select> ist doch ganz einfach.</stub>
+      </utfx:source>
+      <utfx:expected>MK @#Lv._@&gt;&amp;2K ] D4 GZ 6F&lt;.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Römische Zahlen</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Henry <brl:num role="roman">IV</brl:num>.
+          Auf Seite <brl:num role="roman">iii</brl:num> beginnt das Vorwort.</stub>
+      </utfx:source>
+      <utfx:expected>HCR'Y >IV. 1 S3( 'III ;G*NT D ,?W?T.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Ordnungszahlen</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+      <utfx:with-param name="downshift_ordinals" select="true()"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Am <brl:num role="ordinal">5.</brl:num> Tag geschah es zum <brl:num role="ordinal">1004.</brl:num>
+          (oder <brl:num role="ordinal">1005.</brl:num>) Mal.</stub>
+      </utfx:source>
+      <utfx:expected>AM #? TAG &amp;5AH % ZM #,))/ =O #,))?'= MAL.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Telefonnummern</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Telefon <brl:num role="phone">041 / 123 45 67</brl:num>? Telefon <brl:num role="phone">041/123'45'67</brl:num>!</stub>
+      </utfx:source>
+      <utfx:expected>TYEFON #JDA.ABC.DE.FG'? TYEFON #JDA.ABC.DE.FG'+</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Brüche</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><brl:num role="fraction">1/3</brl:num>? <brl:num role="fraction">2/5</brl:num>, (<brl:num role="fraction">13/15</brl:num>) 
+           <brl:num role="mixed">3 2/5</brl:num>? <brl:num role="mixed">1 12/19</brl:num>, (<brl:num role="mixed">3 24/25</brl:num>)</stub>
+      </utfx:source>
+      <utfx:expected>#A:'? #B?', =#AC,?'= #C#B?'? #A#AB,*', =#C#BD;?'=</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>ISBN</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <dtb:p xml:lang="de"><dtb:abbr>ISBN</dtb:abbr> <brl:num role="isbn">978-3-86971-001-3</brl:num> <dtb:abbr>ISBN</dtb:abbr> <brl:num role="isbn">978-3-86971-001-X</brl:num> <dtb:abbr>ISBN</dtb:abbr> <brl:num role="isbn">978 3 86971 001 3</brl:num></dtb:p>
+      </utfx:source>
+      <utfx:expected>y P
+ &gt;ISBN #IGH.C.HFIGA.JJA.C &gt;ISBN #IGH.C.HFIGA.JJA-m&gt;X &gt;ISBN #IGH.C.HFIGA.JJA.C</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Running Line Kurzschrift</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+      <utfx:with-param name="footer_level" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:level2>
+            <dtb:h2>Running <brl:running-line brl:grade="1">Index</brl:running-line><brl:running-line brl:grade="2">Laufindex</brl:running-line>line</dtb:h2>
+            <dtb:p>Geklappert?</dtb:p> 
+          </dtb:level2>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y LEVEL2b
+.xNOPAGENUM
+
+y H2
+ R/N*G L*E
+~L1F*DE'X
+
+y P
+ &amp;KLAPP7T?
+y LEVEL2e</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Running Line Vollschrift</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+      <utfx:with-param name="footer_level" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:level2>
+            <dtb:h2>Running <brl:running-line brl:grade="1">Index</brl:running-line><brl:running-line brl:grade="2">Laufindex</brl:running-line>line</dtb:h2>
+	    <dtb:p>Geklappert?</dtb:p> 
+          </dtb:level2>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y LEVEL2b
+.xNOPAGENUM
+
+y H2
+ RUNNING LINE
+~INDEX
+
+y P
+ GEKLAPPERT?
+y LEVEL2e</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  <utfx:test>
+    <utfx:name>Inhaltsverzeichnis</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+      <utfx:with-param name="toc_level" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">        
+          <dtb:level2>
+            <dtb:h2>Inhaltsverzeichnis<brl:toc-line>Etwas ganz anderes</brl:toc-line></dtb:h2>
+            <dtb:p>Geklappert?</dtb:p> 
+          </dtb:level2>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y LEVEL2b
+.xNOPAGENUM
+
+y H2
+ *H:TSV7Z34X
+HTW GZ ,7%
+
+y P
+ &amp;KLAPP7T?
+y LEVEL2e</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
 </utfx:tests>
