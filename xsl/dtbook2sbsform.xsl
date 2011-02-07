@@ -1349,7 +1349,7 @@ i f=1 l=1
   </xsl:template>
 
   <xsl:template match="dtb:p" mode="titlepage">
-    <xsl:text>&#10; </xsl:text>
+    <xsl:text>&#10;a&#10; </xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
 
