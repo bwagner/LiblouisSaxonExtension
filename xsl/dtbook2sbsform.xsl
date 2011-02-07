@@ -2015,11 +2015,11 @@ i f=1 l=1
 
   <!-- Content selection -->
   <xsl:template match="brl:select[lang('de')]">
-    <xsl:apply-templates select="brl:whenBraille"/>
+    <xsl:apply-templates select="brl:when-braille"/>
     <!-- Ignore the brl:otherwise element -->
   </xsl:template>
 
-  <xsl:template match="brl:whenBraille[lang('de')]">
+  <xsl:template match="brl:when-braille[lang('de')]">
     <xsl:apply-templates />
     <!-- Ignore the brl:otherwise element -->
   </xsl:template>
