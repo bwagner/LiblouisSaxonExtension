@@ -312,24 +312,24 @@
     </xsl:if>
     <xsl:text>&#10;y e BOOKe&#10;</xsl:text>
 
-    <xsl:text>y b BODYb ; Bodymatter&#10;</xsl:text>
+    <xsl:text>y b BODYb ; Begin Bodymatter&#10;</xsl:text>
     <xsl:text>R=X&#10;</xsl:text>
     <xsl:text>Y&#10;</xsl:text>
     <xsl:if test="$show_original_page_numbers = true()">
       <xsl:text>RX&#10;</xsl:text>
     </xsl:if>
     <xsl:text>&#10;y e BODYb&#10;</xsl:text>
-    <xsl:text>y b BODYe&#10;</xsl:text>
+    <xsl:text>y b BODYe ; Ende Bodymatter&#10;</xsl:text>
     <xsl:text>y e BODYe&#10;</xsl:text>
 
     <xsl:if test="//dtb:rearmatter">
-      <xsl:text>y b REARb ; Rearmatter&#10;</xsl:text>
+      <xsl:text>y b REARb ; Begin Rearmatter&#10;</xsl:text>
       <xsl:text>z&#10;</xsl:text>
       <xsl:if test="$toc_level &gt; 0">
         <xsl:text>H`lm1&#10;</xsl:text>
       </xsl:if>
       <xsl:text>y e REARb&#10;</xsl:text>
-      <xsl:text>y b REARe&#10;</xsl:text>
+      <xsl:text>y b REARe ; End Rearmatter&#10;</xsl:text>
       <xsl:text>y e REARe&#10;</xsl:text>
     </xsl:if>
 
@@ -378,9 +378,11 @@
     <xsl:text>y b H1&#10;</xsl:text>
     <xsl:text>L&#10;</xsl:text>
     <xsl:text>i f=3 l=1&#10;</xsl:text>
+    <xsl:text>i A=4 R=4&#10;</xsl:text>
     <xsl:text>t&#10;</xsl:text>
     <xsl:text>Y&#10;</xsl:text>
     <xsl:text>u-&#10;</xsl:text>
+    <xsl:text>i A=0 R=0&#10;</xsl:text>
     <xsl:if test="$toc_level &gt; 0">
       <xsl:text>H`B+&#10;</xsl:text>
       <xsl:text>H`i F=1&#10;</xsl:text>
@@ -403,7 +405,7 @@
       <xsl:text>y b LEVEL2e&#10;</xsl:text>
       <xsl:text>y e LEVEL2e&#10;</xsl:text>
       <xsl:text>y b H2&#10;</xsl:text>
-      <xsl:text>lm2&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
       <xsl:text>i f=3 l=1&#10;</xsl:text>
       <xsl:text>w&#10;</xsl:text>
       <xsl:text>Y&#10;</xsl:text>
@@ -451,12 +453,15 @@ u,
     <xsl:if test="//dtb:level4">
       <xsl:text>&#10;y b LEVEL4b&#10;</xsl:text>
       <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n4&#10;</xsl:text>
       <xsl:text>Y&#10;</xsl:text>
       <xsl:text>y e LEVEL4b&#10;</xsl:text>
       <xsl:text>y b LEVEL4e&#10;</xsl:text>
       <xsl:text>y e LEVEL4e&#10;</xsl:text>
       <xsl:text>y b H4&#10;</xsl:text>
       <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>i f=3 l=1&#10;</xsl:text>
+      <xsl:text>w&#10;</xsl:text>
       <xsl:text>Y&#10;</xsl:text>
       <xsl:if test="$toc_level &gt; 3">
         <xsl:text>H`B+&#10;</xsl:text>
@@ -473,12 +478,15 @@ u,
     <xsl:if test="//dtb:level5">
       <xsl:text>&#10;y b LEVEL5b&#10;</xsl:text>
       <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n4&#10;</xsl:text>
       <xsl:text>Y&#10;</xsl:text>
       <xsl:text>y e LEVEL5b&#10;</xsl:text>
       <xsl:text>y b LEVEL5e&#10;</xsl:text>
       <xsl:text>y e LEVEL5e&#10;</xsl:text>
       <xsl:text>y b H5&#10;</xsl:text>
       <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>i f=3 l=1&#10;</xsl:text>
+      <xsl:text>w&#10;</xsl:text>
       <xsl:text>Y&#10;</xsl:text>
       <xsl:if test="$toc_level &gt; 4">
         <xsl:text>H`B+&#10;</xsl:text>
@@ -495,12 +503,15 @@ u,
     <xsl:if test="//dtb:level6">
       <xsl:text>&#10;y b LEVEL6b&#10;</xsl:text>
       <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n4&#10;</xsl:text>
       <xsl:text>Y&#10;</xsl:text>
       <xsl:text>y e LEVEL6b&#10;</xsl:text>
       <xsl:text>y b LEVEL6e&#10;</xsl:text>
       <xsl:text>y e LEVEL6e&#10;</xsl:text>
       <xsl:text>y b H6&#10;</xsl:text>
       <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>i f=3 l=1&#10;</xsl:text>
+      <xsl:text>w&#10;</xsl:text>
       <xsl:text>Y&#10;</xsl:text>
       <xsl:if test="$toc_level &gt; 5">
 	<xsl:text>H`B+&#10;</xsl:text>
@@ -571,7 +582,7 @@ u,
     <xsl:if test="//dtb:p[not(@brl:class)]">
       <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxx Absatz, Leerzeile, Separator xxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
       <xsl:text>y b P&#10;</xsl:text>
-      <xsl:text>i f=3 l=1&#10;</xsl:text>
+      <xsl:text>a&#10;</xsl:text>
       <xsl:text>y e P&#10;</xsl:text>
     </xsl:if>
 
@@ -592,7 +603,7 @@ u,
 
     <xsl:if test="//dtb:p[not(@brl:class) and contains(@class, 'noindent')]">
       <xsl:text>y b P_noi&#10;</xsl:text>
-      <xsl:text>i f=1 l=1&#10;</xsl:text>
+      <xsl:text>w&#10;</xsl:text>
       <xsl:text>y e P_noi&#10;</xsl:text>
     </xsl:if>
 
@@ -642,17 +653,19 @@ y e EPIGRe
       <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Poem xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;&#10;</xsl:text>
       <xsl:text>y b POEMb&#10;</xsl:text>
       <xsl:text>lm1&#10;</xsl:text>
-      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>i f=1 l=3&#10;</xsl:text>
+      <xsl:text>n4&#10;</xsl:text>
       <xsl:text>i A=2&#10;</xsl:text>
       <xsl:text>y e POEMb&#10;</xsl:text>
       <xsl:text>y b POEMe&#10;</xsl:text>
       <xsl:text>i A=0&#10;</xsl:text>
+      <xsl:text>i f=3 l=1&#10;</xsl:text>
       <xsl:text>lm1&#10;</xsl:text>
       <xsl:text>n2&#10;</xsl:text>
       <xsl:text>y e POEMe&#10;&#10;</xsl:text>
       
       <xsl:text>y b LINEb&#10;</xsl:text>
-      <xsl:text>i f=1 l=3&#10;</xsl:text>
+      <xsl:text>a&#10;</xsl:text>
       <xsl:text>B+&#10;</xsl:text>
       <xsl:text>y e LINEb&#10;</xsl:text>
       <xsl:text>y b LINEe&#10;</xsl:text>
@@ -661,12 +674,14 @@ y e EPIGRe
     </xsl:if>
 
     <xsl:if test="//dtb:linegroup[not(@brl:class)]">
-      <xsl:text>&#10;y b LINEGROUPb;&#10;</xsl:text>
-      <xsl:text>lm1;&#10;</xsl:text>
-      <xsl:text>n2;&#10;</xsl:text>
-      <xsl:text>y e LINEGROUPb;&#10;</xsl:text>
-      <xsl:text>y b LINEGROUPe;&#10;</xsl:text>
-      <xsl:text>y e LINEGROUPe;&#10;</xsl:text>
+      <xsl:text>&#10;y b LINEGRb&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>i f=1 l=3&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>y e LINEGRb&#10;</xsl:text>
+      <xsl:text>y b LINEGRe&#10;</xsl:text>
+      <xsl:text>i f=3 l=1&#10;</xsl:text>
+      <xsl:text>y e LINEGRe&#10;</xsl:text>
     </xsl:if>
 
     <xsl:if test="//dtb:list[not(@brl:class)]|//dtb:li[not(@brl:class)]">
@@ -1427,8 +1442,12 @@ i f=1 l=1
     <xsl:value-of select="$level"/>
     <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
     <xsl:text>&#10; </xsl:text>
-    <xsl:apply-templates
-      select="*[local-name() != 'toc-line' and local-name() != 'running-line']|text()"/>
+    <xsl:variable name="header">
+      <xsl:apply-templates
+	  select="*[local-name() != 'toc-line' and local-name() != 'running-line']|text()"/>
+    </xsl:variable>
+    <!-- Remove hypenation marks ('t','k', 'p' and 'w') -->
+    <xsl:value-of select="translate(normalize-space(string($header)),'tkpw','')"/>
     <xsl:if test="$toc_level &gt;= $level">
       <xsl:text>&#10;H</xsl:text>
       <xsl:variable name="toc-line">
@@ -1459,7 +1478,8 @@ i f=1 l=1
           </xsl:otherwise>
         </xsl:choose>
       </xsl:variable>
-      <xsl:value-of select="translate(normalize-space(string($running-line)),' ','s')"/>
+      <!-- Replace spaces by 's' and remove hypenation marks ('t','k', 'p' and 'w') -->
+      <xsl:value-of select="translate(normalize-space(string($running-line)),' tkpw','s')"/>
     </xsl:if>
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
@@ -1545,11 +1565,11 @@ i f=1 l=1
   </xsl:template>
 
   <xsl:template match="dtb:linegroup">
-    <xsl:text>&#10;y LINEGROUPb</xsl:text>
+    <xsl:text>&#10;y LINEGRb</xsl:text>
     <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
     <xsl:text>&#10; </xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>&#10;y LINEGROUPe</xsl:text>
+    <xsl:text>&#10;y LINEGRe</xsl:text>
     <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
     <xsl:text>&#10; </xsl:text>
   </xsl:template>

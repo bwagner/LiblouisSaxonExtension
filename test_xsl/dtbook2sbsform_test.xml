@@ -1029,9 +1029,9 @@ y POEMe_foo
 	<dtb:linegroup xml:lang="de"></dtb:linegroup>
       </utfx:source>
       <utfx:expected>
-y LINEGROUPb
+y LINEGRb
  
-y LINEGROUPe
+y LINEGRe
       </utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
@@ -1043,9 +1043,9 @@ y LINEGROUPe
 	<dtb:linegroup xml:lang="de" brl:class="foo"></dtb:linegroup>
       </utfx:source>
       <utfx:expected>
-y LINEGROUPb_foo
+y LINEGRb_foo
  
-y LINEGROUPe_foo
+y LINEGRe_foo
       </utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
