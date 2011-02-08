@@ -2023,7 +2023,7 @@ i f=1 l=1
       <!-- Apply end notes -->
       <xsl:if test="$footnote_placement = 'end_vol'">
 	<xsl:variable name="V" select="current()"/>
-	<xsl:variable name="noterefs" select="$V/preceding::dtb:noteref[following::brl:volume[@brl:grade = $contraction and position() = 1] is $V]"/>
+	<xsl:variable name="noterefs" select="$V/preceding::dtb:noteref[following::brl:volume[@brl:grade = $contraction][1] is $V]"/>
 	<xsl:variable name="notes" select="for $noteref in $noterefs return //dtb:note[@id=translate($noteref/@idref,'#','')]"/>
 	<xsl:if test="exists($notes)">
 	  <xsl:text>&#10;y Notes&#10;</xsl:text>
