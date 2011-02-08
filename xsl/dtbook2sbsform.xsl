@@ -1132,11 +1132,13 @@ i f=1 l=1
       <xsl:call-template name="insert_footnotes"/>
     </xsl:if>
     <xsl:text>y BrlVol&#10;</xsl:text>
-    <xsl:text>xxxxxxxxxxxxxxxxxxxxxxxxxx Klappentext etc. xxxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
-    <xsl:text>O&#10;</xsl:text>
-    <xsl:apply-templates
-      select="//dtb:frontmatter/dtb:level1[not(@class) or (@class!='titlepage' and @class!='toc')]"/>
-    <xsl:text>O&#10;</xsl:text>
+    <xsl:if test="//dtb:frontmatter/dtb:level1[not(@class) or (@class!='titlepage' and @class!='toc')]">
+      <xsl:text>xxxxxxxxxxxxxxxxxxxxxxxxxx Klappentext etc. xxxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
+      <xsl:text>O&#10;</xsl:text>
+      <xsl:apply-templates
+	  select="//dtb:frontmatter/dtb:level1[not(@class) or (@class!='titlepage' and @class!='toc')]"/>
+      <xsl:text>O&#10;</xsl:text>
+    </xsl:if>
     <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Buchinhalt xxxxxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
   </xsl:template>
 
@@ -1542,7 +1544,7 @@ i f=1 l=1
     </xsl:variable>
     <xsl:choose>
       <xsl:when test="matches(string(),'^\d')">
-	<!-- Prepend an asterisk to the noteref to announce it -->
+
 	<xsl:value-of select="louis:translate(string($braille_tables), concat('*',string(.)))"/>
       </xsl:when>
       <xsl:otherwise>
