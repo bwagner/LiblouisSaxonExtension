@@ -1227,7 +1227,8 @@ i f=1 l=1
     <xsl:apply-templates/>
     <!-- Apply end notes of last volume -->
     <xsl:if test="$footnote_placement = 'end_vol'">
-      <xsl:variable name="notes" select="//dtb:note[not(following::brl:volume[@brl:grade = $contraction])]"/>
+      <xsl:variable name="noterefs" select="//dtb:noteref[not(following::brl:volume[@brl:grade = $contraction])]"/>
+      <xsl:variable name="notes" select="for $noteref in $noterefs return //dtb:note[@id=translate($noteref/@idref,'#','')]"/>
       <xsl:if test="exists($notes)">
 	<xsl:text>&#10;y Notes&#10;</xsl:text>
 	<xsl:for-each select="$notes">
@@ -1257,7 +1258,8 @@ i f=1 l=1
       </xsl:choose>
     </xsl:variable>
     <xsl:if test="$footnote_placement = concat('level', $level)">
-      <xsl:variable name="notes" select="current()//dtb:note"/>
+      <xsl:variable name="noterefs" select="current()//dtb:noteref"/>
+      <xsl:variable name="notes" select="for $noteref in $noterefs return //dtb:note[@id=translate($noteref/@idref,'#','')]"/>
       <xsl:if test="exists($notes)">
 	<xsl:text>&#10;y Notes&#10;</xsl:text>
 	<xsl:for-each select="$notes">
@@ -2021,7 +2023,8 @@ i f=1 l=1
       <!-- Apply end notes -->
       <xsl:if test="$footnote_placement = 'end_vol'">
 	<xsl:variable name="V" select="current()"/>
-	<xsl:variable name="notes" select="$V/preceding::dtb:note[following::brl:volume[@brl:grade = $contraction and position() = 1] is $V]"/>
+	<xsl:variable name="noterefs" select="$V/preceding::dtb:noteref[following::brl:volume[@brl:grade = $contraction and position() = 1] is $V]"/>
+	<xsl:variable name="notes" select="for $noteref in $noterefs return //dtb:note[@id=translate($noteref/@idref,'#','')]"/>
 	<xsl:if test="exists($notes)">
 	  <xsl:text>&#10;y Notes&#10;</xsl:text>
 	  <xsl:for-each select="$notes">
