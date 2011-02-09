@@ -1358,6 +1358,9 @@ i f=1 l=1
   </xsl:template>
 
   <xsl:template match="dtb:note/dtb:p">
+    <xsl:variable name="braille_tables">
+      <xsl:call-template name="getTable"/>
+    </xsl:variable>
     <xsl:text>&#10;</xsl:text>
     <xsl:choose>
       <xsl:when test="position()=1">
@@ -1369,15 +1372,19 @@ i f=1 l=1
 	    <xsl:text>a </xsl:text>
 	  </xsl:otherwise>
 	</xsl:choose>
+	<xsl:text>&#10; </xsl:text>
+	<!-- Place the foot note number in the first para of the foot note -->
+	<xsl:variable name="idref" select="concat('#',../@id)"/>
+	<xsl:variable name="corresponding_noteref" select="//dtb:noteref[@idref=$idref][1]"/>
+	<xsl:variable name="note_number" select="count($corresponding_noteref/preceding::dtb:noteref)+1"/>
+	<xsl:variable name="prefix" select="if ($footnote_placement = 'standard') then '*' else ''"/>
+	<xsl:value-of select="concat(louis:translate(string($braille_tables), concat($prefix, $note_number)), ' ')"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:text>w </xsl:text>
+	<xsl:text>&#10; </xsl:text>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:text>&#10; </xsl:text>
-    <!-- <xsl:if test="position()=1 and $footnote_placement = 'standard'"> -->
-    <!--   <xsl:value-of select="louis:translate(string($braille_tables), '*'))"/> -->
-    <!-- </xsl:if> -->
     <xsl:apply-templates/>
   </xsl:template>
 
@@ -1542,15 +1549,8 @@ i f=1 l=1
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <xsl:choose>
-      <xsl:when test="matches(string(),'^\d')">
-
-	<xsl:value-of select="louis:translate(string($braille_tables), concat('*',string(.)))"/>
-      </xsl:when>
-      <xsl:otherwise>
-	<xsl:value-of select="louis:translate(string($braille_tables), string(.))"/>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:variable name="note_number" select="count(preceding::dtb:noteref)+1"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('*',string($note_number)))"/>
     <xsl:text>&#10;* &#10; </xsl:text>
   </xsl:template>
 

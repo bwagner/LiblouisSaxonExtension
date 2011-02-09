@@ -714,14 +714,14 @@ y P
   </utfx:test>
 
   <utfx:test>
-    <utfx:name>footnote with standard placement</utfx:name>
+    <utfx:name>footnote with standard placement and automatic numbering</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
       <utfx:with-param name="footnote_placement" select="'standard'"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
-	<stub xml:lang="de">Foo<dtb:noteref idref="#footnote1">1</dtb:noteref>	Bar<dtb:noteref idref="#footnote2">2</dtb:noteref> Baz</stub>
+	<stub xml:lang="de">Foo<dtb:noteref idref="#footnote1">a</dtb:noteref>	Bar<dtb:noteref idref="#footnote2">b</dtb:noteref> Baz</stub>
       </utfx:source>
       <utfx:expected>
  FOO'*#A
@@ -741,24 +741,48 @@ y P
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
-	<stub xml:lang="de">Hi Ha <dtb:note id="footnote1"><dtb:p>This is a test</dtb:p></dtb:note><dtb:note id="footnote2"><dtb:p>This is another test</dtb:p></dtb:note>Ho<brl:volume brl:grade="2"/>Foo Bar <dtb:note id="footnote3"><dtb:p>This is a test</dtb:p></dtb:note><dtb:note id="footnote4"><dtb:p>This is another test</dtb:p></dtb:note>Baz<brl:volume brl:grade="2"/></stub>
+	<stub xml:lang="de">Hi Ha Ho <dtb:noteref idref="#footnote1"></dtb:noteref>
+	<dtb:noteref idref="#footnote2"></dtb:noteref>
+	<brl:volume brl:grade="2"/>Foo Bar Baz <dtb:noteref idref="#footnote3"></dtb:noteref>
+	<dtb:noteref idref="#footnote4"></dtb:noteref>
+	<brl:volume brl:grade="2"/>
+	<dtb:note id="footnote1">
+	  <dtb:p>This is a test</dtb:p>
+	</dtb:note>
+	<dtb:note id="footnote2">
+	  <dtb:p>This is another test</dtb:p>
+	</dtb:note>
+	<dtb:note id="footnote3">
+	  <dtb:p>This is a test</dtb:p>
+	</dtb:note>
+	<dtb:note id="footnote4">
+	  <dtb:p>This is another test</dtb:p>
+	</dtb:note></stub>
       </utfx:source>
-      <utfx:expected>HI HA HO
+      <utfx:expected>HI HA HO '*#A
+* 
+ '*#B
+* 
+ 
 y Notes
 
 a 
- THIS IS 'A TE]
+ #A THIS IS 'A TE]
 a 
- THIS IS +OTH7 TE]
+ #B THIS IS +OTH7 TE]
 y EndVol
 y BrlVol
-FOO BAR BAZ
+FOO BAR BAZ '*#C
+* 
+ '*#D
+* 
+ 
 y Notes
 
 a 
- THIS IS 'A TE]
+ #C THIS IS 'A TE]
 a 
- THIS IS +OTH7 TE]
+ #D THIS IS +OTH7 TE]
 y EndVol
 y BrlVol
       </utfx:expected>
