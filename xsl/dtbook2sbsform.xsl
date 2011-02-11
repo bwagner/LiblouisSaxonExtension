@@ -385,7 +385,7 @@
     <xsl:text>i A=0 R=0&#10;</xsl:text>
     <xsl:if test="$toc_level &gt; 0">
       <xsl:text>H`B+&#10;</xsl:text>
-      <xsl:text>H`i F=1&#10;</xsl:text>
+      <xsl:text>H`i F=1 L=3&#10;</xsl:text>
       <xsl:text>Y&#10;</xsl:text>
       <xsl:text>H`B-&#10;</xsl:text>
     </xsl:if>
@@ -412,7 +412,7 @@
       <xsl:text>u&#10;</xsl:text>
       <xsl:if test="$toc_level &gt; 1">
         <xsl:text>H`B+&#10;</xsl:text>
-        <xsl:text>H`i F=3&#10;</xsl:text>
+        <xsl:text>H`i F=3 L=3&#10;</xsl:text>
         <xsl:text>Y&#10;</xsl:text>
         <xsl:text>H`B-&#10;</xsl:text>
       </xsl:if>
@@ -440,7 +440,7 @@ u,
 </xsl:text>
       <xsl:if test="$toc_level &gt; 2">
         <xsl:text>H`B+&#10;</xsl:text>
-        <xsl:text>H`i F=5&#10;</xsl:text>
+        <xsl:text>H`i F=5 L=3&#10;</xsl:text>
         <xsl:text>Y&#10;</xsl:text>
         <xsl:text>H`B-&#10;</xsl:text>
       </xsl:if>
@@ -465,7 +465,7 @@ u,
       <xsl:text>Y&#10;</xsl:text>
       <xsl:if test="$toc_level &gt; 3">
         <xsl:text>H`B+&#10;</xsl:text>
-        <xsl:text>H`i F=7&#10;</xsl:text>
+        <xsl:text>H`i F=7 L=3&#10;</xsl:text>
         <xsl:text>Y&#10;</xsl:text>
         <xsl:text>H`B-&#10;</xsl:text>
       </xsl:if>
@@ -490,7 +490,7 @@ u,
       <xsl:text>Y&#10;</xsl:text>
       <xsl:if test="$toc_level &gt; 4">
         <xsl:text>H`B+&#10;</xsl:text>
-        <xsl:text>H`i F=9&#10;</xsl:text>
+        <xsl:text>H`i F=9 L=3&#10;</xsl:text>
         <xsl:text>Y&#10;</xsl:text>
         <xsl:text>H`B-&#10;</xsl:text>
       </xsl:if>
@@ -515,7 +515,7 @@ u,
       <xsl:text>Y&#10;</xsl:text>
       <xsl:if test="$toc_level &gt; 5">
 	<xsl:text>H`B+&#10;</xsl:text>
-	<xsl:text>H`i F=11&#10;</xsl:text>
+	<xsl:text>H`i F=11 L=3&#10;</xsl:text>
 	<xsl:text>Y&#10;</xsl:text>
 	<xsl:text>H`B-&#10;</xsl:text>
       </xsl:if>
