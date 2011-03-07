@@ -2082,7 +2082,7 @@ i f=1 l=1
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <xsl:value-of select="louis:translate(string($braille_tables), concat('&#x00B7;',string()))"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('&#x250B;',string()))"/>
   </xsl:template>
 
   <!-- Handle text nodes ending with punctuation -->
