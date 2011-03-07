@@ -1047,7 +1047,7 @@ i f=1 l=1
           <xsl:with-param name="content" select="'SJW-'"/>
         </xsl:call-template>
         <xsl:value-of
-          select="louis:translate(string($braille_tables), '¦Verlag für die Bereitstellung der Daten.')"/>
+          select="louis:translate(string($braille_tables), '&#x250A;Verlag für die Bereitstellung der Daten.')"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of
@@ -1973,7 +1973,7 @@ i f=1 l=1
       <xsl:for-each select="text()">
         <!-- simply ignore the separator elements -->
         <xsl:value-of select="string(.)"/>
-        <xsl:if test="not(position() = last())">¦</xsl:if>
+        <xsl:if test="not(position() = last())">&#x250A;</xsl:if>
       </xsl:for-each>
     </xsl:variable>
     <xsl:value-of select="louis:translate(string($braille_tables), string($text))"/>
@@ -2091,7 +2091,7 @@ i f=1 l=1
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'¦¦'))"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'&#x250A;&#x250A;'))"/>
   </xsl:template>
 
   <!-- Handle text nodes starting with punctuation -->
@@ -2100,7 +2100,7 @@ i f=1 l=1
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <xsl:value-of select="louis:translate(string($braille_tables), concat('¦¦', string()))"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('&#x250A;&#x250A;', string()))"/>
   </xsl:template>
 
   <!-- Handle text nodes starting and ending with punctuation -->
@@ -2109,7 +2109,7 @@ i f=1 l=1
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <xsl:value-of select="louis:translate(string($braille_tables), concat('¦¦', string(),'¦¦'))"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('&#x250A;&#x250A;', string(),'&#x250A;&#x250A;'))"/>
   </xsl:template>
 
   <!-- Handle single word mixed emphasis -->
@@ -2119,7 +2119,7 @@ i f=1 l=1
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <xsl:value-of select="louis:translate(string($braille_tables), concat('¦',string()))"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('&#x250A;',string()))"/>
   </xsl:template>
 
   <!-- mixed emphasis after-->
@@ -2128,7 +2128,7 @@ i f=1 l=1
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'¦'))"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'&#x250A;'))"/>
   </xsl:template>
 
   <!-- handle 'ich' inside text node followed by chars that could be interpreted as numbers -->
@@ -2137,7 +2137,7 @@ i f=1 l=1
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'¦'))"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'&#x250A;'))"/>
   </xsl:template>
 
   <xsl:template match="text()">
