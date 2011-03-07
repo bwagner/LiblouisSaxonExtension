@@ -252,6 +252,61 @@ y LINEe
   </utfx:test>
 
   <utfx:test>
+    <utfx:name>Swallow white space whith embed new lines 1</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:space="preserve" xml:lang="de">Gedanken – Strich      —</stub>
+      </utfx:source>
+      <utfx:expected>&amp;DKC'- ]R#'-</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Swallow white space whith embed new lines 2</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:space="preserve" xml:lang="de">Gedanken
+— Strich</stub>
+      </utfx:source>
+      <utfx:expected>&amp;DKC'- ]R#</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Swallow white space whith embed new lines 3</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:space="preserve" xml:lang="de">Gedanken
+  — Strich</stub>
+      </utfx:source>
+      <utfx:expected>&amp;DKC'- ]R#</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Swallow white space whith embed new lines 4</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:space="preserve" xml:lang="de">Gedanken
+                         —         Strich</stub>
+      </utfx:source>
+      <utfx:expected>&amp;DKC'- ]R#</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
     <utfx:name>test 1 for brl:num role="measure", wenn Zeilenumbruch zwischen Zahl und Einheit steht (http://redmine.sbszh.ch/issues/show/898) </utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
@@ -1431,6 +1486,7 @@ y P
 y LEVEL2e</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
+
   <utfx:test>
     <utfx:name>Inhaltsverzeichnis</utfx:name>
     <utfx:stylesheet-params>
