@@ -1008,6 +1008,11 @@ t
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>t&#10; </xsl:text>
+    <xsl:call-template name="handle_abbr">
+      <xsl:with-param name="context" select="'abbr'"/>
+      <xsl:with-param name="content" select="'SBS'"/>
+    </xsl:call-template>
+    <xsl:text> </xsl:text>
     <xsl:value-of
       select="louis:translate(string($braille_tables), 'Schweizerische Bibliothek')"/>
     <xsl:text>&#10;t&#10; </xsl:text>
@@ -1048,7 +1053,7 @@ i f=1 l=1
         <xsl:value-of
           select="louis:translate(string($braille_tables), 'Dieses Braillebuch ist die ausschließlich ')"/>
         <xsl:value-of
-          select="louis:translate(string($braille_tables), 'für die Nutzung durch Lesebehinderte Menschen ')"/>
+          select="louis:translate(string($braille_tables), 'für die Nutzung durch Seh- und Lesebehinderte Menschen ')"/>
         <xsl:value-of
           select="louis:translate(string($braille_tables), 'bestimmte zugängliche Version eines urheberrechtlich ')"/>
         <xsl:value-of
@@ -1073,7 +1078,7 @@ i f=1 l=1
           <xsl:text>&#10;lv17&#10; </xsl:text>
         </xsl:otherwise>
       </xsl:choose>
-      <xsl:text>PUNKT POINT PUNTO'- </xsl:text> <!-- FIXME: Pass this with grade 0 through liblouis "PUNKT POINT PUNTO &#x2013;"-->
+      <xsl:text>PUNKT POINT PUNTO'- &gt;PPP</xsl:text> <!-- FIXME: Pass this with grade 0 through liblouis "PUNKT POINT PUNTO &#x2013;"-->
       <xsl:text>&#10;a&#10; </xsl:text>
       <xsl:value-of
         select="louis:translate(string($braille_tables), 'Rucksackbuch Nr.')"/>
@@ -1091,6 +1096,11 @@ i f=1 l=1
     <xsl:value-of
       select="louis:translate(string($braille_tables), 'Verlag, Satz und Druck')"/>
     <xsl:text>&#10;a&#10; </xsl:text>
+    <xsl:call-template name="handle_abbr">
+      <xsl:with-param name="context" select="'abbr'"/>
+      <xsl:with-param name="content" select="'SBS'"/>
+    </xsl:call-template>
+    <xsl:text> </xsl:text>
     <xsl:value-of
       select="louis:translate(string($braille_tables), 'Schweizerische Bibliothek')"/>
     <xsl:text>&#10;a&#10; </xsl:text>
