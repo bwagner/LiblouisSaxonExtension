@@ -2105,7 +2105,7 @@ i f=1 l=1
 
   <!-- Handle text nodes starting and ending with punctuation -->
   <xsl:template
-    match="text()[lang('de') and my:ends-with-punctuation-word(string()) and my:ends-with-punctuation-word(string()) and my:starts-with-non-whitespace(string(following::text()[1])) and my:ends-with-non-whitespace(string(preceding::text()[1])) and not (my:ends-with-number(string(preceding::text()[1])) or preceding::*[position()=1 and local-name()='num' and @role='ordinal'])]" priority="100">
+    match="text()[lang('de') and my:ends-with-punctuation-word(string()) and my:starts-with-punctuation-word(string()) and my:starts-with-non-whitespace(string(following::text()[1])) and my:ends-with-non-whitespace(string(preceding::text()[1])) and not (my:ends-with-number(string(preceding::text()[1])) or preceding::*[position()=1 and local-name()='num' and @role='ordinal'])]" priority="100">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>

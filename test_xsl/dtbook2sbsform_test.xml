@@ -1515,4 +1515,27 @@ y LEVEL2e</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
   
+  <utfx:test>
+    <utfx:name>Nodes starting and ending with punctuation</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+      <utfx:with-param name="toc_level" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">        
+            <dtb:p>Was?</dtb:p> 
+            <dtb:p>Als ich ...</dtb:p> 
+            <dtb:p>Nun ...</dtb:p> 
+        </stub>
+      </utfx:source>
+      <utfx:expected>y P
+ W?
+y P
+ 3 # ...
+y P
+ N/ ...</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
 </utfx:tests>
