@@ -1273,6 +1273,16 @@ y P
   </utfx:test>
 
   <utfx:test>
+    <utfx:name>Span inside em</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de"><dtb:em>Hallo <dtb:span brl:accents="reduced">René</dtb:span></dtb:em></stub>
+      </utfx:source>
+      <utfx:expected>__HAQO RC"E'.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
     <utfx:name>Downgrading</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
