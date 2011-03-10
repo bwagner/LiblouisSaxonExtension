@@ -46,7 +46,7 @@
 
 	<target name="default" depends="jar" />
 
-	<target name="jar" depends="compile, git.revision">
+	<target name="jar" depends="compile, git.revision" description="build jar">
 		<manifest file="${app.manifest}">
 			<attribute name="Built-By" value="${user.name}" />
 			<attribute name="Implementation-Version" value="${repository.version}" />
@@ -55,7 +55,7 @@
 	</target>
 
 	<target name="compile" depends="init">
-		<javac destdir="${build.dir}" deprecation="on" debug="on">
+		<javac destdir="${build.dir}" deprecation="on" debug="on" includeAntRuntime="no">
 			<src path="${src.dir}" />
 			<src path="${test_src.dir}" />
 			<classpath>
@@ -92,7 +92,7 @@
 		</junit>
 	</target>
 
-	<target name="clean">
+	<target name="clean" description="clean">
 		<delete dir="${build.dir}" />
 		<delete file="${app.jar}" />
 		<delete file="${factory.jar}" />
