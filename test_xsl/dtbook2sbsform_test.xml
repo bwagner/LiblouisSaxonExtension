@@ -1240,6 +1240,26 @@ y DIVe_foo
   </utfx:test>
   
   <utfx:test>
+    <utfx:name>Time</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><brl:time value="10:30">10:30</brl:time></stub>
+      </utfx:source>
+      <utfx:expected>#AJ.CJ</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Time with leading zeros</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><brl:time value="10:05">10:05</brl:time></stub>
+      </utfx:source>
+      <utfx:expected>#AJ.JE</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
     <utfx:name>Span inside span</utfx:name>
     <utfx:assert-equal>
       <utfx:source>

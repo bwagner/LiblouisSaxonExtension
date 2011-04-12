@@ -2045,8 +2045,16 @@ i f=1 l=1
     </xsl:variable>
     <xsl:variable name="time">
       <xsl:for-each select="tokenize(string(@value), ':')">
-        <xsl:value-of select="format-number(. cast as xs:integer,'#')"/>
-        <xsl:if test="not(position() = last())">.</xsl:if>
+	<xsl:choose>
+	  <!-- Drop the leading zero for the hours and append a dot -->
+	  <xsl:when test="not(position() = last())">
+	    <xsl:value-of select="format-number(. cast as xs:integer,'#')"/>
+	    <xsl:text>.</xsl:text>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:value-of select="."/>
+	  </xsl:otherwise>
+	</xsl:choose>
       </xsl:for-each>
     </xsl:variable>
     <xsl:value-of select="louis:translate(string($braille_tables), string($time))"/>
