@@ -1538,7 +1538,14 @@ i f=1 l=1
 
   <xsl:template name="insert_footnotes">
     <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Fussnoten xxxxxxxxxxxxxxxxxxxxxxxxxxxx&#10;&#10;</xsl:text>
-    <xsl:text>"N %Y.nf&#10;</xsl:text>
+    <xsl:choose>
+      <xsl:when test="$contraction = 2">
+	<xsl:text>"N %Y.nfk&#10;</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:text>"N %Y.nfv&#10;</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:text>O&#10;</xsl:text>
     <xsl:text>I L=n&#10;</xsl:text>
     <xsl:text>i f=1 l=3 w=5&#10;</xsl:text>
@@ -1546,10 +1553,24 @@ i f=1 l=1
       <xsl:apply-templates/>
     </xsl:for-each>
     <xsl:text>&#10;O&#10;</xsl:text>
-    <xsl:text>"N %Y.f&#10;</xsl:text>
+    <xsl:choose>
+      <xsl:when test="$contraction = 2">
+    <xsl:text>"N %Y.fk&#10;</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:text>"N %Y.fv&#10;</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:text>I *=j L=j&#10;</xsl:text>
     <xsl:text>i f=3 l=1&#10;</xsl:text>
-    <xsl:text>"* %Y.nf&#10;</xsl:text>
+    <xsl:choose>
+      <xsl:when test="$contraction = 2">
+	<xsl:text>"* %Y.nfk&#10;</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:text>"* %Y.nfv&#10;</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="dtb:note">
