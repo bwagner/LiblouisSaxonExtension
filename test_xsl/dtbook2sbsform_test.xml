@@ -1597,7 +1597,7 @@ y P
   </utfx:test>
   
   <utfx:test>
-    <utfx:name>brl:volume und pagnum</utfx:name>
+    <utfx:name>brl:volume und pagnum with other contraction</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="1"/>
     </utfx:stylesheet-params>
@@ -1620,4 +1620,89 @@ y P
     </utfx:assert-equal>
   </utfx:test>
   
+  <utfx:test>
+    <utfx:name>brl:volume und levelN/pagnum</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+	  <dtb:level1>
+	    <dtb:p>... bla bla.</dtb:p>
+	  </dtb:level1>
+	  <brl:volume brl:grade="2"/>
+	  <dtb:level1>
+	    <dtb:pagenum>75</dtb:pagenum>
+	    <dtb:h1>Titel</dtb:h1>
+	    <dtb:p>Bla bla ...</dtb:p>
+	  </dtb:level1>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y LEVEL1b
+.xNOPAGENUM
+
+y P
+ ... BLA BLA.
+y LEVEL1e
+
+y EndVol
+p
+
+j 75
+y BrlVol
+
+y LEVEL1b
+.xNOPAGENUM
+
+y H1
+ TITY
+
+y P
+ BLA BLA ...
+y LEVEL1e
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>brl:volume und levelN/pagnum with other contraction</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+	  <dtb:level1>
+	    <dtb:p>... bla bla.</dtb:p>
+	  </dtb:level1>
+	  <brl:volume brl:grade="2"/>
+	  <dtb:level1>
+	    <dtb:pagenum>75</dtb:pagenum>
+	    <dtb:h1>Titel</dtb:h1>
+	    <dtb:p>Bla bla ...</dtb:p>
+	  </dtb:level1>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y LEVEL1b
+.xNOPAGENUM
+
+y P
+ ... BLA BLA.
+y LEVEL1e
+
+y LEVEL1b
+.xNOPAGENUM
+
+j 75
+ 
+y H1
+ TITEL
+
+y P
+ BLA BLA ...
+y LEVEL1e
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
 </utfx:tests>

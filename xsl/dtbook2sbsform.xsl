@@ -1447,6 +1447,9 @@ i f=1 l=1
   <!-- Handle pagenums after volume boundaries -->
   <xsl:template match="dtb:pagenum[preceding-sibling::*[position()=1 and local-name()='volume' and @brl:grade = $contraction]]"/>
 
+  <!-- Handle levelN/pagenums after volume boundaries -->
+  <xsl:template match="dtb:pagenum[position()=1 and parent::*[substring(local-name(),0,6)='level' and preceding-sibling::*[position()=1 and local-name()='volume' and @brl:grade = $contraction]]]"/>
+
   <xsl:template match="dtb:pagenum" mode="no-space-after">
     <xsl:call-template name="dtb:pagenum">
       <xsl:with-param name="trailing-space" select="'&#10;'"/>
@@ -2093,6 +2096,12 @@ i f=1 l=1
       <xsl:text>&#10;y EndVol&#10;</xsl:text>
       <!-- Handle volumes that have a pagenum immediately following -->
       <xsl:if test="following-sibling::*[position()=1 and local-name()='pagenum']">
+	<xsl:text>p&#10;</xsl:text>
+	<xsl:apply-templates select="following::dtb:pagenum[1]" mode="no-space-after"/>
+      </xsl:if>
+      <!-- Handle volumes that have a levelN/pagenum immediately following -->
+      <xsl:variable name="following-level" select="following-sibling::*[position()=1 and substring(local-name(),0,6)='level']"/>
+      <xsl:if test="exists($following-level) and $following-level/*[position()=1 and local-name()='pagenum']">
 	<xsl:text>p&#10;</xsl:text>
 	<xsl:apply-templates select="following::dtb:pagenum[1]" mode="no-space-after"/>
       </xsl:if>
