@@ -186,7 +186,7 @@
           <xsl:text>sbs-de-capsign.mod,</xsl:text>
         </xsl:if>
         <xsl:if
-          test="$actual_contraction = '2' and not($context = 'abbr' and not(my:containsDot(.))) and $context != 'date_month' and $context != 'date_day' and $context !='name_capitalized'">
+          test="$actual_contraction = '2' and $context != 'num_roman' and not($context = 'abbr' and not(my:containsDot(.))) and $context != 'date_month' and $context != 'date_day' and $context !='name_capitalized'">
           <xsl:text>sbs-de-letsign.mod,</xsl:text>
         </xsl:if>
         <xsl:if test="$context != 'date_month' and $context != 'denominator'">
@@ -205,17 +205,17 @@
           <xsl:text>sbs-de-core.mod,</xsl:text>
         </xsl:if>
         <xsl:if
-          test="$context = 'name_capitalized' or ($context = 'abbr' and not(my:containsDot(.))) or ($actual_contraction &lt;= '1' and $context != 'date_day' and $context != 'date_month')">
+          test="$context = 'name_capitalized' or $context = 'num_roman' or ($context = 'abbr' and not(my:containsDot(.))) or ($actual_contraction &lt;= '1' and $context != 'date_day' and $context != 'date_month')">
           <xsl:text>sbs-de-g0-core.mod,</xsl:text>
         </xsl:if>
         <xsl:if
-          test="$actual_contraction = '1' and ($context != 'name_capitalized' and ($context != 'abbr' or my:containsDot(.)) and $context != 'date_month' and $context != 'date_day')">
+          test="$actual_contraction = '1' and $context != 'num_roman' and ($context != 'name_capitalized' and ($context != 'abbr' or my:containsDot(.)) and $context != 'date_month' and $context != 'date_day')">
           <xsl:if test="$hyphenation = true()">
             <xsl:text>sbs-de-g1-white.mod,</xsl:text>
           </xsl:if>
           <xsl:text>sbs-de-g1-core.mod,</xsl:text>
         </xsl:if>
-        <xsl:if test="$actual_contraction = '2'">
+        <xsl:if test="$actual_contraction = '2' and $context != 'num_roman'">
           <xsl:if test="$context = 'place'">
             <xsl:text>sbs-de-g2-place.mod,</xsl:text>
           </xsl:if>
@@ -1807,7 +1807,7 @@ i f=1 l=1
   <xsl:template match="brl:num[@role='roman' and lang('de')]">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable">
-        <xsl:with-param name="context" select="'abbr'"/>
+        <xsl:with-param name="context" select="'num_roman'"/>
       </xsl:call-template>
     </xsl:variable>
     <xsl:choose>
