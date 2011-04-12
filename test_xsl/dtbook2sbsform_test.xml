@@ -1568,4 +1568,56 @@ y P
     </utfx:assert-equal>
   </utfx:test>
   
+  <utfx:test>
+    <utfx:name>brl:volume und pagnum</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">        
+	  <dtb:p>... bla bla.</dtb:p>
+	  <brl:volume brl:grade='2'/>
+	  <dtb:pagenum>75</dtb:pagenum>
+	  <dtb:p>Bla bla ...</dtb:p>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y P
+ ... BLA BLA.
+y EndVol
+p
+
+j 75
+y BrlVol
+
+y P
+ BLA BLA ...
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>brl:volume und pagnum</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">        
+	  <dtb:p>... bla bla.</dtb:p>
+	  <brl:volume brl:grade='2'/>
+	  <dtb:pagenum>75</dtb:pagenum>
+	  <dtb:p>Bla bla ...</dtb:p>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y P
+ ... BLA BLA.
+j 75
+ 
+y P
+ BLA BLA ...
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
 </utfx:tests>

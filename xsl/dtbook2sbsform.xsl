@@ -1444,7 +1444,23 @@ i f=1 l=1
     <xsl:text> </xsl:text>
   </xsl:template>
 
+  <!-- Handle pagenums after volume boundaries -->
+  <xsl:template match="dtb:pagenum[preceding-sibling::*[position()=1 and local-name()='volume' and @brl:grade = $contraction]]"/>
+
+  <xsl:template match="dtb:pagenum" mode="no-space-after">
+    <xsl:call-template name="dtb:pagenum">
+      <xsl:with-param name="trailing-space" select="'&#10;'"/>
+    </xsl:call-template>
+  </xsl:template>
+
   <xsl:template match="dtb:pagenum">
+    <xsl:call-template name="dtb:pagenum">
+      <xsl:with-param name="trailing-space" select="'&#10; '"/>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template name="dtb:pagenum">
+    <xsl:param name="trailing-space"/>
     <xsl:text>&#10;j </xsl:text>
     <xsl:value-of select="text()"/>
     <!-- Add a newline unless the following node is another pagenum
@@ -1454,7 +1470,7 @@ i f=1 l=1
     <!-- FIXME: this doesn't properly handle comment nodes -->
     <xsl:if test="not($following-nodes[position() = 1 and local-name() = 'pagenum'])">
       <!-- add a space for the following inline elements -->
-      <xsl:text>&#10; </xsl:text>
+      <xsl:value-of select="$trailing-space"/>
     </xsl:if>
   </xsl:template>
 
@@ -2074,7 +2090,13 @@ i f=1 l=1
 	  </xsl:for-each>
 	</xsl:if>
       </xsl:if>
-      <xsl:text>&#10;y EndVol&#10;y BrlVol&#10;</xsl:text>
+      <xsl:text>&#10;y EndVol&#10;</xsl:text>
+      <!-- Handle volumes that have a pagenum immediately following -->
+      <xsl:if test="following-sibling::*[position()=1 and local-name()='pagenum']">
+	<xsl:text>p&#10;</xsl:text>
+	<xsl:apply-templates select="following::dtb:pagenum[1]" mode="no-space-after"/>
+      </xsl:if>
+      <xsl:text>y BrlVol&#10;</xsl:text>
     </xsl:if>
   </xsl:template>
 
