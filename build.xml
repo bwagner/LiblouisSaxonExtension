@@ -33,6 +33,10 @@
 	<property name="lib.dir" value="lib" />
 	<property name="app.manifest" value="MANIFEST.MF" />
 
+    <presetdef name="my.javac">
+        <javac includeantruntime="false" />
+    </presetdef>
+
 	<path id="classpath.path">
 		<pathelement location="${build.dir}" />
 		<fileset dir="${lib.dir}">
@@ -55,13 +59,13 @@
 	</target>
 
 	<target name="compile" depends="init">
-		<javac destdir="${build.dir}" deprecation="on" debug="on" includeAntRuntime="no">
+		<my.javac destdir="${build.dir}" deprecation="on" debug="on" includeAntRuntime="no">
 			<src path="${src.dir}" />
 			<src path="${test_src.dir}" />
 			<classpath>
 				<path refid="classpath.path" />
 			</classpath>
-		</javac>
+		</my.javac>
 	</target>
 
 	<target name="test" depends="compile" description="test">
