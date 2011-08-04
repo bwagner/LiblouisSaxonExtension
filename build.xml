@@ -64,7 +64,7 @@
 		</javac>
 	</target>
 
-	<target name="test" depends="compile">
+	<target name="test" depends="compile" description="test">
 		<junit printsummary="yes" fork="yes" haltonfailure="no" haltonerror="no">
 
 			<formatter type="plain" usefile="false" />
