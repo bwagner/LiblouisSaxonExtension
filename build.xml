@@ -33,6 +33,10 @@
 	<property name="lib.dir" value="lib" />
 	<property name="app.manifest" value="MANIFEST.MF" />
 
+    <presetdef name="my.javac">
+        <javac includeantruntime="false" />
+    </presetdef>
+
 	<path id="classpath.path">
 		<pathelement location="${build.dir}" />
 		<fileset dir="${lib.dir}">
@@ -46,7 +50,7 @@
 
 	<target name="default" depends="jar" />
 
-	<target name="jar" depends="compile, git.revision">
+	<target name="jar" depends="compile, git.revision" description="build jar">
 		<manifest file="${app.manifest}">
 			<attribute name="Built-By" value="${user.name}" />
 			<attribute name="Implementation-Version" value="${repository.version}" />
@@ -55,16 +59,16 @@
 	</target>
 
 	<target name="compile" depends="init">
-		<javac destdir="${build.dir}" deprecation="on" debug="on">
+		<my.javac destdir="${build.dir}" deprecation="on" debug="on" includeAntRuntime="no">
 			<src path="${src.dir}" />
 			<src path="${test_src.dir}" />
 			<classpath>
 				<path refid="classpath.path" />
 			</classpath>
-		</javac>
+		</my.javac>
 	</target>
 
-	<target name="test" depends="compile">
+	<target name="test" depends="compile" description="test">
 		<junit printsummary="yes" fork="yes" haltonfailure="no" haltonerror="no">
 
 			<formatter type="plain" usefile="false" />
@@ -93,7 +97,7 @@
 		</junit>
 	</target>
 
-	<target name="clean">
+	<target name="clean" description="clean">
 		<delete dir="${build.dir}" />
 		<delete file="${app.jar}" />
 		<delete file="${factory.jar}" />
