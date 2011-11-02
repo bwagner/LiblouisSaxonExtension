@@ -28,7 +28,7 @@
 
 LOUIS_TRANSFORM_FACTORY=-Djavax.xml.transform.TransformerFactory=org.liblouis.transformerfactory.LouisExtensionTransformerFactoryImpl
 UTFX=.:utfx_lib/utfxFat.jar
-UTFX_TEST=-Dutfx.test.file=test_xsl/dtbook2sbsform_test.xml
+UTFX_TEST=-Dutfx.test.dir=test_xsl
 
 LIB=lib
 CP=$LIB/saxon9he.jar:$LIB/louis.jar:$LIB/jna.jar:liblouissaxonx.jar:$UTFX
