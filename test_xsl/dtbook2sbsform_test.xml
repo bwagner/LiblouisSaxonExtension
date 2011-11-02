@@ -98,7 +98,7 @@
   </utfx:test>
 
   <utfx:test>
-    <utfx:name>getTable for de-1901 and contraction = 2 with contraction</utfx:name>
+    <utfx:name>getTable for de-1901 and contraction = 2 with hyphenation</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
       <utfx:with-param name="hyphenation" select="true()"/>
@@ -109,6 +109,20 @@
         <p xml:lang="de-1901"/>
       </utfx:source>
       <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents.cti,sbs-special.cti,sbs-whitespace.mod,sbs-de-letsign.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g2-white.mod,sbs-de-g2-core.mod,sbs-de-hyph-old.mod,sbs-de-accents-ch.mod,sbs-special.mod</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>getTable for de and contraction = 1 and accents reduced</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
+    <utfx:call-template name="getTable"/>
+    <utfx:assert-equal>
+      <utfx:source>
+        <dtb:span brl:accents="reduced" xml:lang="de"/>
+      </utfx:source>
+      <utfx:expected>sbs.dis,sbs-de-core6.cti,sbs-de-accents.cti,sbs-special.cti,sbs-whitespace.mod,sbs-numsign.mod,sbs-litdigit-upper.mod,sbs-de-core.mod,sbs-de-g0-core.mod,sbs-de-g1-core.mod,sbs-de-hyph-none.mod,sbs-de-accents-reduced.mod,sbs-special.mod</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -171,7 +185,7 @@
 y LINEb
  FOO
 y LINEe
-
+ 
 y LINEb
  _BAR
 y LINEe
@@ -234,6 +248,61 @@ y LINEe
         <stub xml:space="preserve" xml:lang="de"><dtb:em>Mein Mann.</dtb:em> <brl:v-form>Ihr</brl:v-form></stub>
       </utfx:source>
       <utfx:expected>__M6 MN.'. $I</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Swallow white space whith embed new lines 1</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:space="preserve" xml:lang="de">Gedanken – Strich      —</stub>
+      </utfx:source>
+      <utfx:expected>&amp;DKC'- ]R#'-</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Swallow white space whith embed new lines 2</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:space="preserve" xml:lang="de">Gedanken
+— Strich</stub>
+      </utfx:source>
+      <utfx:expected>&amp;DKC'- ]R#</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Swallow white space whith embed new lines 3</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:space="preserve" xml:lang="de">Gedanken
+  — Strich</stub>
+      </utfx:source>
+      <utfx:expected>&amp;DKC'- ]R#</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Swallow white space whith embed new lines 4</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:space="preserve" xml:lang="de">Gedanken
+                         —         Strich</stub>
+      </utfx:source>
+      <utfx:expected>&amp;DKC'- ]R#</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -659,63 +728,981 @@ y P
     </utfx:assert-equal>
   </utfx:test>
 
-<!--   <utfx:test> -->
-<!--     <utfx:name>footnote with standard placement</utfx:name> -->
-<!--     <utfx:stylesheet-params> -->
-<!--       <utfx:with-param name="contraction" select="2"/> -->
-<!--       <utfx:with-param name="footnote_placement" select="'standard'"/> -->
-<!--     </utfx:stylesheet-params> -->
-<!--     <utfx:assert-equal> -->
-<!--       <utfx:source> -->
-<!-- 	<stub xml:lang="de"> -->
-<!-- 	Foo -->
-<!-- 	<dtb:noteref idref="#footnote1">1</dtb:noteref> -->
-<!-- 	Bar -->
-<!-- 	<dtb:noteref idref="#footnote2">2</dtb:noteref> -->
-<!-- 	Baz -->
-<!-- 	</stub> -->
-<!--       </utfx:source> -->
-<!--       <utfx:expected> -->
-<!--  FOO '*#A -->
-<!-- *  -->
-<!--   BAR '*#B -->
-<!-- *  -->
-<!--   BAZ -->
-<!-- </utfx:expected> -->
-<!--     </utfx:assert-equal> -->
-<!--   </utfx:test> -->
+  <utfx:test>
+    <utfx:name>Many quoted paras 2</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de">
+	  <dtb:p>«Okay. Aber ich würde es auch gar nicht wissen; bin erst ein paar Jahre in den <dtb:abbr>USA</dtb:abbr>.»</dtb:p>
+	  <dtb:p>Sie hatte von Anfang an den Akzent bemerkt, der den Ausländer verriet, und fragte: «Na, und woher kommst du?»</dtb:p>
+	</stub>
+      </utfx:source>
+      <utfx:expected>y P
+ (OKA'Y. A # 8E % \ GAR N W^C; B* 7] 6 PAAR JRE * E &gt;USA.)
+y P
+ S HE V +F+G + E AKZCT ;M7KT, R E \L@ND7 -R0T, U FR(: (NA, U WOH7 KX] DU?)
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
 
-<!--   <utfx:test> -->
-<!--     <utfx:name>footnote with end_vol placement</utfx:name> -->
-<!--     <utfx:stylesheet-params> -->
-<!--       <utfx:with-param name="contraction" select="2"/> -->
-<!--       <utfx:with-param name="footnote_placement" select="'end_vol'"/> -->
-<!--     </utfx:stylesheet-params> -->
-<!--     <utfx:assert-equal> -->
-<!--       <utfx:source> -->
-<!-- 	<stub xml:lang="de"> -->
-<!-- 	<brl:volume brl:grade="2"/> -->
-<!-- 	Foo -->
-<!-- 	<dtb:noteref idref="#footnote1">1</dtb:noteref> -->
-<!-- 	<dtb:noteref idref="#footnote2">2</dtb:noteref> -->
-<!-- 	Bar -->
-<!-- 	<dtb:note id="footnote1"><dtb:p>This is a test</dtb:p></dtb:note> -->
-<!-- 	<dtb:note id="footnote2"><dtb:p>This is another test</dtb:p></dtb:note> -->
-<!-- 	Baz -->
-<!-- 	<brl:volume brl:grade="2"/> -->
-<!-- 	</stub> -->
-<!--       </utfx:source> -->
-<!--       <utfx:expected> -->
-<!-- y EndVol -->
-<!-- y BrlVol -->
-<!--  FOO '*#A'*#B BAR  BAZ  -->
-<!-- y P -->
-<!--  THIS IS 'A TE] -->
-<!-- y P  -->
-<!--  THIS IS +OTH7 TE] -->
-<!-- y EndVol -->
-<!-- y BrlVol</utfx:expected> -->
-<!--     </utfx:assert-equal> -->
-<!--   </utfx:test> -->
+  <utfx:test>
+    <utfx:name>Many quoted paras 3</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de">
+	  <dtb:p>»Okay. Aber ich würde es auch gar nicht wissen; bin erst ein paar Jahre in den <dtb:abbr>USA</dtb:abbr>.«</dtb:p>
+	  <dtb:p>Sie hatte von Anfang an den Akzent bemerkt, der den Ausländer verriet, und fragte: »Na, und woher kommst du?«</dtb:p>
+	</stub>
+      </utfx:source>
+      <utfx:expected>y P
+ (OKA'Y. A # 8E % \ GAR N W^C; B* 7] 6 PAAR JRE * E &gt;USA.)
+y P
+ S HE V +F+G + E AKZCT ;M7KT, R E \L@ND7 -R0T, U FR(: (NA, U WOH7 KX] DU?)
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
 
+  <utfx:test>
+    <utfx:name>footnote with standard placement and automatic numbering</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+      <utfx:with-param name="footnote_placement" select="'standard'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de">Foo<dtb:noteref idref="#footnote1">a</dtb:noteref>	Bar<dtb:noteref idref="#footnote2">b</dtb:noteref> Baz</stub>
+      </utfx:source>
+      <utfx:expected>
+ FOO'*#A
+* 
+  BAR'*#B
+* 
+  BAZ
+</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>footnote with end_vol placement</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+      <utfx:with-param name="footnote_placement" select="'end_vol'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de">Hi Ha Ho <dtb:noteref idref="#footnote1"></dtb:noteref>
+	<dtb:noteref idref="#footnote2"></dtb:noteref>
+	<brl:volume brl:grade="2"/>Foo Bar Baz <dtb:noteref idref="#footnote3"></dtb:noteref>
+	<dtb:noteref idref="#footnote4"></dtb:noteref>
+	<brl:volume brl:grade="2"/>
+	<dtb:note id="footnote1">
+	  <dtb:p>This is a test</dtb:p>
+	</dtb:note>
+	<dtb:note id="footnote2">
+	  <dtb:p>This is another test</dtb:p>
+	</dtb:note>
+	<dtb:note id="footnote3">
+	  <dtb:p>This is a test</dtb:p>
+	</dtb:note>
+	<dtb:note id="footnote4">
+	  <dtb:p>This is another test</dtb:p>
+	</dtb:note></stub>
+      </utfx:source>
+      <utfx:expected>HI HA HO '*#A
+* 
+ '*#B
+* 
+ 
+y Notes
+
+a 
+ #A THIS IS 'A TE]
+a 
+ #B THIS IS +OTH7 TE]
+y EndVol
+y BrlVol
+FOO BAR BAZ '*#C
+* 
+ '*#D
+* 
+ 
+y Notes
+
+a 
+ #C THIS IS 'A TE]
+a 
+ #D THIS IS +OTH7 TE]
+y EndVol
+y BrlVol
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <!-- Element tests -->
+  <utfx:test>
+    <utfx:name>Translation of h1</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:h1 xml:lang="de">foo</dtb:h1>
+      </utfx:source>
+      <utfx:expected>y H1
+ FOO</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of h1 with with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:h1 xml:lang="de" brl:class="foo">foo</dtb:h1>
+      </utfx:source>
+      <utfx:expected>y H1_foo
+ FOO</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of h2</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:h2 xml:lang="de">foo</dtb:h2>
+      </utfx:source>
+      <utfx:expected>y H2
+ FOO</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of h2 with with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:h2 xml:lang="de" brl:class="foo">foo</dtb:h2>
+      </utfx:source>
+      <utfx:expected>y H2_foo
+ FOO</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of p</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:p xml:lang="de">foo</dtb:p>
+      </utfx:source>
+      <utfx:expected>y P
+ FOO</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of h2 with with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:p xml:lang="de" brl:class="foo">foo</dtb:p>
+      </utfx:source>
+      <utfx:expected>y P_foo
+ FOO</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of Blockquote</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:blockquote xml:lang="de"></dtb:blockquote>
+      </utfx:source>
+      <utfx:expected>
+y BLQUOb
+
+y BLQUOe
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of Blockquote with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:blockquote xml:lang="de" brl:class="foo"></dtb:blockquote>
+      </utfx:source>
+      <utfx:expected>
+y BLQUOb_foo
+
+y BLQUOe_foo
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of epigraph</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:epigraph xml:lang="de"></dtb:epigraph>
+      </utfx:source>
+      <utfx:expected>
+y EPIGRb
+
+y EPIGRe
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of epigraph with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:epigraph xml:lang="de" brl:class="foo"></dtb:epigraph>
+      </utfx:source>
+      <utfx:expected>
+y EPIGRb_foo
+
+y EPIGRe_foo
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of author</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:author xml:lang="de">Hans</dtb:author>
+      </utfx:source>
+      <utfx:expected>
+y AUTHOR
+ H+S
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of author with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:author xml:lang="de" brl:class="foo">Hans</dtb:author>
+      </utfx:source>
+      <utfx:expected>
+y AUTHOR_foo
+ H+S
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of byline</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:byline xml:lang="de">Hans</dtb:byline>
+      </utfx:source>
+      <utfx:expected>
+y BYLINE
+ H+S
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of byline with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:byline xml:lang="de" brl:class="foo">Hans</dtb:byline>
+      </utfx:source>
+      <utfx:expected>
+y BYLINE_foo
+ H+S
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of list</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:list xml:lang="de"></dtb:list>
+      </utfx:source>
+      <utfx:expected>
+y PLISTb
+
+y PLISTe
+
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of list with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:list xml:lang="de" brl:class="foo"></dtb:list>
+      </utfx:source>
+      <utfx:expected>
+y PLISTb_foo
+
+y PLISTe_foo
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of li</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:li xml:lang="de"></dtb:li>
+      </utfx:source>
+      <utfx:expected>
+y LI
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of li with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:li xml:lang="de" brl:class="foo"></dtb:li>
+      </utfx:source>
+      <utfx:expected>
+y LI_foo
+
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of poem</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:poem xml:lang="de"></dtb:poem>
+      </utfx:source>
+      <utfx:expected>
+y POEMb
+
+y POEMe
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of poem with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:poem xml:lang="de" brl:class="foo"></dtb:poem>
+      </utfx:source>
+      <utfx:expected>
+y POEMb_foo
+
+y POEMe_foo
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of linegroup</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:linegroup xml:lang="de"></dtb:linegroup>
+      </utfx:source>
+      <utfx:expected>
+y LINEGRb
+ 
+y LINEGRe
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of linegroup with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:linegroup xml:lang="de" brl:class="foo"></dtb:linegroup>
+      </utfx:source>
+      <utfx:expected>
+y LINEGRb_foo
+ 
+y LINEGRe_foo
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of line</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:line xml:lang="de"></dtb:line>
+      </utfx:source>
+      <utfx:expected>
+y LINEb
+ 
+y LINEe
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Translation of line with brl:class attr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:line xml:lang="de" brl:class="foo"></dtb:line>
+      </utfx:source>
+      <utfx:expected>
+y LINEb_foo
+ 
+y LINEe_foo
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Selection feature</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<brl:select xml:lang="de">
+	  <brl:when-braille>
+	    <brl:literal>Foo</brl:literal>
+	  </brl:when-braille>
+	  <brl:otherwise>Bar</brl:otherwise>
+	</brl:select>
+      </utfx:source>
+      <utfx:expected>Foo</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Selection feature with literals with grade attrs</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<brl:select xml:lang="de">
+	  <brl:when-braille>
+	    <brl:literal brl:grade="1">Foo</brl:literal>
+	    <brl:literal brl:grade="2">Bar</brl:literal>
+	  </brl:when-braille>
+	  <brl:otherwise>Baz</brl:otherwise>
+	</brl:select>
+      </utfx:source>
+      <utfx:expected>Bar</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Selection feature with mixed literals and text nodes</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<brl:select xml:lang="de">
+	  <brl:when-braille>Foo <brl:literal>Bar</brl:literal></brl:when-braille>
+	  <brl:otherwise>Baz</brl:otherwise>
+	</brl:select>
+      </utfx:source>
+      <utfx:expected>FOO Bar</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>div element</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:div brl:class="foo" xml:lang="de">
+	</dtb:div>
+      </utfx:source>
+      <utfx:expected>
+y DIVb_foo
+
+y DIVe_foo
+</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Datum: Tag Monat Jahr</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><brl:date value="2011-01-01">1.1.2011</brl:date></stub>
+      </utfx:source>
+      <utfx:expected>#,A#BJAA</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Datum: Tag Monat</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><brl:date value="--01-01">1.1.</brl:date></stub>
+      </utfx:source>
+      <utfx:expected>#,A</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Time</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><brl:time value="10:30">10:30</brl:time></stub>
+      </utfx:source>
+      <utfx:expected>#AJ.CJ</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Time with leading zeros</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><brl:time value="10:05">10:05</brl:time></stub>
+      </utfx:source>
+      <utfx:expected>#AJ.JE</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Span inside span</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de"><brl:span brl:accents="reduced">Bèr</brl:span> <dtb:span xml:lang="de" brl:grade="2">Bèr <brl:span brl:accents="reduced">Bèr</brl:span></dtb:span></stub>
+      </utfx:source>
+      <utfx:expected>B"ER -.B"^R B"ER'.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Span inside span 2</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de">
+	  <dtb:p><dtb:span brl:accents="reduced">René</dtb:span></dtb:p>
+	  <dtb:p><dtb:span brl:accents="reduced">René René</dtb:span></dtb:p>
+          <dtb:p>Kurz <dtb:span brl:grade="1" brl:accents="reduced">René René</dtb:span> René</dtb:p>
+	  <dtb:p><dtb:span brl:grade="1">René <dtb:span brl:accents="reduced">René</dtb:span> René</dtb:span></dtb:p>
+	</stub>
+      </utfx:source>
+      <utfx:expected>y P
+ RC"E
+y P
+ RC"E RC"E
+y P
+ KZ -.REN"E REN"E'. RC"%
+y P
+ -.REN"% REN"E REN"%'.
+</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Span inside em</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+	<stub xml:lang="de"><dtb:em>Hallo <dtb:span brl:accents="reduced">René</dtb:span></dtb:em></stub>
+      </utfx:source>
+      <utfx:expected>__HAQO RC"E'.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Downgrading</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="1">Vollschrift</dtb:span> kurz kurz kurz</dtb:p>
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="0">Basisschrift</dtb:span> kurz kurz kurz</dtb:p>
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="1">Vollschrift schrift schrift</dtb:span> kurz kurz kurz</dtb:p>
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="0">Basisschrift schrift schrift</dtb:span> kurz kurz kurz</dtb:p>
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="1">Vollschrift/Vollschrift</dtb:span> kurz kurz kurz</dtb:p>
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="0">Basisschrift/Basisschrift</dtb:span> kurz kurz kurz</dtb:p>
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="1">Vollschrift-Vollschrift</dtb:span> kurz kurz kurz</dtb:p>
+          <dtb:p>Kurzschrift schrift schrift <dtb:span brl:grade="0">Basisschrift-Basisschrift</dtb:span> kurz kurz kurz</dtb:p>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y P
+ KZ5T 5T 5T '.VOLL5RIFT KZ KZ KZ
+y P
+ KZ5T 5T 5T '.BASISSCHRIFT KZ KZ KZ
+y P
+ KZ5T 5T 5T -.VOLL5RIFT 5RIFT 5RIFT'. KZ KZ KZ
+y P
+ KZ5T 5T 5T -.BASISSCHRIFT SCHRIFT SCHRIFT'. KZ KZ KZ
+y P
+ KZ5T 5T 5T -.VOLL5RIFT!,VOLL5RIFT'. KZ KZ KZ
+y P
+ KZ5T 5T 5T -.BASISSCHRIFT!,BASISSCHRIFT'. KZ KZ KZ
+y P
+ KZ5T 5T 5T -.VOLL5RIFT-mVOLL5RIFT'. KZ KZ KZ
+y P
+ KZ5T 5T 5T -.BASISSCHRIFT-mBASISSCHRIFT'. KZ KZ KZ</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+ 
+  <utfx:test>
+    <utfx:name>Wort "ich" am Ende von Inlines mit nachfolgendem Satzzeichen</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em>Ich</dtb:em>, <dtb:strong>ich</dtb:strong>; <brl:emph>ich</brl:emph>: <dtb:em>ich</dtb:em>? <dtb:strong>ich</dtb:strong>! (<brl:emph>ich</brl:emph>) «<dtb:strong>ich</dtb:strong>» »<brl:emph>ich</brl:emph>«.</stub>
+      </utfx:source>
+      <utfx:expected>_I4, _I4; _I4: _I4? _I4+ =_I4= (_I4) (_I4).</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Emphasis: Wortgrenzenerkennung bei "-" und "/"</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em>Wort</dtb:em>, <dtb:strong>Wort</dtb:strong>, <brl:emph>Wort</brl:emph>. <dtb:em>Zwei Wörter</dtb:em>, <dtb:strong>eins/zwei</dtb:strong>, <brl:emph>eins-zwei</brl:emph>.</stub>
+      </utfx:source>
+      <utfx:expected>_W?T, _W?T, _W?T. __ZW3 W9RT7'., __6S!,ZW3'., __6S-mZW3'..</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Separator ist keine Wortgrenze</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><brl:homograph>testor<brl:separator/>test</brl:homograph></stub>
+      </utfx:source>
+      <utfx:expected>TE]?(]</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Braille-Literal</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Musik <brl:select><brl:when-braille><brl:literal>@#Lv._@&gt;&amp;2K</brl:literal></brl:when-braille> 
+            <brl:otherwise>[Note E im Bassschlüssel]</brl:otherwise></brl:select> ist doch ganz einfach.</stub>
+      </utfx:source>
+      <utfx:expected>MK @#Lv._@&gt;&amp;2K ] D4 GZ 6F&lt;.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Römische Zahlen</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Henry <brl:num role="roman">IV</brl:num>.
+          Auf Seite <brl:num role="roman">iii</brl:num> beginnt das Vorwort.</stub>
+      </utfx:source>
+      <utfx:expected>HCR'Y >IV. 1 S3( 'III ;G*NT D ,?W?T.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Ordnungszahlen</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+      <utfx:with-param name="downshift_ordinals" select="true()"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Am <brl:num role="ordinal">5.</brl:num> Tag geschah es zum <brl:num role="ordinal">1004.</brl:num>
+          (oder <brl:num role="ordinal">1005.</brl:num>) Mal.</stub>
+      </utfx:source>
+      <utfx:expected>AM #? TAG &amp;5AH % ZM #,))/ =O #,))?'= MAL.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Telefonnummern</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">Telefon <brl:num role="phone">041 / 123 45 67</brl:num>? Telefon <brl:num role="phone">041/123'45'67</brl:num>!</stub>
+      </utfx:source>
+      <utfx:expected>TYEFON #JDA.ABC.DE.FG'? TYEFON #JDA.ABC.DE.FG'+</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Brüche</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><brl:num role="fraction">1/3</brl:num>? <brl:num role="fraction">2/5</brl:num>, (<brl:num role="fraction">13/15</brl:num>) <brl:num role="mixed">3 2/5</brl:num>? <brl:num role="mixed">1 12/19</brl:num>, (<brl:num role="mixed">3 24/25</brl:num>)</stub>
+      </utfx:source>
+      <utfx:expected>#A:'? #B?', =#AC,?'= #C#B?'? #A#AB,*', =#C#BD;?'=</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>ISBN</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <dtb:p xml:lang="de"><dtb:abbr>ISBN</dtb:abbr> <brl:num role="isbn">978-3-86971-001-3</brl:num> <dtb:abbr>ISBN</dtb:abbr> <brl:num role="isbn">978-3-86971-001-X</brl:num> <dtb:abbr>ISBN</dtb:abbr> <brl:num role="isbn">978 3 86971 001 3</brl:num></dtb:p>
+      </utfx:source>
+      <utfx:expected>y P
+ &gt;ISBN #IGH.C.HFIGA.JJA.C &gt;ISBN #IGH.C.HFIGA.JJA-m&gt;X &gt;ISBN #IGH.C.HFIGA.JJA.C</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Running Line Kurzschrift</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+      <utfx:with-param name="footer_level" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:level2>
+            <dtb:h2>Running <brl:running-line brl:grade="1">Index</brl:running-line><brl:running-line brl:grade="2">Laufindex</brl:running-line>line</dtb:h2>
+            <dtb:p>Geklappert?</dtb:p> 
+          </dtb:level2>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y LEVEL2b
+.xNOPAGENUM
+
+y H2
+ R/N*G L*E
+~L1F*DE'X
+
+y P
+ &amp;KLAPP7T?
+y LEVEL2e</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Running Line Vollschrift</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+      <utfx:with-param name="footer_level" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:level2>
+            <dtb:h2>Running <brl:running-line brl:grade="1">Index</brl:running-line><brl:running-line brl:grade="2">Laufindex</brl:running-line>line</dtb:h2>
+	    <dtb:p>Geklappert?</dtb:p> 
+          </dtb:level2>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y LEVEL2b
+.xNOPAGENUM
+
+y H2
+ RUNNING LINE
+~INDEX
+
+y P
+ GEKLAPPERT?
+y LEVEL2e</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>Inhaltsverzeichnis</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+      <utfx:with-param name="toc_level" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">        
+          <dtb:level2>
+            <dtb:h2>Inhaltsverzeichnis<brl:toc-line>Etwas ganz anderes</brl:toc-line></dtb:h2>
+            <dtb:p>Geklappert?</dtb:p> 
+          </dtb:level2>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y LEVEL2b
+.xNOPAGENUM
+
+y H2
+ *H:TSV7Z34X
+HTW GZ ,7%
+
+y P
+ &amp;KLAPP7T?
+y LEVEL2e</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Nodes starting and ending with punctuation</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+      <utfx:with-param name="toc_level" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">        
+            <dtb:p>Was?</dtb:p> 
+            <dtb:p>Als ich ...</dtb:p> 
+            <dtb:p>Nun ...</dtb:p> 
+        </stub>
+      </utfx:source>
+      <utfx:expected>y P
+ W?
+y P
+ 3 # ...
+y P
+ N/ ...</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>brl:volume und pagnum</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">        
+	  <dtb:p>... bla bla.</dtb:p>
+	  <brl:volume brl:grade='2'/>
+	  <dtb:pagenum>75</dtb:pagenum>
+	  <dtb:p>Bla bla ...</dtb:p>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y P
+ ... BLA BLA.
+y EndVol
+p
+
+j 75
+y BrlVol
+
+y P
+ BLA BLA ...
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>brl:volume und pagnum with other contraction</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">        
+	  <dtb:p>... bla bla.</dtb:p>
+	  <brl:volume brl:grade='2'/>
+	  <dtb:pagenum>75</dtb:pagenum>
+	  <dtb:p>Bla bla ...</dtb:p>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y P
+ ... BLA BLA.
+j 75
+ 
+y P
+ BLA BLA ...
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>brl:volume und levelN/pagnum</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+	  <dtb:level1>
+	    <dtb:p>... bla bla.</dtb:p>
+	  </dtb:level1>
+	  <brl:volume brl:grade="2"/>
+	  <dtb:level1>
+	    <dtb:pagenum>75</dtb:pagenum>
+	    <dtb:h1>Titel</dtb:h1>
+	    <dtb:p>Bla bla ...</dtb:p>
+	  </dtb:level1>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y LEVEL1b
+.xNOPAGENUM
+
+y P
+ ... BLA BLA.
+y LEVEL1e
+
+y EndVol
+p
+
+j 75
+y BrlVol
+
+y LEVEL1b
+.xNOPAGENUM
+
+y H1
+ TITY
+
+y P
+ BLA BLA ...
+y LEVEL1e
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>brl:volume und levelN/pagnum with other contraction</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">
+	  <dtb:level1>
+	    <dtb:p>... bla bla.</dtb:p>
+	  </dtb:level1>
+	  <brl:volume brl:grade="2"/>
+	  <dtb:level1>
+	    <dtb:pagenum>75</dtb:pagenum>
+	    <dtb:h1>Titel</dtb:h1>
+	    <dtb:p>Bla bla ...</dtb:p>
+	  </dtb:level1>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y LEVEL1b
+.xNOPAGENUM
+
+y P
+ ... BLA BLA.
+y LEVEL1e
+
+y LEVEL1b
+.xNOPAGENUM
+
+j 75
+ 
+y H1
+ TITEL
+
+y P
+ BLA BLA ...
+y LEVEL1e
+      </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
 </utfx:tests>

@@ -42,6 +42,7 @@
   <xsl:param name="enable_capitalization" select="false()"/>
   <xsl:param name="detailed_accented_characters">de-accents-ch</xsl:param>
   <xsl:param name="include_macros" select="true()"/>
+  <xsl:param name="footnote_placement">standard</xsl:param>
 
   <xsl:variable name="volumes">
     <xsl:value-of select="count(//brl:volume[@brl:grade=$contraction]) + 1"/>
@@ -49,8 +50,8 @@
 
   <xsl:variable name="book_type">
     <xsl:choose>
-      <xsl:when test="//dtb:meta[@name='sbs:BuchReihe']/@content='PPP'">rucksack</xsl:when>
-      <xsl:when test="//dtb:meta[@name='sbs:BuchReihe']/@content='SJW'">sjw</xsl:when>
+      <xsl:when test="//dtb:meta[@name='prod:series']/@content='PPP'">rucksack</xsl:when>
+      <xsl:when test="//dtb:meta[@name='prod:series']/@content='SJW'">sjw</xsl:when>
       <xsl:otherwise>standard</xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
@@ -185,7 +186,7 @@
           <xsl:text>sbs-de-capsign.mod,</xsl:text>
         </xsl:if>
         <xsl:if
-          test="$actual_contraction = '2' and not($context = 'abbr' and not(my:containsDot(.))) and $context != 'date_month' and $context != 'date_day' and $context !='name_capitalized'">
+          test="$actual_contraction = '2' and $context != 'num_roman' and not($context = 'abbr' and not(my:containsDot(.))) and $context != 'date_month' and $context != 'date_day' and $context !='name_capitalized'">
           <xsl:text>sbs-de-letsign.mod,</xsl:text>
         </xsl:if>
         <xsl:if test="$context != 'date_month' and $context != 'denominator'">
@@ -204,17 +205,17 @@
           <xsl:text>sbs-de-core.mod,</xsl:text>
         </xsl:if>
         <xsl:if
-          test="$context = 'name_capitalized' or ($context = 'abbr' and not(my:containsDot(.))) or ($actual_contraction &lt;= '1' and $context != 'date_day' and $context != 'date_month')">
+          test="$context = 'name_capitalized' or $context = 'num_roman' or ($context = 'abbr' and not(my:containsDot(.))) or ($actual_contraction &lt;= '1' and $context != 'date_day' and $context != 'date_month')">
           <xsl:text>sbs-de-g0-core.mod,</xsl:text>
         </xsl:if>
         <xsl:if
-          test="$actual_contraction = '1' and ($context != 'name_capitalized' and ($context != 'abbr' or my:containsDot(.)) and $context != 'date_month' and $context != 'date_day')">
+          test="$actual_contraction = '1' and $context != 'num_roman' and ($context != 'name_capitalized' and ($context != 'abbr' or my:containsDot(.)) and $context != 'date_month' and $context != 'date_day')">
           <xsl:if test="$hyphenation = true()">
             <xsl:text>sbs-de-g1-white.mod,</xsl:text>
           </xsl:if>
           <xsl:text>sbs-de-g1-core.mod,</xsl:text>
         </xsl:if>
-        <xsl:if test="$actual_contraction = '2'">
+        <xsl:if test="$actual_contraction = '2' and $context != 'num_roman'">
           <xsl:if test="$context = 'place'">
             <xsl:text>sbs-de-g2-place.mod,</xsl:text>
           </xsl:if>
@@ -311,25 +312,60 @@
     </xsl:if>
     <xsl:text>&#10;y e BOOKe&#10;</xsl:text>
 
-    <xsl:text>y b BODYb ; Bodymatter&#10;</xsl:text>
+    <xsl:text>y b BODYb ; Begin Bodymatter&#10;</xsl:text>
     <xsl:text>R=X&#10;</xsl:text>
     <xsl:text>Y&#10;</xsl:text>
     <xsl:if test="$show_original_page_numbers = true()">
       <xsl:text>RX&#10;</xsl:text>
     </xsl:if>
     <xsl:text>&#10;y e BODYb&#10;</xsl:text>
-    <xsl:text>y b BODYe&#10;</xsl:text>
+    <xsl:text>y b BODYe ; Ende Bodymatter&#10;</xsl:text>
     <xsl:text>y e BODYe&#10;</xsl:text>
 
     <xsl:if test="//dtb:rearmatter">
-      <xsl:text>y b REARb ; Rearmatter&#10;</xsl:text>
+      <xsl:text>y b REARb ; Begin Rearmatter&#10;</xsl:text>
       <xsl:text>z&#10;</xsl:text>
       <xsl:if test="$toc_level &gt; 0">
         <xsl:text>H`lm1&#10;</xsl:text>
       </xsl:if>
       <xsl:text>y e REARb&#10;</xsl:text>
-      <xsl:text>y b REARe&#10;</xsl:text>
+      <xsl:text>y b REARe ; End Rearmatter&#10;</xsl:text>
       <xsl:text>y e REARe&#10;</xsl:text>
+    </xsl:if>
+
+    
+    <xsl:if test="//dtb:frontmatter//dtb:level1[not(@class) or (@class!='titlepage' and @class!='toc')]">
+      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxx Frontmatter Levels und Headings xxxxxxxxxxxxx&#10;</xsl:text>
+      <xsl:if test="//dtb:frontmatter//dtb:level1[not(@class) or (@class!='titlepage' and @class!='toc')]/dtb:h1">
+	<xsl:text>y b H1_FRONT&#10;</xsl:text>
+	<xsl:text>n6&#10;</xsl:text>
+	<xsl:text>L&#10;</xsl:text>
+	<xsl:text>i f=1 l=1&#10;</xsl:text>
+	<xsl:text>Y&#10;</xsl:text>
+	<xsl:text>u&#10;</xsl:text>
+	<xsl:text>i f=3 l=1&#10;</xsl:text>
+	<xsl:text>y e H1_FRONT&#10;</xsl:text>
+      </xsl:if>
+      <xsl:if test="//dtb:frontmatter//dtb:level1[not(@class) or (@class!='titlepage' and @class!='toc')]//dtb:h2">
+	<xsl:text>y b H2_FRONT&#10;</xsl:text>
+	<xsl:text>n6&#10;</xsl:text>
+	<xsl:text>L&#10;</xsl:text>
+	<xsl:text>i f=1 l=1&#10;</xsl:text>
+	<xsl:text>Y&#10;</xsl:text>
+	<xsl:text>u&#10;</xsl:text>
+	<xsl:text>i f=3 l=1&#10;</xsl:text>
+	<xsl:text>y e H2_FRONT&#10;</xsl:text>
+      </xsl:if>
+      <xsl:if test="//dtb:frontmatter//dtb:level1[not(@class) or (@class!='titlepage' and @class!='toc')]//dtb:h3">
+	<xsl:text>y b H3_FRONT&#10;</xsl:text>
+	<xsl:text>n5&#10;</xsl:text>
+	<xsl:text>L&#10;</xsl:text>
+	<xsl:text>i f=1 l=1&#10;</xsl:text>
+	<xsl:text>Y&#10;</xsl:text>
+	<xsl:text>u,&#10;</xsl:text>
+	<xsl:text>i f=3 l=1&#10;</xsl:text>
+	<xsl:text>y e H3_FRONT&#10;</xsl:text>
+      </xsl:if>
     </xsl:if>
 
     <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxx Levels und Headings xxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
@@ -342,12 +378,14 @@
     <xsl:text>y b H1&#10;</xsl:text>
     <xsl:text>L&#10;</xsl:text>
     <xsl:text>i f=3 l=1&#10;</xsl:text>
+    <xsl:text>i A=4 R=4&#10;</xsl:text>
     <xsl:text>t&#10;</xsl:text>
     <xsl:text>Y&#10;</xsl:text>
     <xsl:text>u-&#10;</xsl:text>
+    <xsl:text>i A=0 R=0&#10;</xsl:text>
     <xsl:if test="$toc_level &gt; 0">
       <xsl:text>H`B+&#10;</xsl:text>
-      <xsl:text>H`i F=1&#10;</xsl:text>
+      <xsl:text>H`i F=1 L=3&#10;</xsl:text>
       <xsl:text>Y&#10;</xsl:text>
       <xsl:text>H`B-&#10;</xsl:text>
     </xsl:if>
@@ -367,14 +405,14 @@
       <xsl:text>y b LEVEL2e&#10;</xsl:text>
       <xsl:text>y e LEVEL2e&#10;</xsl:text>
       <xsl:text>y b H2&#10;</xsl:text>
-      <xsl:text>lm2&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
       <xsl:text>i f=3 l=1&#10;</xsl:text>
       <xsl:text>w&#10;</xsl:text>
       <xsl:text>Y&#10;</xsl:text>
       <xsl:text>u&#10;</xsl:text>
       <xsl:if test="$toc_level &gt; 1">
         <xsl:text>H`B+&#10;</xsl:text>
-        <xsl:text>H`i F=3&#10;</xsl:text>
+        <xsl:text>H`i F=3 L=3&#10;</xsl:text>
         <xsl:text>Y&#10;</xsl:text>
         <xsl:text>H`B-&#10;</xsl:text>
       </xsl:if>
@@ -402,7 +440,7 @@ u,
 </xsl:text>
       <xsl:if test="$toc_level &gt; 2">
         <xsl:text>H`B+&#10;</xsl:text>
-        <xsl:text>H`i F=5&#10;</xsl:text>
+        <xsl:text>H`i F=5 L=3&#10;</xsl:text>
         <xsl:text>Y&#10;</xsl:text>
         <xsl:text>H`B-&#10;</xsl:text>
       </xsl:if>
@@ -415,16 +453,19 @@ u,
     <xsl:if test="//dtb:level4">
       <xsl:text>&#10;y b LEVEL4b&#10;</xsl:text>
       <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n4&#10;</xsl:text>
       <xsl:text>Y&#10;</xsl:text>
       <xsl:text>y e LEVEL4b&#10;</xsl:text>
       <xsl:text>y b LEVEL4e&#10;</xsl:text>
       <xsl:text>y e LEVEL4e&#10;</xsl:text>
       <xsl:text>y b H4&#10;</xsl:text>
       <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>i f=3 l=1&#10;</xsl:text>
+      <xsl:text>w&#10;</xsl:text>
       <xsl:text>Y&#10;</xsl:text>
       <xsl:if test="$toc_level &gt; 3">
         <xsl:text>H`B+&#10;</xsl:text>
-        <xsl:text>H`i F=7&#10;</xsl:text>
+        <xsl:text>H`i F=7 L=3&#10;</xsl:text>
         <xsl:text>Y&#10;</xsl:text>
         <xsl:text>H`B-&#10;</xsl:text>
       </xsl:if>
@@ -437,16 +478,19 @@ u,
     <xsl:if test="//dtb:level5">
       <xsl:text>&#10;y b LEVEL5b&#10;</xsl:text>
       <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n4&#10;</xsl:text>
       <xsl:text>Y&#10;</xsl:text>
       <xsl:text>y e LEVEL5b&#10;</xsl:text>
       <xsl:text>y b LEVEL5e&#10;</xsl:text>
       <xsl:text>y e LEVEL5e&#10;</xsl:text>
       <xsl:text>y b H5&#10;</xsl:text>
       <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>i f=3 l=1&#10;</xsl:text>
+      <xsl:text>w&#10;</xsl:text>
       <xsl:text>Y&#10;</xsl:text>
       <xsl:if test="$toc_level &gt; 4">
         <xsl:text>H`B+&#10;</xsl:text>
-        <xsl:text>H`i F=9&#10;</xsl:text>
+        <xsl:text>H`i F=9 L=3&#10;</xsl:text>
         <xsl:text>Y&#10;</xsl:text>
         <xsl:text>H`B-&#10;</xsl:text>
       </xsl:if>
@@ -457,91 +501,140 @@ u,
     </xsl:if>
 
     <xsl:if test="//dtb:level6">
-      <xsl:text>
-y b LEVEL6b
-lm1
-Y
-y e LEVEL6b
-y b LEVEL6e
-y e LEVEL6e
-y b H6
-lm1
-Y
-</xsl:text>
+      <xsl:text>&#10;y b LEVEL6b&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n4&#10;</xsl:text>
+      <xsl:text>Y&#10;</xsl:text>
+      <xsl:text>y e LEVEL6b&#10;</xsl:text>
+      <xsl:text>y b LEVEL6e&#10;</xsl:text>
+      <xsl:text>y e LEVEL6e&#10;</xsl:text>
+      <xsl:text>y b H6&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>i f=3 l=1&#10;</xsl:text>
+      <xsl:text>w&#10;</xsl:text>
+      <xsl:text>Y&#10;</xsl:text>
       <xsl:if test="$toc_level &gt; 5">
-        <xsl:text>H`B+
-H`i F=11
-Y
-H`B-
-</xsl:text>
+	<xsl:text>H`B+&#10;</xsl:text>
+	<xsl:text>H`i F=11 L=3&#10;</xsl:text>
+	<xsl:text>Y&#10;</xsl:text>
+	<xsl:text>H`B-&#10;</xsl:text>
       </xsl:if>
       <xsl:if test="$footer_level &gt; 5">
-        <xsl:text>Y
-</xsl:text>
+	<xsl:text>Y&#10;</xsl:text>
       </xsl:if>
       <xsl:text>y e H6&#10;</xsl:text>
     </xsl:if>
 
-    <xsl:if test="//dtb:p">
-      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxx Absatz, Leerzeile, Separator xxxxxxxxxxxxxxxxxxxx
-y b P
-i f=3 l=1
-y e P
-</xsl:text>
-    </xsl:if>
-    <xsl:if test="//dtb:p[contains(@class, 'precedingemptyline')]">
-      <xsl:text>y b BLANK
-lm1
-n2
-y e BLANK
-</xsl:text>
-    </xsl:if>
-    <xsl:if test="//dtb:p[contains(@class, 'precedingseparator')]">
-      <xsl:text>y b SEPARATOR
-lm1
-t::::::
-lm1
-y e SEPARATOR
-</xsl:text>
-    </xsl:if>
-    <xsl:if test="//dtb:p[contains(@class, 'noindent')]">
-      <xsl:text>y b P_noi
-i f=1 l=1
-y e P_noi
-</xsl:text>
-    </xsl:if>
-
-    <xsl:if test="//dtb:author">
-      <xsl:text>y b AUTHOR
-r
-y e AUTHOR
-</xsl:text>
-    </xsl:if>
-
-    <xsl:if test="//dtb:byline">
-      <xsl:text>y b BYLINE
-r
-y e BYLINE
-</xsl:text>
-    </xsl:if>
-
-    <xsl:if test="//dtb:blockquote">
-      <xsl:text>
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx Blockquote xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-y b BLQUOb
-lm1
-n2
-i A=2
-y e BLQUOb
-y b BLQUOe
-i A=0
-lm1
-n2
-y e BLQUOe
-</xsl:text>
+    <xsl:if test="//dtb:*[@brl:class]">
+      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxx Makros mit Class Attributen xxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
+      <!-- Elements that only have a start macro -->
+      <xsl:for-each-group select="//dtb:author[@brl:class]|//dtb:byline[@brl:class]|//dtb:li[@brl:class]|//dtb:p[@brl:class]|//dtb:h1[@brl:class]|//dtb:h2[@brl:class]|//dtb:h3[@brl:class]|//dtb:h4[@brl:class]|//dtb:h5[@brl:class]|//dtb:h6[@brl:class]" group-by="local-name()">
+	<xsl:variable name="element-name" select="current-grouping-key()"/>
+	<xsl:variable name="makro-name" select="upper-case($element-name)"/>
+	<xsl:for-each select="distinct-values(//dtb:*[local-name() = $element-name]/@brl:class)">
+	  <xsl:text>&#10;y b </xsl:text>
+	  <xsl:value-of select="$makro-name"/><xsl:text>_</xsl:text>
+	  <xsl:value-of select="."/><xsl:text>&#10;</xsl:text>
+	  <xsl:text>X TODO: Fix this macro&#10;</xsl:text>
+	  <xsl:text>y e </xsl:text>
+	  <xsl:value-of select="$makro-name"/><xsl:text>_</xsl:text>
+	  <xsl:value-of select="."/><xsl:text>&#10;&#10;</xsl:text>
+	</xsl:for-each>
+      </xsl:for-each-group>
+      <!-- Elements that have both a start and an end macro -->
+      <xsl:for-each-group select="//dtb:blockquote[@brl:class]|//dtb:epigraph[@brl:class]|//dtb:list[@brl:class]|//dtb:poem[@brl:class]|//dtb:linegroup[@brl:class]|//dtb:line[@brl:class]|//dtb:div[@brl:class]" group-by="local-name()">
+	<xsl:variable name="element-name" select="current-grouping-key()"/>
+	<xsl:variable name="makro-name" >
+	  <xsl:choose>
+	    <xsl:when test="$element-name = 'blockquote'">BLQUO</xsl:when>
+	    <xsl:when test="$element-name = 'epigraph'">EPIGR</xsl:when>
+	    <xsl:otherwise>
+	      <xsl:value-of select="upper-case($element-name)"/>
+	    </xsl:otherwise>
+	  </xsl:choose>
+	</xsl:variable>
+	<xsl:for-each select="distinct-values(//dtb:*[local-name() = $element-name]/@brl:class)">
+	  <xsl:text>&#10;y b </xsl:text>
+	  <xsl:value-of select="$makro-name"/><xsl:text>b_</xsl:text>
+	  <xsl:value-of select="."/><xsl:text>&#10;</xsl:text>
+	  <xsl:text>X TODO: Fix this macro&#10;</xsl:text>
+	  <xsl:text>y e </xsl:text>
+	  <xsl:value-of select="$makro-name"/><xsl:text>b_</xsl:text>
+	  <xsl:value-of select="."/><xsl:text>&#10;&#10;</xsl:text>
+	  <xsl:text>&#10;y b </xsl:text>
+	  <xsl:value-of select="$makro-name"/><xsl:text>e_</xsl:text>
+	  <xsl:value-of select="."/><xsl:text>&#10;</xsl:text>
+	  <xsl:text>X TODO: Fix this macro&#10;</xsl:text>
+	  <xsl:text>y e </xsl:text>
+	  <xsl:value-of select="$makro-name"/><xsl:text>e_</xsl:text>
+	  <xsl:value-of select="."/><xsl:text>&#10;&#10;</xsl:text>
+	</xsl:for-each>
+      </xsl:for-each-group>
     </xsl:if>
 
-    <xsl:if test="//dtb:epigraph">
+    <xsl:if test="//dtb:note and $footnote_placement != 'standard'">
+      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxx Notes xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
+      <xsl:text>y b Notes&#10;</xsl:text>
+      <xsl:text>X TODO: Fix this macro&#10;</xsl:text>
+      <xsl:text>y e Notes&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="//dtb:p[not(@brl:class)]">
+      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxx Absatz, Leerzeile, Separator xxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
+      <xsl:text>y b P&#10;</xsl:text>
+      <xsl:text>a&#10;</xsl:text>
+      <xsl:text>y e P&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="//dtb:p[not(@brl:class) and contains(@class, 'precedingemptyline')]">
+      <xsl:text>y b BLANK&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>y e BLANK&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="//dtb:p[not(@brl:class) and contains(@class, 'precedingseparator')]">
+      <xsl:text>y b SEPARATOR&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>t::::::&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>y e SEPARATOR&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="//dtb:p[not(@brl:class) and contains(@class, 'noindent')]">
+      <xsl:text>y b P_noi&#10;</xsl:text>
+      <xsl:text>w&#10;</xsl:text>
+      <xsl:text>y e P_noi&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="//dtb:author[not(@brl:class)]">
+      <xsl:text>y b AUTHOR&#10;</xsl:text>
+      <xsl:text>r&#10;</xsl:text>
+      <xsl:text>y e AUTHOR&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="//dtb:byline[not(@brl:class)]">
+      <xsl:text>y b BYLINE&#10;</xsl:text>
+      <xsl:text>r&#10;</xsl:text>
+      <xsl:text>y e BYLINE&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="//dtb:blockquote[not(@brl:class)]">
+      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxxxxxxx Blockquote xxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
+      <xsl:text>y b BLQUOb&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>i A=2&#10;</xsl:text>
+      <xsl:text>y e BLQUOb&#10;</xsl:text>
+      <xsl:text>y b BLQUOe&#10;</xsl:text>
+      <xsl:text>i A=0&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>y e BLQUOe&#10;</xsl:text>
+    </xsl:if>
+
+    <xsl:if test="//dtb:epigraph[not(@brl:class)]">
       <xsl:text>
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxx Epigraph xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 y b EPIGRb
@@ -557,74 +650,68 @@ y e EPIGRe
 </xsl:text>
     </xsl:if>
 
-    <xsl:if test="//dtb:poem">
-      <xsl:text>
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Poem xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-y b POEMb
-lm1
-n2
-i A=2
-y e POEMb
-y b POEMe
-i A=0
-lm1
-n2
-y e POEMe
-
-y b LINEb
-i f=1 l=3
-B+
-y e LINEb
-y b LINEe
-B-
-y e LINEe
-</xsl:text>
+    <xsl:if test="//dtb:poem[not(@brl:class)]|//dtb:line[not(@brl:class)]">
+      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Poem xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;&#10;</xsl:text>
+      <xsl:text>y b POEMb&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>i f=1 l=3&#10;</xsl:text>
+      <xsl:text>n4&#10;</xsl:text>
+      <xsl:text>i A=2&#10;</xsl:text>
+      <xsl:text>y e POEMb&#10;</xsl:text>
+      <xsl:text>y b POEMe&#10;</xsl:text>
+      <xsl:text>i A=0&#10;</xsl:text>
+      <xsl:text>i f=3 l=1&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>y e POEMe&#10;&#10;</xsl:text>
+      
+      <xsl:text>y b LINEb&#10;</xsl:text>
+      <xsl:text>a&#10;</xsl:text>
+      <xsl:text>B+&#10;</xsl:text>
+      <xsl:text>y e LINEb&#10;</xsl:text>
+      <xsl:text>y b LINEe&#10;</xsl:text>
+      <xsl:text>B-&#10;</xsl:text>
+      <xsl:text>y e LINEe&#10;</xsl:text>
     </xsl:if>
 
-    <xsl:if test="//dtb:linegroup">
-      <xsl:text>
-y b LINEGROUPb
-lm1
-n2
-y e LINEGROUPb
-y b LINEGROUPe
-y e LINEGROUPe
-</xsl:text>
+    <xsl:if test="//dtb:linegroup[not(@brl:class)]">
+      <xsl:text>&#10;y b LINEGRb&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>i f=1 l=3&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>y e LINEGRb&#10;</xsl:text>
+      <xsl:text>y b LINEGRe&#10;</xsl:text>
+      <xsl:text>i f=3 l=1&#10;</xsl:text>
+      <xsl:text>y e LINEGRe&#10;</xsl:text>
     </xsl:if>
 
-    <xsl:if test="//dtb:list">
-      <xsl:text>
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Listen xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    <xsl:if test="//dtb:list[not(@brl:class)]|//dtb:li[not(@brl:class)]">
+      <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Listen xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#10;&#10;</xsl:text>
 
-y b PLISTb ; Vorformatierte Liste
-lm1
-i f=1 l=3
-n2
-y e PLISTb
-y b PLISTe
-i f=3 l=1
-lm1
-n2
-y e PLISTe
-</xsl:text>
-      <xsl:text>y b LI
-a
-y e LI
-</xsl:text>
+      <xsl:text>y b PLISTb ; Vorformatierte Liste&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>i f=1 l=3&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>y e PLISTb&#10;</xsl:text>
+      <xsl:text>y b PLISTe&#10;</xsl:text>
+      <xsl:text>i f=3 l=1&#10;</xsl:text>
+      <xsl:text>lm1&#10;</xsl:text>
+      <xsl:text>n2&#10;</xsl:text>
+      <xsl:text>y e PLISTe&#10;</xsl:text>
+
+      <xsl:text>y b LI&#10;</xsl:text>
+      <xsl:text>a&#10;</xsl:text>
+      <xsl:text>y e LI&#10;</xsl:text>
     </xsl:if>
 
-    <xsl:text>
-xxxxxxxxxxxxxxxxxxxxxxxxxxx Bandeinteilung xxxxxxxxxxxxxxxxxxxxxxxxxxx
-y b BrlVol
-?vol:vol+1
-y Titlepage
-</xsl:text>
+    <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxxxxx Bandeinteilung xxxxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
+    <xsl:text>y b BrlVol&#10;</xsl:text>
+    <xsl:text>?vol:vol+1&#10;</xsl:text>
+    <xsl:text>y Titlepage&#10;</xsl:text>
     <xsl:if test="$volumes &gt; 1 and $toc_level &gt; 0">
-      <xsl:text>
-xy InhTit
-H`lm1
-H`n5
-</xsl:text>
+      <xsl:text>&#10;xy InhTit&#10;</xsl:text>
+      <xsl:text>H`lm1&#10;</xsl:text>
+      <xsl:text>H`n5&#10;</xsl:text>
       <xsl:choose>
         <xsl:when test="$volumes &lt; 13">
           <xsl:text>"H`t%B</xsl:text>
@@ -872,7 +959,7 @@ t
       <xsl:value-of
         select="louis:translate(string($braille_tables), 'Heft Nr.')"/>
       <xsl:value-of
-        select="louis:translate(string($braille_tables), string(//dtb:meta[@name='sbs:ReihenNummer']/@content))"/>
+        select="louis:translate(string($braille_tables), string(//dtb:meta[@name='prod:seriesNumber']/@content))"/>
       <xsl:text>&#10;</xsl:text>
     </xsl:if>
     <xsl:if test="$volumes &gt; 1">
@@ -908,7 +995,7 @@ t
       <xsl:value-of
         select="louis:translate(string($braille_tables), 'Rucksackbuch Nr.')"/>
       <xsl:value-of
-        select="louis:translate(string($braille_tables), string(//dtb:meta[@name='sbs:ReihenNummer']/@content))"/>
+        select="louis:translate(string($braille_tables), string(//dtb:meta[@name='prod:seriesNumber']/@content))"/>
       <xsl:text>&#10;t&#10; </xsl:text>
       <xsl:text> PUNKT POINT PUNTO</xsl:text> <!-- FIXME: Pass this with grade 0 through liblouis " PUNKT POINT PUNTO"-->
       <xsl:text>&#10;</xsl:text>
@@ -922,6 +1009,11 @@ t
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>t&#10; </xsl:text>
+    <xsl:call-template name="handle_abbr">
+      <xsl:with-param name="context" select="'abbr'"/>
+      <xsl:with-param name="content" select="'SBS'"/>
+    </xsl:call-template>
+    <xsl:text> </xsl:text>
     <xsl:value-of
       select="louis:translate(string($braille_tables), 'Schweizerische Bibliothek')"/>
     <xsl:text>&#10;t&#10; </xsl:text>
@@ -956,13 +1048,13 @@ i f=1 l=1
           <xsl:with-param name="content" select="'SJW-'"/>
         </xsl:call-template>
         <xsl:value-of
-          select="louis:translate(string($braille_tables), '¦Verlag für die Bereitstellung der Daten.')"/>
+          select="louis:translate(string($braille_tables), '&#x250A;Verlag für die Bereitstellung der Daten.')"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of
           select="louis:translate(string($braille_tables), 'Dieses Braillebuch ist die ausschließlich ')"/>
         <xsl:value-of
-          select="louis:translate(string($braille_tables), 'für die Nutzung durch Lesebehinderte Menschen ')"/>
+          select="louis:translate(string($braille_tables), 'für die Nutzung durch Seh- und Lesebehinderte Menschen ')"/>
         <xsl:value-of
           select="louis:translate(string($braille_tables), 'bestimmte zugängliche Version eines urheberrechtlich ')"/>
         <xsl:value-of
@@ -987,12 +1079,12 @@ i f=1 l=1
           <xsl:text>&#10;lv17&#10; </xsl:text>
         </xsl:otherwise>
       </xsl:choose>
-      <xsl:text>PUNKT POINT PUNTO'- </xsl:text> <!-- FIXME: Pass this with grade 0 through liblouis "PUNKT POINT PUNTO &#x2013;"-->
+      <xsl:text>PUNKT POINT PUNTO'- &gt;PPP</xsl:text> <!-- FIXME: Pass this with grade 0 through liblouis "PUNKT POINT PUNTO &#x2013;"-->
       <xsl:text>&#10;a&#10; </xsl:text>
       <xsl:value-of
         select="louis:translate(string($braille_tables), 'Rucksackbuch Nr.')"/>
       <xsl:value-of
-        select="louis:translate(string($braille_tables), string(//dtb:meta[@name='sbs:ReihenNummer']/@content))"/>
+        select="louis:translate(string($braille_tables), string(//dtb:meta[@name='prod:seriesNumber']/@content))"/>
     </xsl:if>
     <xsl:choose>
       <xsl:when test="$contraction = 2">
@@ -1005,6 +1097,11 @@ i f=1 l=1
     <xsl:value-of
       select="louis:translate(string($braille_tables), 'Verlag, Satz und Druck')"/>
     <xsl:text>&#10;a&#10; </xsl:text>
+    <xsl:call-template name="handle_abbr">
+      <xsl:with-param name="context" select="'abbr'"/>
+      <xsl:with-param name="content" select="'SBS'"/>
+    </xsl:call-template>
+    <xsl:text> </xsl:text>
     <xsl:value-of
       select="louis:translate(string($braille_tables), 'Schweizerische Bibliothek')"/>
     <xsl:text>&#10;a&#10; </xsl:text>
@@ -1017,7 +1114,7 @@ i f=1 l=1
       select="louis:translate(string($braille_tables), 'Lesebehinderte, Zürich')"/>
     <xsl:text>&#10;a&#10; </xsl:text>
     <xsl:value-of
-      select="louis:translate(string($braille_tables), 'www.sbs-online.ch')"/>
+      select="louis:translate(string($braille_tables), 'www.sbs.ch')"/>
     <xsl:text>&#10;l&#10; </xsl:text>
     <xsl:call-template name="handle_abbr">
       <xsl:with-param name="context" select="'abbr'"/>
@@ -1034,25 +1131,25 @@ i f=1 l=1
     <xsl:text>&#10;u-&#10;l&#10; </xsl:text>
     <xsl:apply-templates
       select="//dtb:frontmatter/dtb:level1[@class='titlepage']" mode="titlepage"/>
-    <xsl:text>
-b
-O
-y e Titlepage
-    </xsl:text>
+    <xsl:text>&#10;b&#10;</xsl:text>
+    <xsl:text>O&#10;</xsl:text>
+    <xsl:text>y e Titlepage&#10;</xsl:text>
     <xsl:text>xxx ====================== ENDE SBSFORM.MAK ====================== xxx&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template name="rest-of-frontmatter">
     <xsl:text>&#10;y BOOKb&#10;</xsl:text>
-    <xsl:if test="//dtb:note">
+    <xsl:if test="//dtb:note and $footnote_placement = 'standard'">
       <xsl:call-template name="insert_footnotes"/>
     </xsl:if>
     <xsl:text>y BrlVol&#10;</xsl:text>
-    <xsl:text>xxxxxxxxxxxxxxxxxxxxxxxxxx Klappentext etc. xxxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
-    <xsl:text>O&#10;</xsl:text>
-    <xsl:apply-templates
-      select="//dtb:frontmatter/dtb:level1[not(@class) or (@class!='titlepage' and @class!='toc')]"/>
-    <xsl:text>O&#10;</xsl:text>
+    <xsl:if test="//dtb:frontmatter/dtb:level1[not(@class) or (@class!='titlepage' and @class!='toc')]">
+      <xsl:text>xxxxxxxxxxxxxxxxxxxxxxxxxx Klappentext etc. xxxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
+      <xsl:text>O&#10;</xsl:text>
+      <xsl:apply-templates
+	  select="//dtb:frontmatter/dtb:level1[not(@class) or (@class!='titlepage' and @class!='toc')]"/>
+      <xsl:text>O&#10;</xsl:text>
+    </xsl:if>
     <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Buchinhalt xxxxxxxxxxxxxxxxxxxxxxxxxxxx&#10;</xsl:text>
   </xsl:template>
 
@@ -1135,18 +1232,24 @@ y e Titlepage
   <xsl:template match="dtb:frontmatter"> </xsl:template>
 
   <xsl:template match="dtb:bodymatter">
-    <xsl:text>
-y BODYb
-i j=</xsl:text>
+    <xsl:text>&#10;y BODYb&#10;</xsl:text>
+    <xsl:text>i j=</xsl:text>
     <!-- value of first pagenum within body -->
     <xsl:value-of select="descendant::dtb:pagenum[1]/text()"/>
-    <xsl:text>
-</xsl:text>
-
+    <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>
-y BODYe
-</xsl:text>
+    <!-- Apply end notes of last volume -->
+    <xsl:if test="$footnote_placement = 'end_vol'">
+      <xsl:variable name="noterefs" select="//dtb:noteref[not(following::brl:volume[@brl:grade = $contraction])]"/>
+      <xsl:variable name="notes" select="for $noteref in $noterefs return //dtb:note[@id=translate($noteref/@idref,'#','')]"/>
+      <xsl:if test="exists($notes)">
+	<xsl:text>&#10;y Notes&#10;</xsl:text>
+	<xsl:for-each select="$notes">
+	  <xsl:apply-templates />
+	</xsl:for-each>
+      </xsl:if>
+    </xsl:if>
+    <xsl:text>&#10;&#10;y BODYe&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:doctitle">
@@ -1157,31 +1260,64 @@ y BODYe
     <xsl:apply-templates/>
   </xsl:template>
 
+  <xsl:template name="handle_level_endnotes">
+    <xsl:variable name="level">
+      <xsl:choose>
+	<xsl:when test="local-name() = 'level1'">1</xsl:when>
+	<xsl:when test="local-name() = 'level2'">2</xsl:when>
+	<xsl:when test="local-name() = 'level3'">3</xsl:when>
+	<xsl:when test="local-name() = 'level4'">4</xsl:when>
+	<xsl:otherwise>NoMatch</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:if test="$footnote_placement = concat('level', $level)">
+      <xsl:variable name="noterefs" select="current()//dtb:noteref"/>
+      <xsl:variable name="notes" select="for $noteref in $noterefs return //dtb:note[@id=translate($noteref/@idref,'#','')]"/>
+      <xsl:if test="exists($notes)">
+	<xsl:text>&#10;y Notes&#10;</xsl:text>
+	<xsl:for-each select="$notes">
+	  <xsl:apply-templates/>
+	</xsl:for-each>
+      </xsl:if>
+    </xsl:if>
+  </xsl:template>
+
+  <!-- Frontmatter handling -->
+  <xsl:template match="dtb:frontmatter//dtb:level1">
+    <xsl:text>&#10;z&#10;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="dtb:frontmatter//dtb:level2|dtb:frontmatter//dtb:level3">
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="dtb:frontmatter//dtb:h1|dtb:frontmatter//dtb:h2|dtb:frontmatter//dtb:h3">
+    <xsl:variable name="level" select="number(substring(local-name(), 2))"/>
+    <xsl:value-of select="concat('&#10;y H',$level,'_FRONT&#10; ')"/>
+    <xsl:apply-templates/>
+  </xsl:template>
+
   <xsl:template match="dtb:level1">
-    <xsl:text>
-y LEVEL1b
-</xsl:text>
+    <xsl:text>&#10;y LEVEL1b&#10;</xsl:text>
     <!-- add a comment if the first child is not a pagenum -->
     <xsl:if test="not(name(child::*[1])='pagenum')">
-      <xsl:text>.xNOPAGENUM
-</xsl:text>
+      <xsl:text>.xNOPAGENUM&#10;</xsl:text>
     </xsl:if>
     <xsl:apply-templates/>
-    <xsl:text>
-y LEVEL1e
-</xsl:text>
+    <xsl:call-template name="handle_level_endnotes"/>
+    <xsl:text>&#10;y LEVEL1e&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:level2">
-    <xsl:text>
-y LEVEL2b
-</xsl:text>
+    <xsl:text>&#10;y LEVEL2b&#10;</xsl:text>
     <!-- add a comment if the first child is not a pagenum -->
     <xsl:if test="not(name(child::*[1])='pagenum')">
-      <xsl:text>.xNOPAGENUM
-</xsl:text>
+      <xsl:text>.xNOPAGENUM&#10;</xsl:text>
     </xsl:if>
     <xsl:apply-templates/>
+    <xsl:call-template name="handle_level_endnotes"/>
     <xsl:text>&#10;y LEVEL2e&#10;</xsl:text>
   </xsl:template>
 
@@ -1192,6 +1328,7 @@ y LEVEL2b
       <xsl:text>.xNOPAGENUM&#10;</xsl:text>
     </xsl:if>
     <xsl:apply-templates/>
+    <xsl:call-template name="handle_level_endnotes"/>
     <xsl:text>&#10;y LEVEL3e&#10;</xsl:text>
   </xsl:template>
 
@@ -1202,6 +1339,7 @@ y LEVEL2b
       <xsl:text>.xNOPAGENUM&#10;</xsl:text>
     </xsl:if>
     <xsl:apply-templates/>
+    <xsl:call-template name="handle_level_endnotes"/>
     <xsl:text>&#10;y LEVEL4e&#10;</xsl:text>
   </xsl:template>
 
@@ -1226,21 +1364,38 @@ y LEVEL2b
   </xsl:template>
 
   <xsl:template match="dtb:p" mode="titlepage">
-    <xsl:text>&#10; </xsl:text>
+    <xsl:text>&#10;a&#10; </xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template match="dtb:note/dtb:p">
+    <xsl:variable name="braille_tables">
+      <xsl:call-template name="getTable"/>
+    </xsl:variable>
     <xsl:text>&#10;</xsl:text>
     <xsl:choose>
       <xsl:when test="position()=1">
-        <xsl:text>p </xsl:text>
+	<xsl:choose>
+	  <xsl:when test="$footnote_placement = 'standard'">
+	    <xsl:text>p </xsl:text>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:text>a </xsl:text>
+	  </xsl:otherwise>
+	</xsl:choose>
+	<xsl:text>&#10; </xsl:text>
+	<!-- Place the foot note number in the first para of the foot note -->
+	<xsl:variable name="idref" select="concat('#',../@id)"/>
+	<xsl:variable name="corresponding_noteref" select="//dtb:noteref[@idref=$idref][1]"/>
+	<xsl:variable name="note_number" select="count($corresponding_noteref/preceding::dtb:noteref)+1"/>
+	<xsl:variable name="prefix" select="if ($footnote_placement = 'standard') then '*' else ''"/>
+	<xsl:value-of select="concat(louis:translate(string($braille_tables), concat($prefix, $note_number)), ' ')"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:text>w </xsl:text>
+	<xsl:text>&#10; </xsl:text>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:text>&#10; </xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
 
@@ -1256,6 +1411,9 @@ y LEVEL2b
       <xsl:when test="contains(@class, 'noindent')">
         <xsl:text>y P_noi&#10; </xsl:text>
       </xsl:when>
+      <xsl:when test="exists(@brl:class)">
+        <xsl:text>y P_</xsl:text><xsl:value-of select="@brl:class"/><xsl:text>&#10; </xsl:text>
+      </xsl:when>
       <xsl:otherwise>
         <xsl:text>y P&#10; </xsl:text>
       </xsl:otherwise>
@@ -1264,13 +1422,19 @@ y LEVEL2b
   </xsl:template>
 
   <xsl:template match="dtb:list">
-    <xsl:text>&#10;y PLISTb&#10;</xsl:text>
+    <xsl:text>&#10;y PLISTb</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>&#10;y PLISTe&#10;</xsl:text>
+    <xsl:text>&#10;y PLISTe</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:li">
-    <xsl:text>&#10;y LI&#10; </xsl:text>
+    <xsl:text>&#10;y LI</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10; </xsl:text>
     <xsl:apply-templates/>
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
@@ -1280,7 +1444,26 @@ y LEVEL2b
     <xsl:text> </xsl:text>
   </xsl:template>
 
+  <!-- Handle pagenums after volume boundaries -->
+  <xsl:template match="dtb:pagenum[preceding-sibling::*[position()=1 and local-name()='volume' and @brl:grade = $contraction]]"/>
+
+  <!-- Handle levelN/pagenums after volume boundaries -->
+  <xsl:template match="dtb:pagenum[position()=1 and parent::*[substring(local-name(),0,6)='level' and preceding-sibling::*[position()=1 and local-name()='volume' and @brl:grade = $contraction]]]"/>
+
+  <xsl:template match="dtb:pagenum" mode="no-space-after">
+    <xsl:call-template name="dtb:pagenum">
+      <xsl:with-param name="trailing-space" select="'&#10;'"/>
+    </xsl:call-template>
+  </xsl:template>
+
   <xsl:template match="dtb:pagenum">
+    <xsl:call-template name="dtb:pagenum">
+      <xsl:with-param name="trailing-space" select="'&#10; '"/>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template name="dtb:pagenum">
+    <xsl:param name="trailing-space"/>
     <xsl:text>&#10;j </xsl:text>
     <xsl:value-of select="text()"/>
     <!-- Add a newline unless the following node is another pagenum
@@ -1290,7 +1473,7 @@ y LEVEL2b
     <!-- FIXME: this doesn't properly handle comment nodes -->
     <xsl:if test="not($following-nodes[position() = 1 and local-name() = 'pagenum'])">
       <!-- add a space for the following inline elements -->
-      <xsl:text>&#10; </xsl:text>
+      <xsl:value-of select="$trailing-space"/>
     </xsl:if>
   </xsl:template>
 
@@ -1298,9 +1481,14 @@ y LEVEL2b
     <xsl:variable name="level" select="number(substring(local-name(), 2))"/>
     <xsl:text>&#10;y H</xsl:text>
     <xsl:value-of select="$level"/>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
     <xsl:text>&#10; </xsl:text>
-    <xsl:apply-templates
-      select="*[local-name() != 'toc-line' and local-name() != 'running-line']|text()"/>
+    <xsl:variable name="header">
+      <xsl:apply-templates
+	  select="*[local-name() != 'toc-line' and local-name() != 'running-line']|text()"/>
+    </xsl:variable>
+    <!-- Remove hypenation marks ('t','k', 'p' and 'w') -->
+    <xsl:value-of select="translate(normalize-space(string($header)),'tkpw','')"/>
     <xsl:if test="$toc_level &gt;= $level">
       <xsl:text>&#10;H</xsl:text>
       <xsl:variable name="toc-line">
@@ -1331,49 +1519,77 @@ y LEVEL2b
           </xsl:otherwise>
         </xsl:choose>
       </xsl:variable>
-      <xsl:value-of select="translate(normalize-space(string($running-line)),' ','s')"/>
+      <!-- Replace spaces by 's' and remove hypenation marks ('t','k', 'p' and 'w') -->
+      <xsl:value-of select="translate(normalize-space(string($running-line)),' tkpw','s')"/>
     </xsl:if>
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:blockquote">
-    <xsl:text>&#10;y BLQUOb&#10;</xsl:text>
+    <xsl:text>&#10;y BLQUOb</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>&#10;y BLQUOe&#10;</xsl:text>
+    <xsl:text>&#10;y BLQUOe</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:epigraph">
-    <xsl:text>&#10;y EPIGRb&#10;</xsl:text>
+    <xsl:text>&#10;y EPIGRb</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>&#10;y EPIGRe&#10;</xsl:text>
+    <xsl:text>&#10;y EPIGRe</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:poem">
-    <xsl:text>&#10;y POEMb&#10;</xsl:text>
+    <xsl:text>&#10;y POEMb</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>&#10;y POEMe&#10;</xsl:text>
+    <xsl:text>&#10;y POEMe</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template name="insert_footnotes">
-    <xsl:text>&#10;i b=</xsl:text>
-    <xsl:value-of select="$cells_per_line"/>
-    <xsl:text>&#10;i s=</xsl:text>
-    <xsl:value-of select="$lines_per_page"/>
-    <xsl:text>
-"N %Y.nf
-O
-I L=n
-i f=1 l=3 w=5</xsl:text>
+    <xsl:text>&#10;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Fussnoten xxxxxxxxxxxxxxxxxxxxxxxxxxxx&#10;&#10;</xsl:text>
+    <xsl:choose>
+      <xsl:when test="$contraction = 2">
+	<xsl:text>"N %Y.nfk&#10;</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:text>"N %Y.nfv&#10;</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:text>O&#10;</xsl:text>
+    <xsl:text>I L=n&#10;</xsl:text>
+    <xsl:text>i f=1 l=3 w=5&#10;</xsl:text>
     <xsl:for-each select="//dtb:note">
       <xsl:apply-templates/>
     </xsl:for-each>
-    <xsl:text>
-O
-"N %Y.f
-I *=j L=j
-i f=3 l=1
-"* %Y.nf
-</xsl:text>
+    <xsl:text>&#10;O&#10;</xsl:text>
+    <xsl:choose>
+      <xsl:when test="$contraction = 2">
+    <xsl:text>"N %Y.fk&#10;</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:text>"N %Y.fv&#10;</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:text>I *=j L=j&#10;</xsl:text>
+    <xsl:text>i f=3 l=1&#10;</xsl:text>
+    <xsl:choose>
+      <xsl:when test="$contraction = 2">
+	<xsl:text>"* %Y.nfk&#10;</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:text>"* %Y.nfv&#10;</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="dtb:note">
@@ -1384,38 +1600,43 @@ i f=3 l=1
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <xsl:choose>
-      <xsl:when test="matches(string(),'^\d')">
-	<!-- Prepend an asterisk to the noteref to announce it -->
-	<xsl:value-of select="louis:translate(string($braille_tables), concat('*',string(.)))"/>
-      </xsl:when>
-      <xsl:otherwise>
-	<xsl:value-of select="louis:translate(string($braille_tables), string(.))"/>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:variable name="note_number" select="count(preceding::dtb:noteref)+1"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('*',string($note_number)))"/>
     <xsl:text>&#10;* &#10; </xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:author">
-    <xsl:text>&#10;y AUTHOR&#10; </xsl:text>
+    <xsl:text>&#10;y AUTHOR</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10; </xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template match="dtb:byline">
-    <xsl:text>&#10;y BYLINE&#10; </xsl:text>
+    <xsl:text>&#10;y BYLINE</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10; </xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template match="dtb:linegroup">
-    <xsl:text>&#10;y LINEGROUPb&#10;</xsl:text>
+    <xsl:text>&#10;y LINEGRb</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10; </xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>&#10;y LINEGROUPe&#10;</xsl:text>
+    <xsl:text>&#10;y LINEGRe</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10; </xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:line">
-    <xsl:text>&#10;y LINEb&#10; </xsl:text>
+    <xsl:text>&#10;y LINEb</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10; </xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>&#10;y LINEe&#10;</xsl:text>
+    <xsl:text>&#10;y LINEe</xsl:text>
+    <xsl:if test="@brl:class"><xsl:text>_</xsl:text><xsl:value-of select="@brl:class"/></xsl:if>
+    <xsl:text>&#10; </xsl:text>
   </xsl:template>
 
   <xsl:template match="dtb:br">
@@ -1564,7 +1785,11 @@ i f=3 l=1
     <xsl:apply-templates/>
   </xsl:template>
 
-  <xsl:template match="dtb:acronym"> </xsl:template>
+  <xsl:template match="dtb:div">
+    <xsl:value-of select="concat('&#10;y DIVb_', @brl:class, '&#10;')"/>
+    <xsl:apply-templates/>
+    <xsl:value-of select="concat('&#10;y DIVe_', @brl:class, '&#10;')"/>
+  </xsl:template>
 
   <xsl:template match="dtb:span[lang('de')]">
     <xsl:variable name="braille_tables">
@@ -1623,7 +1848,7 @@ i f=3 l=1
   <xsl:template match="brl:num[@role='roman' and lang('de')]">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable">
-        <xsl:with-param name="context" select="'abbr'"/>
+        <xsl:with-param name="context" select="'num_roman'"/>
       </xsl:call-template>
     </xsl:variable>
     <xsl:choose>
@@ -1789,7 +2014,7 @@ i f=3 l=1
       <xsl:for-each select="text()">
         <!-- simply ignore the separator elements -->
         <xsl:value-of select="string(.)"/>
-        <xsl:if test="not(position() = last())">¦</xsl:if>
+        <xsl:if test="not(position() = last())">&#x250A;</xsl:if>
       </xsl:for-each>
     </xsl:variable>
     <xsl:value-of select="louis:translate(string($braille_tables), string($text))"/>
@@ -1824,9 +2049,10 @@ i f=3 l=1
           />
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of
-            select="louis:translate(string($braille_tables), format-number(. cast as xs:integer,'#'))"
-          />
+	  <xsl:if test="matches(string(.), '\d+')">
+	    <xsl:value-of
+		select="louis:translate(string($braille_tables), format-number(. cast as xs:integer,'#'))"/>
+	  </xsl:if>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:for-each>
@@ -1838,8 +2064,16 @@ i f=3 l=1
     </xsl:variable>
     <xsl:variable name="time">
       <xsl:for-each select="tokenize(string(@value), ':')">
-        <xsl:value-of select="format-number(. cast as xs:integer,'#')"/>
-        <xsl:if test="not(position() = last())">.</xsl:if>
+	<xsl:choose>
+	  <!-- Drop the leading zero for the hours and append a dot -->
+	  <xsl:when test="not(position() = last())">
+	    <xsl:value-of select="format-number(. cast as xs:integer,'#')"/>
+	    <xsl:text>.</xsl:text>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:value-of select="."/>
+	  </xsl:otherwise>
+	</xsl:choose>
       </xsl:for-each>
     </xsl:variable>
     <xsl:value-of select="louis:translate(string($braille_tables), string($time))"/>
@@ -1847,11 +2081,61 @@ i f=3 l=1
 
   <xsl:template match="brl:volume[lang('de')]">
     <xsl:if test="@brl:grade = $contraction">
-      <xsl:text>&#10;y EndVol&#10;y BrlVol&#10;</xsl:text>
+      <!-- Apply end notes -->
+      <xsl:if test="$footnote_placement = 'end_vol'">
+	<xsl:variable name="V" select="current()"/>
+	<xsl:variable name="noterefs" select="$V/preceding::dtb:noteref[following::brl:volume[@brl:grade = $contraction][1] is $V]"/>
+	<xsl:variable name="notes" select="for $noteref in $noterefs return //dtb:note[@id=translate($noteref/@idref,'#','')]"/>
+	<xsl:if test="exists($notes)">
+	  <xsl:text>&#10;y Notes&#10;</xsl:text>
+	  <xsl:for-each select="$notes">
+	    <xsl:apply-templates/>
+	  </xsl:for-each>
+	</xsl:if>
+      </xsl:if>
+      <xsl:text>&#10;y EndVol&#10;</xsl:text>
+      <!-- Handle volumes that have a pagenum immediately following -->
+      <xsl:if test="following-sibling::*[position()=1 and local-name()='pagenum']">
+	<xsl:text>p&#10;</xsl:text>
+	<xsl:apply-templates select="following::dtb:pagenum[1]" mode="no-space-after"/>
+      </xsl:if>
+      <!-- Handle volumes that have a levelN/pagenum immediately following -->
+      <xsl:variable name="following-level" select="following-sibling::*[position()=1 and substring(local-name(),0,6)='level']"/>
+      <xsl:if test="exists($following-level) and $following-level/*[position()=1 and local-name()='pagenum']">
+	<xsl:text>p&#10;</xsl:text>
+	<xsl:apply-templates select="following::dtb:pagenum[1]" mode="no-space-after"/>
+      </xsl:if>
+      <xsl:text>y BrlVol&#10;</xsl:text>
+    </xsl:if>
+  </xsl:template>
+
+  <!-- Content selection -->
+  <xsl:template match="brl:select[lang('de')]">
+    <xsl:apply-templates select="brl:when-braille"/>
+    <!-- Ignore the brl:otherwise element -->
+  </xsl:template>
+
+  <xsl:template match="brl:when-braille[lang('de')]">
+    <xsl:apply-templates />
+    <!-- Ignore the brl:otherwise element -->
+  </xsl:template>
+
+  <xsl:template match="brl:literal[lang('de')]">
+    <xsl:if test="not(exists(@brl:grade)) or (exists(@brl:grade) and @brl:grade  = $contraction)">
+      <xsl:value-of select="."/>
     </xsl:if>
   </xsl:template>
 
   <!-- Text nodes are translated with liblouis -->
+
+  <!-- Handle comma after ordinals and after fraction-->
+  <xsl:template
+    match="text()[lang('de') and preceding::*[position()=1 and local-name()='num' and (@role='ordinal' or @role='fraction' or @ role='mixed')] and matches(string(), '^,')]" priority="100">
+    <xsl:variable name="braille_tables">
+      <xsl:call-template name="getTable"/>
+    </xsl:variable>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('&#x256C;',string()))"/>
+  </xsl:template>
 
   <!-- Handle punctuation after a number and after ordinals -->
   <xsl:template
@@ -1859,7 +2143,7 @@ i f=3 l=1
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <xsl:value-of select="louis:translate(string($braille_tables), concat('&#x00B7;',string()))"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('&#x250B;',string()))"/>
   </xsl:template>
 
   <!-- Handle text nodes ending with punctuation -->
@@ -1868,16 +2152,25 @@ i f=3 l=1
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'¦¦'))"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'&#x250A;&#x250A;'))"/>
   </xsl:template>
 
   <!-- Handle text nodes starting with punctuation -->
   <xsl:template
-    match="text()[lang('de') and my:starts-with-punctuation-word(string()) and my:ends-with-non-whitespace(string(preceding::text()[1]))]">
+    match="text()[lang('de') and my:starts-with-punctuation-word(string()) and my:ends-with-non-whitespace(string(preceding::text()[1])) and not (my:ends-with-number(string(preceding::text()[1])) or preceding::*[position()=1 and local-name()='num' and @role='ordinal'])]">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <xsl:value-of select="louis:translate(string($braille_tables), concat('¦¦', string()))"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('&#x250A;&#x250A;', string()))"/>
+  </xsl:template>
+
+  <!-- Handle text nodes starting and ending with punctuation -->
+  <xsl:template
+    match="text()[lang('de') and my:ends-with-punctuation-word(string()) and my:starts-with-punctuation-word(string()) and my:starts-with-non-whitespace(string(following::text()[1])) and my:ends-with-non-whitespace(string(preceding::text()[1])) and not (my:ends-with-number(string(preceding::text()[1])) or preceding::*[position()=1 and local-name()='num' and @role='ordinal'])]" priority="100">
+    <xsl:variable name="braille_tables">
+      <xsl:call-template name="getTable"/>
+    </xsl:variable>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('&#x250A;&#x250A;', string(),'&#x250A;&#x250A;'))"/>
   </xsl:template>
 
   <!-- Handle single word mixed emphasis -->
@@ -1887,7 +2180,7 @@ i f=3 l=1
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <xsl:value-of select="louis:translate(string($braille_tables), concat('¦',string()))"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('&#x250A;',string()))"/>
   </xsl:template>
 
   <!-- mixed emphasis after-->
@@ -1896,16 +2189,16 @@ i f=3 l=1
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'¦'))"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'&#x250A;'))"/>
   </xsl:template>
 
   <!-- handle 'ich' inside text node followed by chars that could be interpreted as numbers -->
   <xsl:template
-    match="text()[lang('de') and (matches(string(), '^ich$') or matches(string(), '\Wich$')) and matches(string(following::text()[1]), '^[,;:?!)]')]">
+    match="text()[lang('de') and (matches(string(), '^ich$', 'i') or matches(string(), '\Wich$', 'i')) and matches(string(following::text()[1]), '^[,;:?!)&#x00bb;&#x00ab;]')]">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'¦'))"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat(string(),'&#x250A;'))"/>
   </xsl:template>
 
   <xsl:template match="text()">

@@ -26,15 +26,12 @@
 #   executable, and both the java "-cp" flag and the CLASSPATH environment
 #   variable are ignored.
 
-SAXON=lib/saxon9he.jar
-LOUIS=lib/louisFat.jar
 LOUIS_TRANSFORM_FACTORY=-Djavax.xml.transform.TransformerFactory=org.liblouis.transformerfactory.LouisExtensionTransformerFactoryImpl
 UTFX=.:utfx_lib/utfxFat.jar
-LOUIS_SAXON_EXT=liblouissaxonx.jar
 UTFX_TEST=-Dutfx.test.file=test_xsl/dtbook2sbsform_test.xml
 
-java \
-	$LOUIS_TRANSFORM_FACTORY \
-	$UTFX_TEST \
-	-cp $SAXON:$LOUIS:$LOUIS_SAXON_EXT:$UTFX \
-	 utfx.runner.TestRunner utfx.framework.XSLTRegressionTest
+LIB=lib
+CP=$LIB/saxon9he.jar:$LIB/louis.jar:$LIB/jna.jar:liblouissaxonx.jar:$UTFX
+
+java $LOUIS_TRANSFORM_FACTORY $UTFX_TEST \
+    -cp $CP utfx.runner.TestRunner utfx.framework.XSLTRegressionTest
