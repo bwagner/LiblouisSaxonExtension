@@ -985,10 +985,10 @@ t
     <xsl:if test="$book_type = 'rucksack'">
       <xsl:choose>
         <xsl:when test="$contraction = 2">
-          <xsl:text>lv22&#10;</xsl:text>
+          <xsl:text>lv23&#10;</xsl:text>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:text>lv21&#10;</xsl:text>
+          <xsl:text>lv22&#10;</xsl:text>
         </xsl:otherwise>
       </xsl:choose>
       <xsl:text>t&#10; </xsl:text>
@@ -997,7 +997,6 @@ t
       <xsl:value-of
         select="louis:translate(string($braille_tables), string(//dtb:meta[@name='prod:seriesNumber']/@content))"/>
       <xsl:text>&#10;t&#10; </xsl:text>
-      <xsl:text> PUNKT POINT PUNTO</xsl:text> <!-- FIXME: Pass this with grade 0 through liblouis " PUNKT POINT PUNTO"-->
       <xsl:text>&#10;</xsl:text>
     </xsl:if>
     <xsl:choose>
@@ -1073,13 +1072,12 @@ i f=1 l=1
     <xsl:if test="$book_type = 'rucksack'">
       <xsl:choose>
         <xsl:when test="$contraction = 2">
-          <xsl:text>&#10;lv18&#10; </xsl:text>
+          <xsl:text>&#10;lv19&#10; </xsl:text>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:text>&#10;lv17&#10; </xsl:text>
+          <xsl:text>&#10;lv18&#10; </xsl:text>
         </xsl:otherwise>
       </xsl:choose>
-      <xsl:text>PUNKT POINT PUNTO'- &gt;PPP</xsl:text> <!-- FIXME: Pass this with grade 0 through liblouis "PUNKT POINT PUNTO &#x2013;"-->
       <xsl:text>&#10;a&#10; </xsl:text>
       <xsl:value-of
         select="louis:translate(string($braille_tables), 'Rucksackbuch Nr.')"/>
