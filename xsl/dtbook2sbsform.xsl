@@ -828,7 +828,7 @@ y b Ziff   ; Hilfsmakro zum Uebersetzen der (tiefgestellten) Ziffern
 ?z=8
 +R=Z(
 ?z=9
-+R=B*
++R=Z*
 "R=B%B%Z
 y e Ziff
 </xsl:text>
@@ -927,7 +927,7 @@ R=B#
 +y Ziff
 ?z:vol%10
 y Ziff
-" %B
+"t%B
 </xsl:text>
         </xsl:otherwise>
       </xsl:choose>
