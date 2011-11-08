@@ -518,6 +518,20 @@ y DIVe_foo
     </utfx:assert-equal>
   </utfx:test>
   
+<!--  <utfx:test>
+    <utfx:name>Wrong SBSForm-Macroname Bug #1539</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:p><dtb:list class="name" type="pl"><dtb:li>bla</dtb:li></dtb:list></dtb:p></stub>
+      </utfx:source>
+      <utfx:expected>y PLIST_name&#13;y LI&#13; BLA</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+-->
+  
   <utfx:test>
     <utfx:name>context across block boundaries Bug #1395</utfx:name>
     <utfx:stylesheet-params>
