@@ -747,11 +747,24 @@ y P
       <utfx:source>
         <dtb:p xml:lang="de"><dtb:abbr>ISBN</dtb:abbr> <brl:num role="isbn">978-3-86971-001-3</brl:num> <dtb:abbr>ISBN</dtb:abbr> <brl:num role="isbn">978-3-86971-001-X</brl:num> <dtb:abbr>ISBN</dtb:abbr> <brl:num role="isbn">978 3 86971 001 3</brl:num></dtb:p>
       </utfx:source>
-      <utfx:expected>y P
- &gt;ISBN #IGH.C.HFIGA.JJA.C &gt;ISBN #IGH.C.HFIGA.JJA-m&gt;X &gt;ISBN #IGH.C.HFIGA.JJA.C</utfx:expected>
+      <utfx:expected>y P&#13; &gt;ISBN #IGH.C.HFIGA.JJA.C &gt;ISBN #IGH.C.HFIGA.JJA-m&gt;X &gt;ISBN #IGH.C.HFIGA.JJA.C</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
   
+<!--  <utfx:test>
+    <utfx:name>handle_abbr</utfx:name>
+    <utfx:call-template name="handle_abbr">
+      <utfx:with-param name="context" select="'abbr'" />
+      <utfx:with-param name="content" select="'SJW-'" />
+    </utfx:call-template>
+    <utfx:assert-equal>
+      <utfx:source>
+        <dtb:p xml:lang="de"/>
+      </utfx:source>
+      <utfx:expected>&gt;SJW-</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+-->  
   <utfx:test>
     <utfx:name>Running Line Kurzschrift</utfx:name>
     <utfx:stylesheet-params>
