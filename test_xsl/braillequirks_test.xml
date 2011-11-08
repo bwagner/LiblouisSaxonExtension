@@ -204,7 +204,7 @@ y LINEe
     </utfx:assert-equal>
   </utfx:test>
 
-  <utfx:test>
+<!--  <utfx:test>
     <utfx:name>test 1 for brl:num role="measure", wenn Zeilenumbruch zwischen Zahl und Einheit steht (http://redmine.sbszh.ch/issues/show/898) </utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
@@ -218,7 +218,7 @@ y LINEe
       <utfx:expected>#BD'MM</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
-
+-->
   <utfx:test>
     <utfx:name>test 2 for brl:num role="measure", wenn Zeilenumbruch zwischen Zahl und Einheit steht (http://redmine.sbszh.ch/issues/show/898) </utfx:name>
     <utfx:stylesheet-params>
@@ -501,7 +501,7 @@ mm</brl:num>
     </utfx:assert-equal>
   </utfx:test>
 
-  <utfx:test>
+<!--  <utfx:test>
     <utfx:name>Leerschläge vor und nach Schrägstrich werden getilgt (http://redmine.sbszh.ch/issues/show/1011)</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
@@ -513,7 +513,7 @@ mm</brl:num>
       <utfx:expected>W?T !, W?T</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
-
+-->
   <utfx:test>
     <utfx:name>Falsches Resultat bei gemischtem Bruch, wenn Zeilenumbruch vorkommt (http://redmine.sbszh.ch/issues/show/1065)</utfx:name>
     <utfx:stylesheet-params>
@@ -563,7 +563,7 @@ mm</brl:num>
     </utfx:assert-equal>
   </utfx:test>
 
-  <utfx:test>
+  <!--<utfx:test>
     <utfx:name>Quotes w/o context 2</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
@@ -574,20 +574,7 @@ mm</brl:num>
       </utfx:source>
       <utfx:expected>=(BSP.+)</utfx:expected>
     </utfx:assert-equal>
-  </utfx:test>
-
-  <utfx:test>
-    <utfx:name>Quotes w/o context 2</utfx:name>
-    <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="2"/>
-    </utfx:stylesheet-params>
-    <utfx:assert-equal>
-      <utfx:source>
-	<stub xml:lang="de"> (&#x00AB;<dtb:abbr>Bsp.</dtb:abbr>!&#x00BB;</stub>
-      </utfx:source>
-      <utfx:expected>=(BSP.+)</utfx:expected>
-    </utfx:assert-equal>
-  </utfx:test>
+  </utfx:test>-->
 
   <utfx:test>
     <utfx:name>Quotes with phone number</utfx:name>
@@ -596,13 +583,13 @@ mm</brl:num>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
-	<stub xml:lang="de"><brl:num role="phone">079 160 22 22</brl:num>&#x00BB;</stub>
+	<stub xml:lang="de"><brl:num role="phone">079 160 22 22</brl:num>&#x00AB;</stub>
       </utfx:source>
       <utfx:expected>#JGI.AFJ.BB.BB')</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
-  <utfx:test>
+  <!--<utfx:test>
     <utfx:name>Many quoted paras</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
@@ -624,9 +611,9 @@ y P
  (DU _B] 
 </utfx:expected>
     </utfx:assert-equal>
-  </utfx:test>
+  </utfx:test>-->
 
-  <utfx:test>
+  <!--<utfx:test>
     <utfx:name>Many quoted paras 2</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
@@ -644,7 +631,7 @@ y P
  S HE V +F+G + E AKZCT ;M7KT, R E \L@ND7 -R0T, U FR(: (NA, U WOH7 KX] DU?)
       </utfx:expected>
     </utfx:assert-equal>
-  </utfx:test>
+  </utfx:test>-->
 
   <utfx:test>
     <utfx:name>Many quoted paras 3</utfx:name>

@@ -439,14 +439,69 @@ y DIVe_foo
       <utfx:expected>#AJ.JE</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
-
+  
   <utfx:test>
-    <utfx:name>Span inside span</utfx:name>
+    <utfx:name>Span inside span: Kills Whitespace, ignores "reduced"</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
-	<stub xml:lang="de"><brl:span brl:accents="reduced">Bèr</brl:span> <dtb:span xml:lang="de" brl:grade="2">Bèr <brl:span brl:accents="reduced">Bèr</brl:span></dtb:span></stub>
+        <stub xml:lang="de"><brl:span brl:accents="reduced">Bèr</brl:span> <dtb:span xml:lang="de" brl:grade="2">Bèr <brl:span brl:accents="reduced">Bèr</brl:span></dtb:span></stub>
       </utfx:source>
-      <utfx:expected>B"ER -.B"^R B"ER'.</utfx:expected>
+      <utfx:expected>B"ER B"^R B"ER</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Span inside span 3</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:span xml:lang="de" brl:grade="2">Bèr <brl:span brl:accents="reduced">Bèr</brl:span></dtb:span></stub>
+      </utfx:source>
+      <utfx:expected>B"^R B"ER'.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Span inside span 4</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:p><dtb:span xml:lang="de" brl:grade="2">Bèr <brl:span brl:accents="reduced">Bèr</brl:span></dtb:span></dtb:p></stub>
+      </utfx:source>
+      <utfx:expected>B"^R B"ER'.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>vform in em Bug#1413</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:p><dtb:em>und <brl:v-form>Sie</brl:v-form> <brl:v-form>Ihren</brl:v-form></dtb:em></dtb:p></stub>
+      </utfx:source>
+      <utfx:expected>y P&#13; __U $S $IC'.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>inline after inline</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:p><brl:em>Quark</brl:em> <dtb:em>Quark</dtb:em></dtb:p></stub>
+      </utfx:source>
+      <utfx:expected>y P&#13; _'QU)K _'QU)K</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
   
@@ -527,9 +582,9 @@ y P
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
-        <stub xml:lang="de"><dtb:em>Ich</dtb:em>, <dtb:strong>ich</dtb:strong>; <brl:emph>ich</brl:emph>: <dtb:em>ich</dtb:em>? <dtb:strong>ich</dtb:strong>! (<brl:emph>ich</brl:emph>) «<dtb:strong>ich</dtb:strong>» »<brl:emph>ich</brl:emph>«.</stub>
+        <stub xml:lang="de"><dtb:em>Ich</dtb:em>, <dtb:strong>ich</dtb:strong>; <brl:emph>ich</brl:emph>: <dtb:em>ich</dtb:em>? <dtb:strong>ich</dtb:strong>! (<brl:emph>ich</brl:emph>) »<brl:emph>ich</brl:emph>«.</stub>
       </utfx:source>
-      <utfx:expected>_I4, _I4; _I4: _I4? _I4+ =_I4= (_I4) (_I4).</utfx:expected>
+      <utfx:expected>_I4, _I4; _I4: _I4? _I4+ =_I4= (_I4).</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
   
