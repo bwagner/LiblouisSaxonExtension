@@ -499,9 +499,36 @@ y DIVe_foo
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
-        <stub xml:lang="de"><dtb:p><brl:em>Quark</brl:em> <dtb:em>Quark</dtb:em></dtb:p></stub>
+        <stub xml:lang="de"><dtb:p><dtb:span grade="2">Quark</dtb:span> <dtb:span grade="2">Quark</dtb:span></dtb:p></stub>
       </utfx:source>
-      <utfx:expected>y P&#13; _'QU)K _'QU)K</utfx:expected>
+      <utfx:expected>y P&#13; 'QU)K 'QU)K</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>em at beginning of block</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:p><brl:em>Quark</brl:em></dtb:p></stub>
+      </utfx:source>
+      <utfx:expected>y P&#13; _'QU)K</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>context across block boundaries Bug #1395</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:byline><em class="name">Tages-Anzeiger</em></dtb:byline>
+            <dtb:p>Zum Autor</dtb:p></stub>
+      </utfx:source>
+      <utfx:expected>y BYLINE&#13; TAG%-m+Z3G7&#13;y P&#13; ZM 1TOR</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
   
@@ -654,6 +681,20 @@ y P
           (oder <brl:num role="ordinal">1005.</brl:num>) Mal.</stub>
       </utfx:source>
       <utfx:expected>AM #? TAG &amp;5AH % ZM #,))/ =O #,))?'= MAL.</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>line break before ndash Bug#1212</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+      <utfx:with-param name="downshift_ordinals" select="true()"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">word&#13;&#x2013; word</stub>
+      </utfx:source>
+      <utfx:expected>W?D'- W?D</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
   
