@@ -588,7 +588,20 @@ mm</brl:num>
       <utfx:expected>#JGI.AFJ.BB.BB')</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
-
+  
+  <utfx:test>
+    <utfx:name>Leading zeros in time indication Bug #1172, Bug #969, Bug ##1292</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><brl:time value="11:05">11:05</brl:time></stub>
+      </utfx:source>
+      <utfx:expected>#AA.JE</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
   <!--<utfx:test>
     <utfx:name>Many quoted paras</utfx:name>
     <utfx:stylesheet-params>

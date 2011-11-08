@@ -499,9 +499,50 @@ y DIVe_foo
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
-        <stub xml:lang="de"><dtb:p><brl:em>Quark</brl:em> <dtb:em>Quark</dtb:em></dtb:p></stub>
+        <stub xml:lang="de"><dtb:p><dtb:span grade="2">Quark</dtb:span> <dtb:span grade="2">Quark</dtb:span></dtb:p></stub>
       </utfx:source>
-      <utfx:expected>y P&#13; _'QU)K _'QU)K</utfx:expected>
+      <utfx:expected>y P&#13; 'QU)K 'QU)K</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>em at beginning of block</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:p><brl:em>Quark</brl:em></dtb:p></stub>
+      </utfx:source>
+      <utfx:expected>y P&#13; _'QU)K</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Wrong SBSForm-Macroname Bug #1539</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <stub xml:lang="de"><dtb:p><dtb:list brl:class="name" type="pl"><dtb:li>bla</dtb:li></dtb:list></dtb:p></stub>
+      </utfx:source>
+      <utfx:expected>y P&#13;&#13;y PLISTb_name&#13;&#13;y LI&#13; BLA&#13;&#13;y PLISTe_name</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  
+  <utfx:test>
+    <utfx:name>context across block boundaries Bug #1395</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:byline><em class="name">Tages-Anzeiger</em></dtb:byline>
+            <dtb:p>Zum Autor</dtb:p></stub>
+      </utfx:source>
+      <utfx:expected>y BYLINE&#13; TAG%-m+Z3G7&#13;y P&#13; ZM 1TOR</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
   
@@ -658,6 +699,20 @@ y P
   </utfx:test>
   
   <utfx:test>
+    <utfx:name>line break before ndash Bug#1212</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+      <utfx:with-param name="downshift_ordinals" select="true()"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">word&#13;&#x2013; word</stub>
+      </utfx:source>
+      <utfx:expected>W?D'- W?D</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
     <utfx:name>Telefonnummern</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
@@ -692,11 +747,24 @@ y P
       <utfx:source>
         <dtb:p xml:lang="de"><dtb:abbr>ISBN</dtb:abbr> <brl:num role="isbn">978-3-86971-001-3</brl:num> <dtb:abbr>ISBN</dtb:abbr> <brl:num role="isbn">978-3-86971-001-X</brl:num> <dtb:abbr>ISBN</dtb:abbr> <brl:num role="isbn">978 3 86971 001 3</brl:num></dtb:p>
       </utfx:source>
-      <utfx:expected>y P
- &gt;ISBN #IGH.C.HFIGA.JJA.C &gt;ISBN #IGH.C.HFIGA.JJA-m&gt;X &gt;ISBN #IGH.C.HFIGA.JJA.C</utfx:expected>
+      <utfx:expected>y P&#13; &gt;ISBN #IGH.C.HFIGA.JJA.C &gt;ISBN #IGH.C.HFIGA.JJA-m&gt;X &gt;ISBN #IGH.C.HFIGA.JJA.C</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
   
+<!--  <utfx:test>
+    <utfx:name>handle_abbr</utfx:name>
+    <utfx:call-template name="handle_abbr">
+      <utfx:with-param name="context" select="'abbr'" />
+      <utfx:with-param name="content" select="'SJW-'" />
+    </utfx:call-template>
+    <utfx:assert-equal>
+      <utfx:source>
+        <dtb:p xml:lang="de"/>
+      </utfx:source>
+      <utfx:expected>&gt;SJW-</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+-->  
   <utfx:test>
     <utfx:name>Running Line Kurzschrift</utfx:name>
     <utfx:stylesheet-params>
