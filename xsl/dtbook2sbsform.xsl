@@ -43,6 +43,8 @@
   <xsl:param name="detailed_accented_characters">de-accents-ch</xsl:param>
   <xsl:param name="include_macros" select="true()"/>
   <xsl:param name="footnote_placement">standard</xsl:param>
+  <xsl:param name="use_local_dictionary" select="false()"/>
+  <xsl:param name="document_identifier"></xsl:param>
 
   <xsl:variable name="volumes">
     <xsl:value-of select="count(//brl:volume[@brl:grade=$contraction]) + 1"/>
@@ -211,20 +213,32 @@
         <xsl:if
           test="$actual_contraction = '1' and $context != 'num_roman' and ($context != 'name_capitalized' and ($context != 'abbr' or my:containsDot(.)) and $context != 'date_month' and $context != 'date_day')">
           <xsl:if test="$hyphenation = true()">
+	    <xsl:if test="$use_local_dictionary = true()">
+	      <xsl:value-of select="concat('sbs-de-g1-white-',$document_identifier,'.mod,')"/>
+	    </xsl:if>
             <xsl:text>sbs-de-g1-white.mod,</xsl:text>
           </xsl:if>
           <xsl:text>sbs-de-g1-core.mod,</xsl:text>
         </xsl:if>
         <xsl:if test="$actual_contraction = '2' and $context != 'num_roman'">
           <xsl:if test="$context = 'place'">
+	    <xsl:if test="$use_local_dictionary = true()">
+	      <xsl:value-of select="concat('sbs-de-g2-place-',$document_identifier,'.mod,')"/>
+	    </xsl:if>
             <xsl:text>sbs-de-g2-place.mod,</xsl:text>
           </xsl:if>
           <xsl:if test="$context = 'place' or $context = 'name'">
+	    <xsl:if test="$use_local_dictionary = true()">
+	      <xsl:value-of select="concat('sbs-de-g2-name-',$document_identifier,'.mod,')"/>
+	    </xsl:if>
             <xsl:text>sbs-de-g2-name.mod,</xsl:text>
           </xsl:if>
           <xsl:if
             test="$context != 'name' and $context != 'name_capitalized' and $context != 'place' and ($context != 'abbr' or  my:containsDot(.)) and $context != 'date_day' and $context != 'date_month'">
             <xsl:if test="$hyphenation = true()">
+	      <xsl:if test="$use_local_dictionary = true()">
+		<xsl:value-of select="concat('sbs-de-g2-white-',$document_identifier,'.mod,')"/>
+	      </xsl:if>
               <xsl:text>sbs-de-g2-white.mod,</xsl:text>
             </xsl:if>
             <xsl:text>sbs-de-g2-core.mod,</xsl:text>
@@ -1166,39 +1180,20 @@ i f=1 l=1
     <!-- Use a special table to query the version of the SBS-specific (German) tables -->
     <xsl:value-of select="louis:translate('sbs-version.utb', '{{sbs-braille-tables-version}}')"/>
     <xsl:text>&#10;</xsl:text>
-    <xsl:text>x contraction:</xsl:text>
-    <xsl:value-of select="$contraction"/>
-    <xsl:text>&#10;</xsl:text>
-    <xsl:text>x cells_per_line:</xsl:text>
-    <xsl:value-of select="$cells_per_line"/>
-    <xsl:text>&#10;</xsl:text>
-    <xsl:text>x lines_per_page:</xsl:text>
-    <xsl:value-of select="$lines_per_page"/>
-    <xsl:text>&#10;</xsl:text>
-    <xsl:text>x hyphenation:</xsl:text>
-    <xsl:value-of select="$hyphenation"/>
-    <xsl:text>&#10;</xsl:text>
-    <xsl:text>x toc_level:</xsl:text>
-    <xsl:value-of select="$toc_level"/>
-    <xsl:text>&#10;</xsl:text>
-    <xsl:text>x show_original_page_numbers:</xsl:text>
-    <xsl:value-of select="$show_original_page_numbers"/>
-    <xsl:text>&#10;</xsl:text>
-    <xsl:text>x show_v_forms:</xsl:text>
-    <xsl:value-of select="$show_v_forms"/>
-    <xsl:text>&#10;</xsl:text>
-    <xsl:text>x downshift_ordinals:</xsl:text>
-    <xsl:value-of select="$downshift_ordinals"/>
-    <xsl:text>&#10;</xsl:text>
-    <xsl:text>x enable_capitalization:</xsl:text>
-    <xsl:value-of select="$enable_capitalization"/>
-    <xsl:text>&#10;</xsl:text>
-    <xsl:text>x detailed_accented_characters:</xsl:text>
-    <xsl:value-of select="$detailed_accented_characters"/>
-    <xsl:text>&#10;</xsl:text>
-    <xsl:text>x include_macros:</xsl:text>
-    <xsl:value-of select="$include_macros"/>
-    <xsl:text>&#10;</xsl:text>
+    <xsl:text>x contraction:</xsl:text><xsl:value-of select="$contraction"/><xsl:text>&#10;</xsl:text>
+    <xsl:text>x cells_per_line:</xsl:text><xsl:value-of select="$cells_per_line"/><xsl:text>&#10;</xsl:text>
+    <xsl:text>x lines_per_page:</xsl:text><xsl:value-of select="$lines_per_page"/><xsl:text>&#10;</xsl:text>
+    <xsl:text>x hyphenation:</xsl:text><xsl:value-of select="$hyphenation"/><xsl:text>&#10;</xsl:text>
+    <xsl:text>x toc_level:</xsl:text><xsl:value-of select="$toc_level"/><xsl:text>&#10;</xsl:text>
+    <xsl:text>x show_original_page_numbers:</xsl:text><xsl:value-of select="$show_original_page_numbers"/><xsl:text>&#10;</xsl:text>
+    <xsl:text>x show_v_forms:</xsl:text><xsl:value-of select="$show_v_forms"/><xsl:text>&#10;</xsl:text>
+    <xsl:text>x downshift_ordinals:</xsl:text><xsl:value-of select="$downshift_ordinals"/><xsl:text>&#10;</xsl:text>
+    <xsl:text>x enable_capitalization:</xsl:text><xsl:value-of select="$enable_capitalization"/><xsl:text>&#10;</xsl:text>
+    <xsl:text>x detailed_accented_characters:</xsl:text><xsl:value-of select="$detailed_accented_characters"/><xsl:text>&#10;</xsl:text>
+    <xsl:text>x include_macros:</xsl:text><xsl:value-of select="$include_macros"/><xsl:text>&#10;</xsl:text>
+    <xsl:text>x footnote_placement:</xsl:text><xsl:value-of select="$footnote_placement"/><xsl:text>&#10;</xsl:text>
+    <xsl:text>x use_local_dictionary:</xsl:text><xsl:value-of select="$use_local_dictionary"/><xsl:text>&#10;</xsl:text>
+    <xsl:text>x document_identifier:</xsl:text><xsl:value-of select="$document_identifier"/><xsl:text>&#10;</xsl:text>
     <xsl:text>x ---------------------------------------------------------------------------&#10;</xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
