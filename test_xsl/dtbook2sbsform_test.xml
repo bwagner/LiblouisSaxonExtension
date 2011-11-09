@@ -933,6 +933,33 @@ y P
     </utfx:assert-equal>
   </utfx:test>
   
+  <utfx:test>
+    <utfx:name>Falsches Resultat bei brl:num role="measure", wenn Zeilenumbruch zwischen Zahl und Einheit steht Bug #1263</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <dtb:p xml:lang="de"><brl:num role="measure">24
+          mm</brl:num></dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; #BD'MM</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>Falsches Resultat bei brl:num role="measure", wenn Zeilenumbruch zwischen Zahl und Einheit steht Bug #1263</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <dtb:p xml:lang="de"><brl:num role="measure">CHF 24</brl:num></dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; >CHF#BD</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
 <!--  <utfx:test> TODO: how to test xsl:function with utf-x?
     <utfx:name>my:isLetter</utfx:name>
     <utfx:call-function name="my:isLetter">
