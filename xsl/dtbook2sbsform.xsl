@@ -87,12 +87,18 @@
     <xsl:param name="char"/>
     <xsl:value-of select="$char=upper-case($char)"/>
   </xsl:function>
-
+  
   <xsl:function name="my:isNumber" as="xs:boolean">
     <xsl:param name="number"/>
     <xsl:value-of select="number($number)=number($number)"/>
   </xsl:function>
-
+  
+  <xsl:function name="my:isNumberLike" as="xs:boolean">
+    <xsl:param name="number"/>
+    <xsl:value-of select="matches(., '([²³%‰°¼½¾\\u2153\\u2154\\u2155\\u2156\\u2157\\u2158\\u2159\\u215a\\u215b\\u215c\\u215d\\u215e$
+])+')"/>
+  </xsl:function>
+  
   <xsl:function name="my:hasSameCase" as="xs:boolean">
     <xsl:param name="a"/>
     <xsl:param name="b"/>
@@ -1686,7 +1692,17 @@ i f=1 l=1
         <!-- render the emphasis using quotes -->
         <xsl:value-of select="louis:translate(string($braille_tables), '&#x00BB;')"/>
         <xsl:apply-templates/>
-        <xsl:value-of select="louis:translate(string($braille_tables), '&#x00AB;')"/>
+        <xsl:choose>
+          <!-- TODO: we need a more general test for numbers than \d, e.g.
+            %, ², ³, fractions
+            -->
+          <xsl:when test="matches(.//text()[position() = last()], '\d$')">
+            <xsl:value-of select="louis:translate(string($braille_tables), '&#x2039;')"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="louis:translate(string($braille_tables), '&#x00AB;')"/>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:when>
       <xsl:when test="@brl:render = 'ignore'">
         <!-- ignore the emphasis for braille -->

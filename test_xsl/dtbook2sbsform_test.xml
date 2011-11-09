@@ -960,7 +960,20 @@ y P
     </utfx:assert-equal>
   </utfx:test>
   
-<!--  <utfx:test> TODO: how to test xsl:function with utf-x?
+  <utfx:test>
+    <utfx:name>Fehlender Pt. 6 (Apo) vor durch BRL:RENDER="QUOTE" erzeugten Schlusszeichen (bei Zahlen) Bug #1520</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <dtb:p xml:lang="de"> Rakete <dtb:em brl:render="quote">Ariane 2</dtb:em> und </dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; RAKETE (ARIANE #B') UND</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <!--  <utfx:test> TODO: how to test xsl:function with utf-x?
     <utfx:name>my:isLetter</utfx:name>
     <utfx:call-function name="my:isLetter">
       <utfx:with-param name="char" select="A" />
