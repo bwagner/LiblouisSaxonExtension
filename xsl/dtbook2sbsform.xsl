@@ -2006,11 +2006,20 @@ i f=1 l=1
 
   <xsl:template match="brl:name[lang('de')]">
     <xsl:variable name="braille_tables">
-      <xsl:call-template name="getTable"/>
+      <xsl:choose>
+        <xsl:when test="matches(., '\p{Ll}\p{Lu}')">
+          <xsl:call-template name="getTable">
+            <xsl:with-param name="context" select="'name_capitalized'"/>
+          </xsl:call-template> 
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="getTable"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:variable>
     <xsl:value-of select="louis:translate(string($braille_tables), string())"/>
   </xsl:template>
-
+  
   <xsl:template match="brl:place[lang('de')]">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>

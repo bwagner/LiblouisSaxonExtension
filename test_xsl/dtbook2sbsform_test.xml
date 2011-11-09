@@ -907,6 +907,19 @@ y P
     </utfx:assert-equal>
   </utfx:test>
   
+  <utfx:test>
+    <utfx:name>Namen mit Upshifts (McDonalds) werden von brl:name nicht behandelt Bug #1343</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <dtb:p xml:lang="de"><brl:name>McCartney</brl:name></dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; $MC$CARTNEY</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
 <!--  <utfx:test> TODO: how to test xsl:function with utf-x?
     <utfx:name>my:isLetter</utfx:name>
     <utfx:call-function name="my:isLetter">
