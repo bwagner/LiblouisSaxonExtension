@@ -760,9 +760,151 @@ y P
       <utfx:source>
         <dtb:p xml:lang="de"><dtb:abbr>A4</dtb:abbr></dtb:p>
       </utfx:source>
-      <utfx:expected>&gt;A#D</utfx:expected>
+      <utfx:expected>y P&#13; &gt;A#D</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>abbr 2 Bug #1523</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <dtb:p xml:lang="de"><dtb:abbr>RTÉ</dtb:abbr></dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; &gt;RT"%</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>abbr 3 "C2D" Bug #1523</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <dtb:p xml:lang="de"><dtb:abbr>C2D</dtb:abbr></dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; &gt;C#B&gt;D</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>abbr 4 Single Uppercase Letter "C" Bug #1523</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <dtb:p xml:lang="de"><dtb:abbr>C</dtb:abbr></dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; &gt;C</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>abbr 5 "c2d" Bug #1523</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <dtb:p xml:lang="de"><dtb:abbr>c2d</dtb:abbr></dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; 'C#B'D</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>abbr 6 "GmbH" Bug #1523</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <dtb:p xml:lang="de"><dtb:abbr>GmbH</dtb:abbr></dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; $GMB&gt;H</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>abbr 7 "km/h" Bug #1523</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <dtb:p xml:lang="de"><dtb:abbr>km/h</dtb:abbr></dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; 'KM!,'H</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>abbr 8 "kHz" Bug #1523</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <dtb:p xml:lang="de"><dtb:abbr>kHz</dtb:abbr></dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; 'K$HZ</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>abbr 9 "DM 50" (white space) Bug #1523</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <dtb:p xml:lang="de"><dtb:abbr>DM </dtb:abbr>50</dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; &gt;DM#EJ</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>abbr 7 "km/h" Bug #1523</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <dtb:p xml:lang="de"><brl:num role="measure">14 km/h</brl:num></dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; #AD'KM!,'H</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+<!--  <utfx:test> TODO: how to test xsl:function with utf-x?
+    <utfx:name>my:isLetter</utfx:name>
+    <utfx:call-function name="my:isLetter">
+      <utfx:with-param name="char" select="A" />
+    </utfx:call-function>
+    <utfx:assert-equal>
+      <utfx:source>
+        <empty/>
+      </utfx:source>
+      <utfx:expected>true</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+-->  
+  
+<!--  <utfx:test>
+    <utfx:name>my:isLetter</utfx:name>
+    <utfx:assert-equal>
+      <utfx:source>
+        <dtb:p id="testIsLetter">C</dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; true</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>-->
+  
   
 <!--  <utfx:test>
     <utfx:name>handle_abbr</utfx:name>

@@ -45,7 +45,12 @@
   <xsl:param name="footnote_placement">standard</xsl:param>
   <xsl:param name="use_local_dictionary" select="false()"/>
   <xsl:param name="document_identifier"></xsl:param>
-
+  
+  <xsl:variable name="GROSS_FUER_BUCHSTABENFOLGE">╦</xsl:variable>
+  <xsl:variable name="GROSS_FUER_EINZELBUCHSTABE">╤</xsl:variable>
+  <xsl:variable name="KLEINBUCHSTABE">╩</xsl:variable>
+  <!-- TODO: introduce more constants (variables), e.g. for &#x250A; -->
+  
   <xsl:variable name="volumes">
     <xsl:value-of select="count(//brl:volume[@brl:grade=$contraction]) + 1"/>
   </xsl:variable>
@@ -57,12 +62,27 @@
       <xsl:otherwise>standard</xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
-
+  
   <xsl:function name="my:isLower" as="xs:boolean">
     <xsl:param name="char"/>
     <xsl:value-of select="$char=lower-case($char)"/>
   </xsl:function>
-
+  
+  <xsl:function name="my:isLetter" as="xs:boolean">
+    <xsl:param name="char"/>
+    <xsl:value-of select=" matches($char, '\p{L}')"/>
+  </xsl:function>
+  
+  <!-- TODO: how to test isLetter? -->
+ <!-- <xsl:template match="p[@id='testIsLetter']/text()">
+    <xsl:choose>
+      <xsl:when test="my:isLetter(.)"><xsl:text>true</xsl:text></xsl:when>
+      <xsl:otherwise><xsl:text>false</xsl:text></xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>-->
+  
+<!-- This function is only properly defined for alphabetic characters 
+     For all others the function returns always true. -->
   <xsl:function name="my:isUpper" as="xs:boolean">
     <xsl:param name="char"/>
     <xsl:value-of select="$char=upper-case($char)"/>
@@ -79,12 +99,18 @@
     <xsl:value-of
       select="(my:isLower($a) and my:isLower($b)) or (my:isUpper($a) and my:isUpper($b))"/>
   </xsl:function>
-
+  
+  <!-- TODO: solve split that works even if # in string 1. write failing test, 2. solve -->
   <xsl:function name="my:tokenizeByCase" as="item()*">
     <xsl:param name="string"/>
-    <xsl:sequence select="tokenize(replace($string,'([0-9]+|[A-Z]+|[a-z]+)', '$1#'), '#')[.]"/>
+    <xsl:sequence select="tokenize(replace($string,'(\p{Lu}+|\p{Ll}+)', '$1#'), '#')[.]"/>
   </xsl:function>
-
+  
+  <xsl:function name="my:tokenizeForAbbr" as="item()*">
+    <xsl:param name="string"/>
+    <xsl:sequence select="tokenize(replace($string,'(\p{L}+|\P{L}+)', '$1#'), '#')[.]"/>
+  </xsl:function>
+  
   <xsl:function name="my:containsDot" as="xs:boolean">
     <xsl:param name="string"/>
     <xsl:value-of select="contains($string,'.')"/>
@@ -1722,7 +1748,7 @@ i f=1 l=1
   <xsl:template match="dtb:strong">
     <xsl:apply-templates mode="bold"/>
   </xsl:template>
-
+  
   <xsl:template name="handle_abbr">
     <xsl:param name="context" select="local-name()"/>
     <xsl:param name="content" select="."/>
@@ -1742,37 +1768,47 @@ i f=1 l=1
         <xsl:value-of select="louis:translate(string($braille_tables), string($temp))"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:variable name="tokens" select="my:tokenizeByCase($content)"/>
+
+        <xsl:variable name="outerTokens" select="my:tokenizeForAbbr(normalize-space($content))"/>
         <xsl:variable name="temp">
-          <xsl:for-each select="$tokens">
-	    <xsl:variable name="i" select="position()"/>
-            <!-- prepend more upper case sequences longer than one char with > -->
-            <xsl:if
-              test="((string-length(.) &gt; 1 or (position()=last())) and my:isUpper(substring(.,1,1))) or my:isNumber($tokens[$i+1])">
-              <xsl:text>╦</xsl:text>
-            </xsl:if>
-            <!-- prepend single char upper case with $ (unless it is the last char then prepend with >) -->
-            <xsl:if
-              test="string-length(.) = 1 and my:isUpper(substring(.,1,1)) and not(position()=last()) and not(my:isNumber($tokens[$i+1]))">
-              <xsl:text>╤</xsl:text>
-            </xsl:if>
-            <!-- prepend the first char with ' if it is lower case -->
-            <xsl:if test="position()=1 and my:isLower(substring(.,1,1))">
-              <xsl:text>╩</xsl:text>
-            </xsl:if>
-            <!-- prepend any lower case sequences that follow an upper case sequence with ' -->
-            <xsl:if
-              test="my:isLower(substring(.,1,1)) and string-length($tokens[$i - 1]) &gt; 1 and my:isUpper(substring($tokens[$i - 1],1,1))">
-              <xsl:text>╩</xsl:text>
-            </xsl:if>
-            <xsl:value-of select="."/>
+          <xsl:for-each select="$outerTokens">
+            <xsl:choose>
+              <xsl:when test="not(my:isLetter(substring(.,1,1)))">
+                <xsl:value-of select="."/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:variable name="innerTokens" select="my:tokenizeByCase(.)"/>
+                <xsl:for-each select="$innerTokens">
+                  <xsl:variable name="i" select="position()"/>
+                  <xsl:choose>
+                    <xsl:when test="my:isUpper(substring(.,1,1))">
+                      <xsl:choose>
+                        <xsl:when test="string-length(.) &gt; 1"><xsl:value-of select="$GROSS_FUER_BUCHSTABENFOLGE"/></xsl:when>
+                        <xsl:otherwise>
+                          <!-- string-length(.) == 1 -->
+                          <xsl:choose>
+                            <xsl:when test="position()=last()"><xsl:value-of select="$GROSS_FUER_BUCHSTABENFOLGE"/></xsl:when>
+                            <xsl:otherwise><xsl:value-of select="$GROSS_FUER_EINZELBUCHSTABE"/></xsl:otherwise>
+                          </xsl:choose>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <!-- lowercase letters -->
+                      <xsl:if test="position()=1 or (string-length($innerTokens[$i - 1]) &gt; 1 and my:isUpper(substring($innerTokens[$i - 1],1,1)))"><xsl:value-of select="$KLEINBUCHSTABE"/></xsl:if>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                  <xsl:value-of select="."/>
+                </xsl:for-each>
+              </xsl:otherwise>
+            </xsl:choose>
           </xsl:for-each>
         </xsl:variable>
         <xsl:value-of select="louis:translate(string($braille_tables), string($temp))"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-
+  
   <xsl:template match="dtb:abbr[lang('de')]">
     <xsl:call-template name="handle_abbr"/>
   </xsl:template>
