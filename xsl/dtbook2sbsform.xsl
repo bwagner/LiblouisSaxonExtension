@@ -1060,8 +1060,9 @@ i f=1 l=1
           select="louis:translate(string($braille_tables), 'Wir danken dem ')"/>
         <xsl:call-template name="handle_abbr">
           <xsl:with-param name="context" select="'abbr'"/>
-          <xsl:with-param name="content" select="'SJW-'"/>
+          <xsl:with-param name="content" select="'SJW'"/>
         </xsl:call-template>
+        <xsl:text>-</xsl:text>
         <xsl:value-of
           select="louis:translate(string($braille_tables), '&#x250A;Verlag für die Bereitstellung der Daten.')"/>
       </xsl:when>
