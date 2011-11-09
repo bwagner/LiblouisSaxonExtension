@@ -920,6 +920,19 @@ y P
     </utfx:assert-equal>
   </utfx:test>
   
+  <utfx:test>
+    <utfx:name>Ausdrücke wie XBox mit abbr nicht handlebar Bug #1477</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <dtb:p xml:lang="de"><dtb:abbr>X</dtb:abbr><dtb:abbr>Box</dtb:abbr></dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; &gt;X$BOX</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
 <!--  <utfx:test> TODO: how to test xsl:function with utf-x?
     <utfx:name>my:isLetter</utfx:name>
     <utfx:call-function name="my:isLetter">
