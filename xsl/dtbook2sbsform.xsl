@@ -95,8 +95,7 @@
   
   <xsl:function name="my:isNumberLike" as="xs:boolean">
     <xsl:param name="number"/>
-    <xsl:value-of select="matches(., '([²³%‰°¼½¾\\u2153\\u2154\\u2155\\u2156\\u2157\\u2158\\u2159\\u215a\\u215b\\u215c\\u215d\\u215e$
-])+')"/>
+    <xsl:value-of select="my:isNumber($number) or matches($number, '([²³%‰°¼½¾\\u2153\\u2154\\u2155\\u2156\\u2157\\u2158\\u2159\\u215a\\u215b\\u215c\\u215d\\u215e])+')"/>
   </xsl:function>
   
   <xsl:function name="my:hasSameCase" as="xs:boolean">
@@ -1696,7 +1695,7 @@ i f=1 l=1
           <!-- TODO: we need a more general test for numbers than \d, e.g.
             %, ², ³, fractions
             -->
-          <xsl:when test="matches(.//text()[position() = last()], '\d$')">
+          <xsl:when test="my:isNumberLike(replace(.//text()[position() = last()], '.*(.$)', '\\1'))">
             <xsl:value-of select="louis:translate(string($braille_tables), '&#x2039;')"/>
           </xsl:when>
           <xsl:otherwise>
