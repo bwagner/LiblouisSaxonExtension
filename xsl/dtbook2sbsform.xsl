@@ -95,7 +95,27 @@
   
   <xsl:function name="my:isNumberLike" as="xs:boolean">
     <xsl:param name="number"/>
-    <xsl:value-of select="my:isNumber($number) or matches($number, '([²³%‰°¼½¾\\u2153\\u2154\\u2155\\u2156\\u2157\\u2158\\u2159\\u215a\\u215b\\u215c\\u215d\\u215e])+')"/>
+    <xsl:value-of select="my:isNumber($number) or my:isBalls($number) or my:isFraction($number) or my:isExponent($number)"/>
+  </xsl:function>
+  
+  <xsl:function name="my:isBalls" as="xs:boolean">
+    <xsl:param name="number"/>
+    <xsl:value-of select="matches($number, '([%‰°])')"/>
+  </xsl:function>
+  
+  <xsl:function name="my:isExponent" as="xs:boolean">
+    <xsl:param name="number"/>
+    <xsl:value-of select="matches($number, '([²³])')"/>
+  </xsl:function>
+  
+  <xsl:function name="my:isFraction" as="xs:boolean">
+    <xsl:param name="number"/>
+    <xsl:value-of select="matches($number, '([¼½¾\\u2153\\u2154\\u2155\\u2156\\u2157\\u2158\\u2159\\u215a\\u215b\\u215c\\u215d\\u215e])')"/>
+  </xsl:function>
+  
+  <xsl:function name="my:isMeasure" as="xs:boolean">
+    <xsl:param name="input"/>
+    <xsl:value-of select="my:isNumber($input) or my:isFraction($input)"/>
   </xsl:function>
   
   <xsl:function name="my:hasSameCase" as="xs:boolean">
@@ -1962,18 +1982,17 @@ i f=1 l=1
       <xsl:call-template name="getTable"/>
     </xsl:variable>
     <!-- For all number-unit combinations, e.g. 1 kg, 10 km, etc. drop the space -->
-    <xsl:variable name="measure"
-      select="(tokenize(normalize-space(string(.)), '\s+'))[last()]"/>
-    <xsl:for-each select="tokenize(string(.), '\s+')">
-      <xsl:if test="not(position() = last())">
-        <!-- FIXME: do not test for position but whether it is a number -->
-        <xsl:value-of select="louis:translate(string($braille_tables), string(.))"/>
-      </xsl:if>
+     <xsl:for-each select="tokenize(string(.), '\s+')">
+      <xsl:choose>
+        <xsl:when test="my:isMeasure()">
+          <xsl:call-template name="handle_abbr">
+            <xsl:with-param name="context" select="'abbr'"/>
+            <xsl:with-param name="content" select="string(.)"/>
+          </xsl:call-template>
+        </xsl:when>
+        <xsl:otherwise><xsl:value-of select="louis:translate(string($braille_tables), string(.))"/></xsl:otherwise>
+      </xsl:choose>      
     </xsl:for-each>
-    <xsl:call-template name="handle_abbr">
-      <xsl:with-param name="context" select="'abbr'"/>
-      <xsl:with-param name="content" select="$measure"/>
-    </xsl:call-template>
   </xsl:template>
   
   
