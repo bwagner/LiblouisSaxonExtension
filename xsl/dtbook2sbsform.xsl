@@ -1781,6 +1781,7 @@ i f=1 l=1
     <xsl:apply-templates mode="bold"/>
   </xsl:template>
   
+  <!-- don't call handle_abbr from a for-each! As it will redefine the context and getTable will fail when calling local-name() -->
   <xsl:template name="handle_abbr">
     <xsl:param name="context" select="local-name()"/>
     <xsl:param name="content" select="."/>
@@ -1977,19 +1978,56 @@ i f=1 l=1
     />
   </xsl:template>
 
+<!--  <xsl:template match="brl:num[@role='measure' and lang('de')]">
+    <xsl:variable name="braille_tables">
+      <xsl:call-template name="getTable"/>
+    </xsl:variable>
+    
+    <xsl:variable name="tokens"
+      select="(tokenize(normalize-space(string(.)), '\s+'))"/>
+    
+    <xsl:choose>
+      <xsl:when test="my:isMeasure($tokens[1])">
+        <xsl:call-template name="handle_abbr">
+          <xsl:with-param name="context" select="'abbr'"/>
+          <xsl:with-param name="content" select="$tokens[1]"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="louis:translate(string($braille_tables), $tokens[1])"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    
+    <xsl:choose>
+      <xsl:when test="my:isMeasure($tokens[2])">
+        <xsl:call-template name="handle_abbr">
+          <xsl:with-param name="context" select="'abbr'"/>
+          <xsl:with-param name="content" select="$tokens[2]"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="louis:translate(string($braille_tables), $tokens[2])"/>
+      </xsl:otherwise>
+    </xsl:choose>
+
+  </xsl:template>-->
+  
   <xsl:template match="brl:num[@role='measure' and lang('de')]">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
     <!-- For all number-unit combinations, e.g. 1 kg, 10 km, etc. drop the space -->
+    
+    <xsl:variable name="tokens"
+      select="tokenize(normalize-space(string(.)), '\s+')"/>
+    
+    <xsl:variable name="number"
+      select="$tokens[1]"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), string($number))"/>
+
     <xsl:variable name="measure"
-      select="(tokenize(normalize-space(string(.)), '\s+'))[position()=last()]"/>
-    <xsl:for-each select="tokenize(string(.), '\s+')">
-      <xsl:if test="not(position() = last())">
-        <!-- FIXME: do not test for position but whether it is a number -->
-        <xsl:value-of select="louis:translate(string($braille_tables), string(.))"/>
-      </xsl:if>
-    </xsl:for-each>
+      select="$tokens[last()]"/>
+    <!-- don't call handle_abbr from a for-each! As it will redefine the context and getTable will fail when calling local-name() -->
     <xsl:call-template name="handle_abbr">
       <xsl:with-param name="context" select="'abbr'"/>
       <xsl:with-param name="content" select="$measure"/>
