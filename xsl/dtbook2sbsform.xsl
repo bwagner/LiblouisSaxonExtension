@@ -49,6 +49,11 @@
   <xsl:variable name="GROSS_FUER_BUCHSTABENFOLGE">╦</xsl:variable>
   <xsl:variable name="GROSS_FUER_EINZELBUCHSTABE">╤</xsl:variable>
   <xsl:variable name="KLEINBUCHSTABE">╩</xsl:variable>
+  
+  <xsl:variable name="BLOCK_ELEMENTS">h1 h2 h3 h4 h5 h6 p li author byline line</xsl:variable>
+  
+  <xsl:variable name="BLOCK_ELEMENT_LIST"><xsl:value-of select="tokenize($BLOCK_ELEMENTS, '\s+')" /></xsl:variable>
+  
   <!-- TODO: introduce more constants (variables), e.g. for &#x250A; -->
   
   <xsl:variable name="volumes">
@@ -62,6 +67,41 @@
       <xsl:otherwise>standard</xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
+  
+  <xsl:function name="my:isBlockElementWithTextChild" as="xs:boolean">
+    <xsl:param name="elementName"/>
+    <xsl:value-of select="contains($BLOCK_ELEMENTS, $elementName)"/>
+  </xsl:function>
+  
+  <xsl:function name="my:isFirstTextNodeWithinBlock" as="xs:boolean">
+    <xsl:param name="node"/>
+    <xsl:value-of select="count($node/ancestor-or-self::*[my:isBlockElementWithTextChild(local-name())])"/>
+  </xsl:function>
+  
+  <xsl:function name="my:isLastTextNodeWithinBlock" as="xs:boolean">
+    <xsl:param name="node"/>
+    <xsl:value-of select="contains($BLOCK_ELEMENTS, $node)"/>
+  </xsl:function>
+  
+  <xsl:function name="my:following-text-within-block" as="xs:string">
+    <xsl:param name="context"/>
+    <xsl:value-of select="string(($context/following::text() intersect $context/ancestor-or-self::*[local-name()=$BLOCK_ELEMENT_LIST]//text())[1])"/>
+  </xsl:function>
+  
+  <xsl:template match="tests-following-text-within-block" as="xs:string">
+    <xsl:param name="context"/>
+    <xsl:value-of select="my:following-text-within-block(.)"/>
+  </xsl:template>
+  
+  <xsl:function name="my:preceding-text-within-block" as="xs:string">
+    <xsl:param name="context"/>
+    <xsl:value-of select="string(($context/preceding::text() intersect $context/ancestor-or-self::*[local-name()=$BLOCK_ELEMENT_LIST]//text())[1])"/>
+  </xsl:function>
+  
+  <xsl:template match="tests-preceding-text-within-block" as="xs:string">
+    <xsl:param name="context"/>
+    <xsl:value-of select="my:preceding-text-within-block(.)"/>
+  </xsl:template>
   
   <xsl:function name="my:isLower" as="xs:boolean">
     <xsl:param name="char"/>
