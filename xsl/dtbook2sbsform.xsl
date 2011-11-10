@@ -1692,9 +1692,6 @@ i f=1 l=1
         <xsl:value-of select="louis:translate(string($braille_tables), '&#x00BB;')"/>
         <xsl:apply-templates/>
         <xsl:choose>
-          <!-- TODO: we need a more general test for numbers than \d, e.g.
-            %, ², ³, fractions
-            -->
           <xsl:when test="my:isNumberLike(replace((.//text())[last()], '.*(.$)', '\\1'))">
             <xsl:value-of select="louis:translate(string($braille_tables), '&#x2039;')"/>
           </xsl:when>
@@ -1966,8 +1963,8 @@ i f=1 l=1
     </xsl:variable>
     <!-- For all number-unit combinations, e.g. 1 kg, 10 km, etc. drop the space -->
     <xsl:variable name="measure"
-      select="(tokenize(normalize-space(string(.)), ' '))[position()=last()]"/>
-    <xsl:for-each select="tokenize(string(.), ' ')">
+      select="(tokenize(normalize-space(string(.)), '\s+'))[last()]"/>
+    <xsl:for-each select="tokenize(string(.), '\s+')">
       <xsl:if test="not(position() = last())">
         <!-- FIXME: do not test for position but whether it is a number -->
         <xsl:value-of select="louis:translate(string($braille_tables), string(.))"/>
