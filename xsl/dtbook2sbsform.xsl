@@ -1982,17 +1982,18 @@ i f=1 l=1
       <xsl:call-template name="getTable"/>
     </xsl:variable>
     <!-- For all number-unit combinations, e.g. 1 kg, 10 km, etc. drop the space -->
-     <xsl:for-each select="tokenize(string(.), '\s+')">
-      <xsl:choose>
-        <xsl:when test="my:isMeasure()">
-          <xsl:call-template name="handle_abbr">
-            <xsl:with-param name="context" select="'abbr'"/>
-            <xsl:with-param name="content" select="string(.)"/>
-          </xsl:call-template>
-        </xsl:when>
-        <xsl:otherwise><xsl:value-of select="louis:translate(string($braille_tables), string(.))"/></xsl:otherwise>
-      </xsl:choose>      
+    <xsl:variable name="measure"
+      select="(tokenize(normalize-space(string(.)), '\s+'))[position()=last()]"/>
+    <xsl:for-each select="tokenize(string(.), '\s+')">
+      <xsl:if test="not(position() = last())">
+        <!-- FIXME: do not test for position but whether it is a number -->
+        <xsl:value-of select="louis:translate(string($braille_tables), string(.))"/>
+      </xsl:if>
     </xsl:for-each>
+    <xsl:call-template name="handle_abbr">
+      <xsl:with-param name="context" select="'abbr'"/>
+      <xsl:with-param name="content" select="$measure"/>
+    </xsl:call-template>
   </xsl:template>
   
   

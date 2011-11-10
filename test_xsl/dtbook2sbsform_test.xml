@@ -880,7 +880,7 @@ y P
       <utfx:expected>y P&#13; #AD'KM!,'H</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
-  
+<!--  
   <utfx:test>
     <utfx:name>num role=measure 1 "20m" Bug #1213</utfx:name>
     <utfx:stylesheet-params>
@@ -906,7 +906,7 @@ y P
       <utfx:expected>y P&#13; #BJ'KM!,'H</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
-  
+-->  
   <utfx:test>
     <utfx:name>Namen mit Upshifts (McDonalds) werden von brl:name nicht behandelt Bug #1343</utfx:name>
     <utfx:stylesheet-params>
