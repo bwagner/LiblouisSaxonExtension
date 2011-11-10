@@ -1695,7 +1695,7 @@ i f=1 l=1
           <!-- TODO: we need a more general test for numbers than \d, e.g.
             %, ², ³, fractions
             -->
-          <xsl:when test="my:isNumberLike(replace(.//text()[position() = last()], '.*(.$)', '\\1'))">
+          <xsl:when test="my:isNumberLike(replace((.//text())[last()], '.*(.$)', '\\1'))">
             <xsl:value-of select="louis:translate(string($braille_tables), '&#x2039;')"/>
           </xsl:when>
           <xsl:otherwise>
@@ -1964,19 +1964,22 @@ i f=1 l=1
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <!-- For all number-unit combinations, e.g. 1 kg, 10 km, etc. or CHF 20 drop the space -->
-    <xsl:for-each select="(tokenize(string(.), '\s+'))">
-      <xsl:choose>
-        <xsl:when test="my:isNumber(.)"><xsl:value-of select="louis:translate(string($braille_tables), string(.))"/></xsl:when>
-        <xsl:otherwise>
-          <xsl:call-template name="handle_abbr">
-            <xsl:with-param name="context" select="'abbr'"/>
-            <xsl:with-param name="content" select="."/>
-          </xsl:call-template>
-        </xsl:otherwise>
-      </xsl:choose>
+    <!-- For all number-unit combinations, e.g. 1 kg, 10 km, etc. drop the space -->
+    <xsl:variable name="measure"
+      select="(tokenize(normalize-space(string(.)), ' '))[position()=last()]"/>
+    <xsl:for-each select="tokenize(string(.), ' ')">
+      <xsl:if test="not(position() = last())">
+        <!-- FIXME: do not test for position but whether it is a number -->
+        <xsl:value-of select="louis:translate(string($braille_tables), string(.))"/>
+      </xsl:if>
     </xsl:for-each>
+    <xsl:call-template name="handle_abbr">
+      <xsl:with-param name="context" select="'abbr'"/>
+      <xsl:with-param name="content" select="$measure"/>
+    </xsl:call-template>
   </xsl:template>
+  
+  
   
   <xsl:template match="brl:num[@role='isbn' and lang('de')]">
     <xsl:variable name="braille_tables">
