@@ -52,7 +52,8 @@
   
   <xsl:variable name="BLOCK_ELEMENTS">h1 h2 h3 h4 h5 h6 p li author byline line</xsl:variable>
   
-  <xsl:variable name="BLOCK_ELEMENT_LIST"><xsl:value-of select="tokenize($BLOCK_ELEMENTS, '\s+')" /></xsl:variable>
+  <xsl:variable name="BLOCK_ELEMENT_LIST1"><xsl:value-of select="tokenize($BLOCK_ELEMENTS, '\s+')" /></xsl:variable>
+  <xsl:variable name="BLOCK_ELEMENT_LIST"><xsl:value-of select="('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'li', 'author', 'byline', 'line')" /></xsl:variable>
   
   <!-- TODO: introduce more constants (variables), e.g. for &#x250A; -->
   
@@ -85,22 +86,20 @@
   
   <xsl:function name="my:following-text-within-block" as="xs:string">
     <xsl:param name="context"/>
-    <xsl:value-of select="string(($context/following::text() intersect $context/ancestor-or-self::*[local-name()=$BLOCK_ELEMENT_LIST]//text())[1])"/>
+    <xsl:value-of select="string(($context/following::text() intersect $context/ancestor-or-self::*[local-name()=('h1','h2','h3','h4','h5','h6','p','li','author','byline','line')]//text())[1])"/>
   </xsl:function>
   
-  <xsl:template match="tests-following-text-within-block" as="xs:string">
-    <xsl:param name="context"/>
-    <xsl:value-of select="my:following-text-within-block(.)"/>
+  <xsl:template match="text()[contains(string(.),'tests-following-text-within-block')]">
+    <xsl:value-of select="concat('bla',my:following-text-within-block(.),'blo')"/>
   </xsl:template>
   
   <xsl:function name="my:preceding-text-within-block" as="xs:string">
     <xsl:param name="context"/>
-    <xsl:value-of select="string(($context/preceding::text() intersect $context/ancestor-or-self::*[local-name()=$BLOCK_ELEMENT_LIST]//text())[1])"/>
+    <xsl:value-of select="string(($context/preceding::text() intersect $context/ancestor-or-self::*[local-name()=('h1','h2','h3','h4','h5','h6','p','li','author','byline','line')]//text())[1])"/>
   </xsl:function>
   
-  <xsl:template match="tests-preceding-text-within-block" as="xs:string">
-    <xsl:param name="context"/>
-    <xsl:value-of select="my:preceding-text-within-block(.)"/>
+  <xsl:template match="tests-preceding-text-within-block">
+    <xsl:value-of select="concat('bla',my:preceding-text-within-block(.),'blo')"/>
   </xsl:template>
   
   <xsl:function name="my:isLower" as="xs:boolean">

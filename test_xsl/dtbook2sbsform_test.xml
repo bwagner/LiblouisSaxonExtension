@@ -18,13 +18,18 @@
 <!-- License along with this program. If not, see -->
 <!-- <http://www.gnu.org/licenses/>. -->
 
-<!DOCTYPE utfx:tests PUBLIC "-//UTF-X//DTD utfx-tests 1.0//EN" "utfx_tests.dtd">
+<?oxygen RNGSchema="File:///home/wagnerb/archive/oxygen/utfx_tests.rng" type="xml"?>
+<!--
+  <!DOCTYPE utfx:tests PUBLIC "-//UTF-X//DTD utfx-tests 1.0//EN" "utfx_tests.dtd">
+-->
 <utfx:tests xmlns:utfx="http://utfx.org/test-definition"
   xmlns:dtb="http://www.daisy.org/z3986/2005/dtbook/"
   xmlns:brl="http://www.daisy.org/z3986/2009/braille/">
   <utfx:stylesheet src="xsl/dtbook2sbsform.xsl"/>
 
-
+  <!-- TODO: check which asserts really need utfx:assert-equal normalise-internal-whitespace="yes" -->
+  <!-- TODO: utfx-bug: when empty <utfx:expected/>, utfx:expected of previous test is used. -->
+  
   <!-- Element tests -->
   <utfx:test>
     <utfx:name>Translation of h1</utfx:name>
@@ -1037,7 +1042,81 @@ y P
       <utfx:expected>&gt;SJW-</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
--->  
+-->
+  
+  <utfx:test>
+    <utfx:name>my:following-text-within-block 1 (correct parent type)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:p>
+            <dtb:em>tests-following-text-within-block</dtb:em>
+            <dtb:em>xYx</dtb:em>
+          </dtb:p>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y P bla xYx blo XYX</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>my:following-text-within-block 2</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:p>
+            tests-following-text-within-block
+            <dtb:em>xYx</dtb:em>
+          </dtb:p>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y P blaxYxblo_XYX</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
+    <utfx:name>my:following-text-within-block 3</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:p>
+            <dtb:em>tests-following-text-within-block</dtb:em>
+            xYx
+          </dtb:p>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y P __bla xYx blo'. XYX</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  
+  <utfx:test>
+    <utfx:name>my:following-text-within-block 4 (wrong parent type)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:blockquote>
+            <dtb:em>tests-following-text-within-block</dtb:em>
+            xYx
+          </dtb:blockquote>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y BLQUOb XYX blablo y BLQUOe</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
   <utfx:test>
     <utfx:name>Running Line Kurzschrift</utfx:name>
     <utfx:stylesheet-params>
