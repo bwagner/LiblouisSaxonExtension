@@ -25,7 +25,7 @@
 <utfx:tests xmlns:utfx="http://utfx.org/test-definition"
   xmlns:dtb="http://www.daisy.org/z3986/2005/dtbook/"
   xmlns:brl="http://www.daisy.org/z3986/2009/braille/">
-  <utfx:stylesheet src="xsl/dtbook2sbsform.xsl"/>
+  <utfx:stylesheet src="xsl/dtbook2sbsformtesthelper.xsl"/>
 
   <!-- TODO: check which asserts really need utfx:assert-equal normalise-internal-whitespace="yes" -->
   <!-- TODO: utfx-bug: when empty <utfx:expected/>, utfx:expected of previous test is used. -->
@@ -536,7 +536,7 @@ y DIVe_foo
     </utfx:assert-equal>
   </utfx:test>
 
-  
+
   <utfx:test>
     <utfx:name>context across block boundaries Bug #1395</utfx:name>
     <utfx:stylesheet-params>
@@ -544,10 +544,24 @@ y DIVe_foo
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
-        <stub xml:lang="de"><dtb:byline><em class="name">Tages-Anzeiger</em></dtb:byline>
-            <dtb:p>Zum Autor</dtb:p></stub>
+        <stub xml:lang="de"><dtb:byline><dtb:em class="name">Tages-Anzeiger</dtb:em></dtb:byline>
+          <dtb:p>Zum Autor</dtb:p></stub>
       </utfx:source>
-      <utfx:expected>y BYLINE&#13; TAG%-m+Z3G7&#13;y P&#13; ZM 1TOR</utfx:expected>
+      <utfx:expected>y BYLINE&#13; __TAG%-m+Z3G7'.&#13;y P&#13; ZM 1TOR</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  
+  <utfx:test>
+    <utfx:name>copy of context across block boundaries Bug #1395</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em class="name">Tages-Anzeiger</dtb:em> Zum Autor</stub>
+      </utfx:source>
+      <utfx:expected> __TAG%-m+Z3G7'. ZM 1TOR</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
   
@@ -1114,6 +1128,59 @@ y P
         </stub>
       </utfx:source>
       <utfx:expected>y BLQUOb XYX blablo y BLQUOe</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  
+  <utfx:test>
+    <utfx:name>my:following-text-within-block 5 (wrong parent type)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="1"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:blockquote>
+            <dtb:em>tests-following-text-within-block</dtb:em>
+            xYx
+          </dtb:blockquote>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y BLQUOb XYX blablo y BLQUOe</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  
+  <utfx:test>
+    <utfx:name>text nodes ending with punctuation</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:p>wort</dtb:p>
+          <dtb:p>»aber</dtb:p>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y P&#13; W?T&#13;y P&#13; (A</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  
+  <utfx:test>
+    <utfx:name>text nodes ending with punctuation with first word inline</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:p><dtb:em>wort</dtb:em></dtb:p>
+          <dtb:p>»aber</dtb:p>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y P&#13; _W?T&#13;y P&#13; (A</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
   

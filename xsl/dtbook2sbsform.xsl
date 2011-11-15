@@ -89,18 +89,10 @@
     <xsl:value-of select="string(($context/following::text() intersect $context/ancestor-or-self::*[local-name()=('h1','h2','h3','h4','h5','h6','p','li','author','byline','line')]//text())[1])"/>
   </xsl:function>
   
-  <xsl:template match="text()[contains(string(.),'tests-following-text-within-block')]">
-    <xsl:value-of select="concat('bla',my:following-text-within-block(.),'blo')"/>
-  </xsl:template>
-  
   <xsl:function name="my:preceding-text-within-block" as="xs:string">
     <xsl:param name="context"/>
     <xsl:value-of select="string(($context/preceding::text() intersect $context/ancestor-or-self::*[local-name()=('h1','h2','h3','h4','h5','h6','p','li','author','byline','line')]//text())[1])"/>
   </xsl:function>
-  
-  <xsl:template match="tests-preceding-text-within-block">
-    <xsl:value-of select="concat('bla',my:preceding-text-within-block(.),'blo')"/>
-  </xsl:template>
   
   <xsl:function name="my:isLower" as="xs:boolean">
     <xsl:param name="char"/>
@@ -2337,7 +2329,7 @@ i f=1 l=1
 
   <!-- mixed emphasis after-->
   <xsl:template
-    match="text()[lang('de') and my:ends-with-word(string()) and my:starts-with-word(string(following::text()[1])) and following::*[position()=1 and local-name()='em']]">
+    match="text()[lang('de') and my:ends-with-word(string()) and my:starts-with-word(string(my:following-text-within-block(.))) and following::*[ position()=1 and local-name()='em']]">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
