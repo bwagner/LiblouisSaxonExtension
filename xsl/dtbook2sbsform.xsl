@@ -46,16 +46,10 @@
   <xsl:param name="use_local_dictionary" select="false()"/>
   <xsl:param name="document_identifier"></xsl:param>
   
+  <!-- TODO: introduce more constants (variables), e.g. for &#x250A; -->
   <xsl:variable name="GROSS_FUER_BUCHSTABENFOLGE">╦</xsl:variable>
   <xsl:variable name="GROSS_FUER_EINZELBUCHSTABE">╤</xsl:variable>
   <xsl:variable name="KLEINBUCHSTABE">╩</xsl:variable>
-  
-  <xsl:variable name="BLOCK_ELEMENTS">h1 h2 h3 h4 h5 h6 p li author byline line</xsl:variable>
-  
-  <xsl:variable name="BLOCK_ELEMENT_LIST1"><xsl:value-of select="tokenize($BLOCK_ELEMENTS, '\s+')" /></xsl:variable>
-  <xsl:variable name="BLOCK_ELEMENT_LIST"><xsl:value-of select="('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'li', 'author', 'byline', 'line')" /></xsl:variable>
-  
-  <!-- TODO: introduce more constants (variables), e.g. for &#x250A; -->
   
   <xsl:variable name="volumes">
     <xsl:value-of select="count(//brl:volume[@brl:grade=$contraction]) + 1"/>
@@ -68,21 +62,6 @@
       <xsl:otherwise>standard</xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
-  
-  <xsl:function name="my:isBlockElementWithTextChild" as="xs:boolean">
-    <xsl:param name="elementName"/>
-    <xsl:value-of select="contains($BLOCK_ELEMENTS, $elementName)"/>
-  </xsl:function>
-  
-  <xsl:function name="my:isFirstTextNodeWithinBlock" as="xs:boolean">
-    <xsl:param name="node"/>
-    <xsl:value-of select="count($node/ancestor-or-self::*[my:isBlockElementWithTextChild(local-name())])"/>
-  </xsl:function>
-  
-  <xsl:function name="my:isLastTextNodeWithinBlock" as="xs:boolean">
-    <xsl:param name="node"/>
-    <xsl:value-of select="contains($BLOCK_ELEMENTS, $node)"/>
-  </xsl:function>
   
   <xsl:function name="my:following-text-within-block" as="xs:string">
     <xsl:param name="context"/>
@@ -104,16 +83,8 @@
     <xsl:value-of select=" matches($char, '\p{L}')"/>
   </xsl:function>
   
-  <!-- TODO: how to test isLetter? -->
- <!-- <xsl:template match="p[@id='testIsLetter']/text()">
-    <xsl:choose>
-      <xsl:when test="my:isLetter(.)"><xsl:text>true</xsl:text></xsl:when>
-      <xsl:otherwise><xsl:text>false</xsl:text></xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>-->
-  
-<!-- This function is only properly defined for alphabetic characters 
-     For all others the function returns always true. -->
+  <!-- This function is only properly defined for alphabetic characters 
+       For all others the function returns always true. -->
   <xsl:function name="my:isUpper" as="xs:boolean">
     <xsl:param name="char"/>
     <xsl:value-of select="$char=upper-case($char)"/>
@@ -124,12 +95,7 @@
     <xsl:value-of select="number($number)=number($number)"/>
   </xsl:function>
   
-  <xsl:function name="my:isNumberLike" as="xs:boolean">
-    <xsl:param name="number"/>
-    <xsl:value-of select="my:isNumber($number) or my:isBalls($number) or my:isFraction($number) or my:isExponent($number)"/>
-  </xsl:function>
-  
-  <xsl:function name="my:isBalls" as="xs:boolean">
+  <xsl:function name="my:isPercent" as="xs:boolean">
     <xsl:param name="number"/>
     <xsl:value-of select="matches($number, '([%‰°])')"/>
   </xsl:function>
@@ -142,6 +108,11 @@
   <xsl:function name="my:isFraction" as="xs:boolean">
     <xsl:param name="number"/>
     <xsl:value-of select="matches($number, '([¼½¾\\u2153\\u2154\\u2155\\u2156\\u2157\\u2158\\u2159\\u215a\\u215b\\u215c\\u215d\\u215e])')"/>
+  </xsl:function>
+  
+  <xsl:function name="my:isNumberLike" as="xs:boolean">
+    <xsl:param name="number"/>
+    <xsl:value-of select="my:isNumber($number) or my:isPercent($number) or my:isFraction($number) or my:isExponent($number)"/>
   </xsl:function>
   
   <xsl:function name="my:isMeasure" as="xs:boolean">
@@ -1743,7 +1714,7 @@ i f=1 l=1
         <xsl:value-of select="louis:translate(string($braille_tables), '&#x00BB;')"/>
         <xsl:apply-templates/>
         <xsl:choose>
-          <xsl:when test="my:isNumberLike(replace((.//text())[last()], '.*(.$)', '\\1'))">
+          <xsl:when test="my:isNumberLike(replace((.//text())[position()=last()], '.*(.$)', '\\1'))">
             <xsl:value-of select="louis:translate(string($braille_tables), '&#x2039;')"/>
           </xsl:when>
           <xsl:otherwise>
@@ -2009,63 +1980,22 @@ i f=1 l=1
     />
   </xsl:template>
 
-<!--  <xsl:template match="brl:num[@role='measure' and lang('de')]">
-    <xsl:variable name="braille_tables">
-      <xsl:call-template name="getTable"/>
-    </xsl:variable>
-    
-    <xsl:variable name="tokens"
-      select="(tokenize(normalize-space(string(.)), '\s+'))"/>
-    
-    <xsl:choose>
-      <xsl:when test="my:isMeasure($tokens[1])">
-        <xsl:call-template name="handle_abbr">
-          <xsl:with-param name="context" select="'abbr'"/>
-          <xsl:with-param name="content" select="$tokens[1]"/>
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="louis:translate(string($braille_tables), $tokens[1])"/>
-      </xsl:otherwise>
-    </xsl:choose>
-    
-    <xsl:choose>
-      <xsl:when test="my:isMeasure($tokens[2])">
-        <xsl:call-template name="handle_abbr">
-          <xsl:with-param name="context" select="'abbr'"/>
-          <xsl:with-param name="content" select="$tokens[2]"/>
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="louis:translate(string($braille_tables), $tokens[2])"/>
-      </xsl:otherwise>
-    </xsl:choose>
-
-  </xsl:template>-->
-  
   <xsl:template match="brl:num[@role='measure' and lang('de')]">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
-    <!-- For all number-unit combinations, e.g. 1 kg, 10 km, etc. drop the space -->
-    
-    <xsl:variable name="tokens"
-      select="tokenize(normalize-space(string(.)), '\s+')"/>
-    
-    <xsl:variable name="number"
-      select="$tokens[1]"/>
-    <xsl:value-of select="louis:translate(string($braille_tables), string($number))"/>
 
-    <xsl:variable name="measure"
-      select="$tokens[last()]"/>
-    <!-- don't call handle_abbr from a for-each! As it will redefine the context and getTable will fail when calling local-name() -->
+    <!-- For all number-unit combinations, e.g. 1 kg, 10 km, etc. drop the space -->
+    <xsl:variable name="tokens" select="tokenize(normalize-space(string(.)), '\s+')"/>
+    <xsl:variable name="number" select="$tokens[1]"/>
+    <xsl:variable name="measure" select="$tokens[position()=last()]"/>
+
+    <xsl:value-of select="louis:translate(string($braille_tables), string($number))"/>
     <xsl:call-template name="handle_abbr">
       <xsl:with-param name="context" select="'abbr'"/>
       <xsl:with-param name="content" select="$measure"/>
     </xsl:call-template>
   </xsl:template>
-  
-  
   
   <xsl:template match="brl:num[@role='isbn' and lang('de')]">
     <xsl:variable name="braille_tables">
@@ -2329,7 +2259,7 @@ i f=1 l=1
 
   <!-- mixed emphasis after-->
   <xsl:template
-    match="text()[lang('de') and my:ends-with-word(string()) and my:starts-with-word(string(my:following-text-within-block(.))) and following::*[ position()=1 and local-name()='em']]">
+    match="text()[lang('de') and my:ends-with-word(string()) and my:starts-with-word(string(following::text()[1])) and following::*[ position()=1 and local-name()='em']]">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
