@@ -26,9 +26,17 @@
 #   executable, and both the java "-cp" flag and the CLASSPATH environment
 #   variable are ignored.
 
+if [ "$1" = "-?" ] ; then
+    echo
+    echo Usage: `basename $0` "[ -Dutfx.test.dir=test_xsl | -Dutfx.test.file=test_xsl/dtbook2sbsform_test.xml ]"
+    echo
+    exit 1
+fi
+
 LOUIS_TRANSFORM_FACTORY=-Djavax.xml.transform.TransformerFactory=org.liblouis.transformerfactory.LouisExtensionTransformerFactoryImpl
 UTFX=.:utfx_lib/utfxFat.jar
-UTFX_TEST=-Dutfx.test.dir=test_xsl
+
+UTFX_TEST=${@:-"-Dutfx.test.dir=test_xsl"}
 
 LIB=lib
 CP=$LIB/saxon9he.jar:$LIB/louis.jar:$LIB/jna.jar:liblouissaxonx.jar:$UTFX
