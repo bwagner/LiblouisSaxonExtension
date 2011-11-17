@@ -18,6 +18,11 @@
 <!-- License along with this program. If not, see -->
 <!-- <http://www.gnu.org/licenses/>. -->
 
+<!-- TODO: make this RNGSchema independent of wagnerb's personal configuration.
+  http://www.oxygenxml.com/pipermail/oxygen-user/2009-January/002167.html 
+  http://groups.google.com/group/daisy-pipeline-dev/msg/a221f2081d87bdb1
+-->
+
 <?oxygen RNGSchema="File:///home/wagnerb/archive/oxygen/utfx_tests.rng" type="xml"?>
 <!--
   <!DOCTYPE utfx:tests PUBLIC "-//UTF-X//DTD utfx-tests 1.0//EN" "utfx_tests.dtd">
