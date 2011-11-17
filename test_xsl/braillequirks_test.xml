@@ -452,41 +452,55 @@ mm</brl:num>
   </utfx:test>
 
   <utfx:test>
-    <utfx:name>Single word mixed emphasis (em before) (http://redmine.sbszh.ch/issues/show/1007)</utfx:name>
+    <utfx:name>Single word mixed emphasis em before (http://redmine.sbszh.ch/issues/show/1007)</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
-        <stub xml:lang="de"><dtb:em>Menschen</dtb:em>versuch</stub>
+        <dtb:p xml:lang="de"><dtb:em>Menschen</dtb:em>versuch</dtb:p>
       </utfx:source>
-      <utfx:expected>_MC5C'.V7SU4</utfx:expected>
+      <utfx:expected>y P&#13; _MC5C'.V7SU4</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
   <utfx:test>
-    <utfx:name>Single word mixed emphasis (em after)</utfx:name>
+    <utfx:name>Single word mixed emphasis em before and inside span (http://redmine.sbszh.ch/issues/show/1007)</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
-        <stub xml:lang="de">Liebe<dtb:em>gang</dtb:em></stub>
+        <dtb:p xml:lang="de"><dtb:span><dtb:em>Menschen</dtb:em></dtb:span>versuch</dtb:p>
       </utfx:source>
-      <utfx:expected>L0;'_G+G</utfx:expected>
+      <utfx:expected>y P&#13; _MC5C'.V7SU4</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+
+  <utfx:test>
+    <utfx:name>Single word mixed emphasis em after</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <dtb:p xml:lang="de">Liebe<dtb:em>gang</dtb:em></dtb:p>
+      </utfx:source>
+      <utfx:expected>y P&#13; L0;'_G+G</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
   <utfx:test>
-    <utfx:name>Single word mixed emphasis (em inside)</utfx:name>
+    <utfx:name>Single word mixed emphasis em inside</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
     </utfx:stylesheet-params>
     <utfx:assert-equal>
       <utfx:source>
-        <stub xml:lang="de">Liebe<dtb:em>Menschen</dtb:em>versuch</stub>
+        <dtb:p xml:lang="de">Liebe<dtb:em>Menschen</dtb:em>versuch</dtb:p>
       </utfx:source>
-      <utfx:expected>L0;'_MC5C'.V7SU4</utfx:expected>
+      <utfx:expected>y P&#13; L0;'_MC5C'.V7SU4</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 

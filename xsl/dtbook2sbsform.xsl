@@ -65,12 +65,12 @@
   
   <xsl:function name="my:following-text-within-block" as="xs:string">
     <xsl:param name="context"/>
-    <xsl:value-of select="string(($context/following::text() intersect $context/ancestor-or-self::*[local-name()=('h1','h2','h3','h4','h5','h6','p','li','author','byline','line')]//text())[1])"/>
+    <xsl:value-of select="string(($context/following::text() intersect $context/ancestor-or-self::*[local-name()=('h1','h2','h3','h4','h5','h6','p','li','author','byline','line')][1]//text())[1])"/>
   </xsl:function>
   
   <xsl:function name="my:preceding-text-within-block" as="xs:string">
     <xsl:param name="context"/>
-    <xsl:value-of select="string(($context/preceding::text() intersect $context/ancestor-or-self::*[local-name()=('h1','h2','h3','h4','h5','h6','p','li','author','byline','line')]//text())[1])"/>
+    <xsl:value-of select="string(($context/preceding::text() intersect $context/ancestor-or-self::*[local-name()=('h1','h2','h3','h4','h5','h6','p','li','author','byline','line')][1]//text())[1])"/>
   </xsl:function>
   
   <xsl:function name="my:isLower" as="xs:boolean">
@@ -1747,7 +1747,7 @@ i f=1 l=1
               <!-- emph is at the beginning of the word -->
               <xsl:when
                 test="my:ends-with-non-word(preceding-sibling::text()[1]) and my:starts-with-word(following-sibling::text()[1])">
-                <xsl:value-of select="louis:translate(string($braille_tables), '&#x255F;')"/>
+		<xsl:value-of select="louis:translate(string($braille_tables), '&#x255F;')"/>
                 <xsl:apply-templates/>
                 <xsl:value-of select="louis:translate(string($braille_tables), '&#x2561;')"/>
               </xsl:when>
@@ -1760,7 +1760,7 @@ i f=1 l=1
               <!-- emph is inside the word -->
               <xsl:when
                 test="my:ends-with-word(preceding-sibling::text()[1]) and my:starts-with-word(following-sibling::text()[1])">
-                <xsl:value-of select="louis:translate(string($braille_tables), '&#x255E;')"/>
+		<xsl:value-of select="louis:translate(string($braille_tables), '&#x255E;')"/>
                 <xsl:apply-templates/>
                 <xsl:value-of select="louis:translate(string($braille_tables), '&#x2561;')"/>
               </xsl:when>
@@ -2250,7 +2250,7 @@ i f=1 l=1
   <!-- Handle single word mixed emphasis -->
   <!-- mixed emphasis before-->
   <xsl:template
-    match="text()[lang('de') and my:starts-with-word(string()) and my:ends-with-word(string(preceding::text()[1])) and preceding::*[position()=1 and local-name()='em']]">
+    match="text()[lang('de') and my:starts-with-word(string()) and my:ends-with-word(my:preceding-text-within-block(.)) and preceding::*[position()=1 and local-name()='em']]">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
@@ -2259,7 +2259,7 @@ i f=1 l=1
 
   <!-- mixed emphasis after-->
   <xsl:template
-    match="text()[lang('de') and my:ends-with-word(string()) and my:starts-with-word(string(following::text()[1])) and following::*[ position()=1 and local-name()='em']]">
+    match="text()[lang('de') and my:ends-with-word(string()) and my:starts-with-word(my:following-text-within-block(.)) and following::*[ position()=1 and local-name()='em']]">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
@@ -2268,7 +2268,7 @@ i f=1 l=1
 
   <!-- handle 'ich' inside text node followed by chars that could be interpreted as numbers -->
   <xsl:template
-    match="text()[lang('de') and (matches(string(), '^ich$', 'i') or matches(string(), '\Wich$', 'i')) and matches(string(following::text()[1]), '^[,;:?!)&#x00bb;&#x00ab;]')]">
+    match="text()[lang('de') and (matches(string(), '^ich$', 'i') or matches(string(), '\Wich$', 'i')) and matches(string(following::text()[1]), '^[,;:?!)&#x00bb;&#x00ab;]')]" priority="100">
     <xsl:variable name="braille_tables">
       <xsl:call-template name="getTable"/>
     </xsl:variable>
