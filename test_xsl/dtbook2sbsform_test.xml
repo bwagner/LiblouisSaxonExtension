@@ -1190,6 +1190,30 @@ y P
   </utfx:test>
   
   <utfx:test>
+    <utfx:name>brl:volume und pagnum Bug #1290</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal normalise-internal-whitespace="yes">
+      <utfx:source>
+        <stub xml:lang="de">
+          <dtb:level1>
+            <dtb:h1>Titel1</dtb:h1>
+            <dtb:p>bla</dtb:p>
+          </dtb:level1>
+          <brl:volume brl:grade="2"/>
+          <dtb:level1>
+            <dtb:pagenum id="page-165" page="normal">165</dtb:pagenum>
+            <dtb:h1>Titel2</dtb:h1>
+            <dtb:p>blo</dtb:p>
+          </dtb:level1>
+        </stub>
+      </utfx:source>
+      <utfx:expected>y LEVEL1b&#13;.xNOPAGENUM&#13;&#13;y H1&#13;TITY#A&#13;&#13;y P&#13; BLA&#13;y LEVEL1e&#13;&#13;y EndVol&#13;p&#13;&#13;j 165&#13;y BrlVol&#13;&#13;y LEVEL1b&#13;.xNOPAGENUM&#13;y H1&#13; TITY#B&#13;&#13;y P&#13; BLO&#13;y LEVEL1e</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+  
+  <utfx:test>
     <utfx:name>Running Line Kurzschrift</utfx:name>
     <utfx:stylesheet-params>
       <utfx:with-param name="contraction" select="2"/>
