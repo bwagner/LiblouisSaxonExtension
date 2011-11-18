@@ -126,4 +126,17 @@
     </utfx:assert-equal>
   </utfx:test>
   
+  <!-- <utfx:test> -->
+  <!--   <utfx:name>Wortersatzstrich (http://redmine.sbszh.ch/issues/1505)</utfx:name> -->
+  <!--   <utfx:stylesheet-params> -->
+  <!--     <utfx:with-param name="contraction" select="2"/> -->
+  <!--   </utfx:stylesheet-params> -->
+  <!--   <utfx:assert-equal> -->
+  <!--     <utfx:source> -->
+  <!--       <dtb:p xml:lang="de">-losenheim</dtb:p> -->
+  <!--     </utfx:source> -->
+  <!--     <utfx:expected>y P&#13; '-mLOSCH3M</utfx:expected> -->
+  <!--   </utfx:assert-equal> -->
+  <!-- </utfx:test> -->
+  
 </utfx:tests>
