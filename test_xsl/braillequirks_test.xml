@@ -766,4 +766,18 @@ y BrlVol
     </utfx:assert-equal>
   </utfx:test>
 
+  <utfx:test>
+    <utfx:name>footnote inside h1 (http://redmine.sbszh.ch/issues/1260)</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="2"/>
+      <utfx:with-param name="footnote_placement" select="'standard'"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+	<dtb:h1 xml:lang="de">Sein und nicht sein<dtb:noteref idref="#fn1">1</dtb:noteref></dtb:h1>
+      </utfx:source>
+      <utfx:expected>y H1&#13; 9 U N 9'*#A&#13;*</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
 </utfx:tests>

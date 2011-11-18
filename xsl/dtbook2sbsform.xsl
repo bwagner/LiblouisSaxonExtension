@@ -115,11 +115,6 @@
     <xsl:value-of select="my:isNumber($number) or my:isPercent($number) or my:isFraction($number) or my:isExponent($number)"/>
   </xsl:function>
   
-  <xsl:function name="my:isMeasure" as="xs:boolean">
-    <xsl:param name="input"/>
-    <xsl:value-of select="my:isNumber($input) or my:isFraction($input)"/>
-  </xsl:function>
-  
   <xsl:function name="my:hasSameCase" as="xs:boolean">
     <xsl:param name="a"/>
     <xsl:param name="b"/>
@@ -1536,7 +1531,7 @@ i f=1 l=1
 	  select="*[local-name() != 'toc-line' and local-name() != 'running-line']|text()"/>
     </xsl:variable>
     <!-- Remove hypenation marks ('t','k', 'p' and 'w') -->
-    <xsl:value-of select="translate(normalize-space(string($header)),'tkpw','')"/>
+    <xsl:value-of select="replace(string($header), '[tkpw]', '')"/>
     <xsl:if test="$toc_level &gt;= $level">
       <xsl:text>&#10;H</xsl:text>
       <xsl:variable name="toc-line">
