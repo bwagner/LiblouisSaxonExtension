@@ -1728,7 +1728,7 @@ i f=1 l=1
 	   neatly works around a bug where liblouis doesn't correctly
 	   announce multi-word emphasis -->
         <xsl:choose>
-          <xsl:when test="count(tokenize(string(.), '(\s|/|-)+')) > 1">
+          <xsl:when test="count(tokenize(string(.), '(\s|/|-)+')[string(.) ne '']) > 1">
             <!-- There are multiple words. Insert a multiple word announcement -->
             <xsl:value-of select="louis:translate(string($braille_tables), '&#x2560;')"/>
             <xsl:apply-templates/>
@@ -1862,7 +1862,7 @@ i f=1 l=1
         <xsl:choose>
           <xsl:when test="$contraction = 2 and @brl:grade &lt; $contraction">
             <xsl:choose>
-              <xsl:when test="count(tokenize(string(.), '(\s|/|-)+')) > 1">
+              <xsl:when test="count(tokenize(string(.), '(\s|/|-)+')[string(.) ne '']) > 1">
                 <!-- There are multiple words. Insert an announcement for a multiple word grade change -->
                 <xsl:value-of select="louis:translate(string($braille_tables), '&#x255A;')"/>
                 <xsl:apply-templates/>
