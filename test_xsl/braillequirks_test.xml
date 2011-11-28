@@ -67,6 +67,35 @@
     </utfx:assert-equal>
   </utfx:test>
 
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- test for <em> starting or ending with dash -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <utfx:test>
+    <utfx:name>test for &lt;em&gt; starting with dash</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="0"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de">auf<dtb:em>fallen</dtb:em> und <dtb:em>-steigen</dtb:em> </stub>
+      </utfx:source>
+      <utfx:expected>AUF'_FALLEN UND '-_STEIGEN </utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
+  <utfx:test>
+    <utfx:name>test for &lt;em&gt; ending with dash</utfx:name>
+    <utfx:stylesheet-params>
+      <utfx:with-param name="contraction" select="0"/>
+    </utfx:stylesheet-params>
+    <utfx:assert-equal>
+      <utfx:source>
+        <stub xml:lang="de"><dtb:em>hin-</dtb:em> und <dtb:em>her</dtb:em>gehen </stub>
+      </utfx:source>
+      <utfx:expected>_HIN- UND _HER'.GEHEN</utfx:expected>
+    </utfx:assert-equal>
+  </utfx:test>
+
   <utfx:test>
     <utfx:name>&lt;em&gt; with previous text node ending in word</utfx:name>
     <utfx:stylesheet-params>
