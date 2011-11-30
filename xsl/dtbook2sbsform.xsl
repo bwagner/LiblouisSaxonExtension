@@ -63,14 +63,19 @@
     </xsl:choose>
   </xsl:variable>
   
+  <xsl:function name="my:is-block-element" as="xs:boolean">
+    <xsl:param name="context"/>
+    <xsl:sequence select="local-name($context)=('h1','h2','h3','h4','h5','h6','p','li','author','byline','line')"/>
+  </xsl:function>
+
   <xsl:function name="my:following-text-within-block" as="xs:string">
     <xsl:param name="context"/>
-    <xsl:value-of select="string(($context/following::text() intersect $context/ancestor-or-self::*[local-name()=('h1','h2','h3','h4','h5','h6','p','li','author','byline','line')][1]//text())[1])"/>
+    <xsl:value-of select="string(($context/following::text() intersect $context/ancestor-or-self::*[my:is-block-element(.)][1]//text())[1])"/>
   </xsl:function>
   
   <xsl:function name="my:preceding-text-within-block" as="xs:string">
     <xsl:param name="context"/>
-    <xsl:value-of select="string(($context/preceding::text() intersect $context/ancestor-or-self::*[local-name()=('h1','h2','h3','h4','h5','h6','p','li','author','byline','line')][1]//text())[1])"/>
+    <xsl:value-of select="string(($context/preceding::text() intersect $context/ancestor-or-self::*[my:is-block-element(.)][1]//text())[1])"/>
   </xsl:function>
   
   <xsl:function name="my:isLower" as="xs:boolean">
@@ -1646,6 +1651,26 @@ i f=1 l=1
     <xsl:variable name="note_number" select="count(preceding::dtb:noteref)+1"/>
     <xsl:value-of select="louis:translate(string($braille_tables), concat('*',string($note_number)))"/>
     <xsl:text>&#10;* &#10; </xsl:text>
+  </xsl:template>
+
+  <!-- If a noteref is followed by punctuation, the punctuation needs
+       to come after the note_number and before the &#10;* &#10; -->
+  <xsl:template match="dtb:noteref[my:starts-with-punctuation(my:following-text-within-block(.))]">
+    <xsl:variable name="braille_tables">
+      <xsl:call-template name="getTable"/>
+    </xsl:variable>
+    <xsl:variable name="note_number" select="count(preceding::dtb:noteref)+1"/>
+    <xsl:value-of select="louis:translate(string($braille_tables), concat('*',string($note_number)))"/>
+    <xsl:value-of select="substring-before(my:following-text-within-block(.), ' ')"/>
+    <xsl:text>&#10;* &#10; </xsl:text>
+  </xsl:template>
+  
+  <!-- Remove the punctuation in a text node if it follows a noteref, since the punctuation was handled by the noteref matcher -->
+  <xsl:template match="text()[lang('de') and my:starts-with-punctuation(.) and exists((preceding::*[position() = 1 and local-name() = 'noteref'] intersect ancestor-or-self::*[my:is-block-element(.)][1]//dtb:noteref))]" priority="100">
+    <xsl:variable name="braille_tables">
+      <xsl:call-template name="getTable"/>
+    </xsl:variable>
+    <xsl:value-of select="louis:translate(string($braille_tables), substring-after(string(),' '))"/>
   </xsl:template>
 
   <xsl:template match="dtb:author">

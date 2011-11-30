@@ -67,43 +67,6 @@
     </utfx:assert-equal>
   </utfx:test>
 
-  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <!-- test for <em> starting or ending with dash -->
-  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <!-- Expected Failure -->
-  <!-- There is still a bug here with the - in that it puts a hyphen
-       mark after the -. This is apparently related to the liblouis
-       tables not to the xsl -->
-  <!-- <utfx:test> -->
-  <!--   <utfx:name>test for &lt;em&gt; starting with dash</utfx:name> -->
-  <!--   <utfx:stylesheet-params> -->
-  <!--     <utfx:with-param name="contraction" select="0"/> -->
-  <!--   </utfx:stylesheet-params> -->
-  <!--   <utfx:assert-equal> -->
-  <!--     <utfx:source> -->
-  <!--       <stub xml:lang="de">auf<dtb:em>fallen</dtb:em> und <dtb:em>-steigen</dtb:em> </stub> -->
-  <!--     </utfx:source> -->
-  <!--     <utfx:expected>AUF'_FALLEN UND '-_STEIGEN </utfx:expected> -->
-  <!--   </utfx:assert-equal> -->
-  <!-- </utfx:test> -->
-
-  <!-- Expected Failure -->
-  <!-- There is still a bug here with the - in that it puts a hyphen
-       mark after the -. This is apparently related to the liblouis
-       tables not to the xsl -->
-  <!-- <utfx:test> -->
-  <!--   <utfx:name>test for &lt;em&gt; ending with dash</utfx:name> -->
-  <!--   <utfx:stylesheet-params> -->
-  <!--     <utfx:with-param name="contraction" select="0"/> -->
-  <!--   </utfx:stylesheet-params> -->
-  <!--   <utfx:assert-equal> -->
-  <!--     <utfx:source> -->
-  <!--       <stub xml:lang="de"><dtb:em>hin-</dtb:em> und <dtb:em>her</dtb:em>gehen </stub> -->
-  <!--     </utfx:source> -->
-  <!--     <utfx:expected>_HIN- UND _HER'.GEHEN</utfx:expected> -->
-  <!--   </utfx:assert-equal> -->
-  <!-- </utfx:test> -->
-
   <utfx:test>
     <utfx:name>&lt;em&gt; with previous text node ending in word</utfx:name>
     <utfx:stylesheet-params>
@@ -144,7 +107,7 @@ y LINEe
       <utfx:source>
         <stub xml:lang="de">Substanz und/oder deren</stub>
       </utfx:source>
-      <utfx:expected>SUB]+Z U!,O D7C</utfx:expected>
+      <utfx:expected>SUB]+Z U!,mO D7C</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -380,7 +343,7 @@ mm</brl:num>
       <utfx:source>
         <stub xml:lang="de">Produktion/Test</stub>
       </utfx:source>
-      <utfx:expected>QDUKTJ!,TE]</utfx:expected>
+      <utfx:expected>QDUKTJ!,mTE]</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
@@ -724,96 +687,6 @@ y P
 y P
  S HE V +F+G + E AKZCT ;M7KT, R E \L@ND7 -R0T, U FR(: (NA, U WOH7 KX] DU?)
       </utfx:expected>
-    </utfx:assert-equal>
-  </utfx:test>
-
-  <utfx:test>
-    <utfx:name>footnote with standard placement and automatic numbering</utfx:name>
-    <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="2"/>
-      <utfx:with-param name="footnote_placement" select="'standard'"/>
-    </utfx:stylesheet-params>
-    <utfx:assert-equal>
-      <utfx:source>
-	<stub xml:lang="de">Foo<dtb:noteref idref="#footnote1">a</dtb:noteref>	Bar<dtb:noteref idref="#footnote2">b</dtb:noteref> Baz</stub>
-      </utfx:source>
-      <utfx:expected>
- FOO'*#A
-* 
-  BAR'*#B
-* 
-  BAZ
-</utfx:expected>
-    </utfx:assert-equal>
-  </utfx:test>
-
-  <utfx:test>
-    <utfx:name>footnote with end_vol placement</utfx:name>
-    <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="2"/>
-      <utfx:with-param name="footnote_placement" select="'end_vol'"/>
-    </utfx:stylesheet-params>
-    <utfx:assert-equal>
-      <utfx:source>
-	<stub xml:lang="de">Hi Ha Ho <dtb:noteref idref="#footnote1"></dtb:noteref>
-	<dtb:noteref idref="#footnote2"></dtb:noteref>
-	<brl:volume brl:grade="2"/>Foo Bar Baz <dtb:noteref idref="#footnote3"></dtb:noteref>
-	<dtb:noteref idref="#footnote4"></dtb:noteref>
-	<brl:volume brl:grade="2"/>
-	<dtb:note id="footnote1">
-	  <dtb:p>This is a test</dtb:p>
-	</dtb:note>
-	<dtb:note id="footnote2">
-	  <dtb:p>This is another test</dtb:p>
-	</dtb:note>
-	<dtb:note id="footnote3">
-	  <dtb:p>This is a test</dtb:p>
-	</dtb:note>
-	<dtb:note id="footnote4">
-	  <dtb:p>This is another test</dtb:p>
-	</dtb:note></stub>
-      </utfx:source>
-      <utfx:expected>HI HA HO '*#A
-* 
- '*#B
-* 
- 
-y Notes
-
-a 
- #A THIS IS 'A TE]
-a 
- #B THIS IS +OTH7 TE]
-y EndVol
-y BrlVol
-FOO BAR BAZ '*#C
-* 
- '*#D
-* 
- 
-y Notes
-
-a 
- #C THIS IS 'A TE]
-a 
- #D THIS IS +OTH7 TE]
-y EndVol
-y BrlVol
-      </utfx:expected>
-    </utfx:assert-equal>
-  </utfx:test>
-
-  <utfx:test>
-    <utfx:name>footnote inside h1 (http://redmine.sbszh.ch/issues/1260)</utfx:name>
-    <utfx:stylesheet-params>
-      <utfx:with-param name="contraction" select="2"/>
-      <utfx:with-param name="footnote_placement" select="'standard'"/>
-    </utfx:stylesheet-params>
-    <utfx:assert-equal>
-      <utfx:source>
-	<dtb:h1 xml:lang="de">Sein und nicht sein<dtb:noteref idref="#fn1">1</dtb:noteref></dtb:h1>
-      </utfx:source>
-      <utfx:expected>y H1&#13; 9 U N 9'*#A&#13;*</utfx:expected>
     </utfx:assert-equal>
   </utfx:test>
 
