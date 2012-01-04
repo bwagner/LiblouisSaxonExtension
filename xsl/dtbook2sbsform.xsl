@@ -1136,6 +1136,10 @@ i f=1 l=1
           select="louis:translate(string($braille_tables), 'dürfen es aber nicht weiter verbreiten oder öffentlich ')"/>
         <xsl:value-of
           select="louis:translate(string($braille_tables), 'zugänglich machen.')"/>
+	<xsl:if test="//dtb:meta[lower-case(@name)='prod:source']/@content = 'electronicData'">
+	  <xsl:text>&#10;l&#10; </xsl:text>
+	  <xsl:value-of select="louis:translate(string($braille_tables), 'Wir danken dem Verlag für die freundliche Bereitstellung der elektronischen Textdaten. ')"/>
+	</xsl:if>
       </xsl:otherwise>
     </xsl:choose>
     <xsl:if test="$book_type = 'rucksack'">
