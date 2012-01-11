@@ -4,25 +4,26 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-   /**
-	* Copyright (C) 2010 Swiss Library for the Blind, Visually Impaired and Print Disabled
-	*
-	* This file is part of LiblouisSaxonExtension.
-	* 	
-	* LiblouisSaxonExtension is free software: you can redistribute it
-	* and/or modify it under the terms of the GNU Lesser General Public
-	* License as published by the Free Software Foundation, either
-	* version 3 of the License, or (at your option) any later version.
-	* 	
-	* This program is distributed in the hope that it will be useful,
-	* but WITHOUT ANY WARRANTY; without even the implied warranty of
-	* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	* Lesser General Public License for more details.
-	* 	
-	* You should have received a copy of the GNU Lesser General Public
-	* License along with this program. If not, see
-	* <http://www.gnu.org/licenses/>.
-	*/
+/**
+ * Copyright (C) 2010 Swiss Library for the Blind, Visually Impaired and Print
+ * Disabled
+ * 
+ * This file is part of LiblouisSaxonExtension.
+ * 
+ * LiblouisSaxonExtension is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation, either
+ * version 3 of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
 
 public class LineBreaker {
 
@@ -35,6 +36,10 @@ public class LineBreaker {
 	 * be condensed into a single blank.
 	 * formatSbs-variant throws a RuntimeException when a newline is encountered
 	 * within the string, since this is not supported.
+	 * 
+	 * This could have been implemented as a perl one-liner. But since we might
+	 * move this functionality into the pipeline at some point in the future we
+	 * decided to implement it in Java.
 	 * 
 	 * TODO: If the string contains newlines these will not be taken into
 	 * account, i.e. we want to maintain the newline-formatting of the source.
@@ -67,7 +72,7 @@ public class LineBreaker {
 			result.append(" ");
 			currentCol += chunk.length() + 1;
 		}
-		if(result.length() > 0){
+		if (result.length() > 0) {
 			removeLastChar(result);
 		}
 		return result.toString();
@@ -87,8 +92,9 @@ public class LineBreaker {
 
 	/**
 	 * We're calling this routine from a loop that reads from stdin (see main
-	 * method) line by line, thus we never have a newline in our string, except 
+	 * method) line by line, thus we never have a newline in our string, except
 	 * at the very end.
+	 * 
 	 * @param input
 	 * @return
 	 */
@@ -112,7 +118,8 @@ public class LineBreaker {
 				while ((line = in.readLine()) != null) {
 					System.out.println(formatSbs(line));
 				}
-			} else {
+			}
+			else {
 				int width = STD_WIDTH;
 				if (args.length > 0) {
 					width = Integer.parseInt(args[0]);
