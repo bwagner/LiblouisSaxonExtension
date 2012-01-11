@@ -92,10 +92,6 @@
 					<include name="**/*Test.java" />
 				</fileset>
 			</batchtest>
-			<!--
-			<test name="ch.sbs.liblouis.utils.LineBreakerTest" />
-			<test name="org.liblouis.LouisTransformTest" />
-			-->
 		</junit>
 	</target>
 
