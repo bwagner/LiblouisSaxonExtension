@@ -2,9 +2,7 @@ Liblouis Saxon Extension
 
 This project provides:
 
-a) a command line tool to transform dtbook xml
-source files [1] into a braille format proprietary to sbs [2], and
-b) a specialized javax.xml.transform.sax.SAXTransformerFactory
+a) a specialized javax.xml.transform.sax.SAXTransformerFactory
 that can be used to configure applications that respect the
 System property "javax.xml.transform.TransformerFactory".
 
@@ -13,32 +11,15 @@ into braille using liblouis [4].
 
 1. Usage command line tools
 
-cd LiblouisSaxonExtension
-./dtbook2sbsform.sh dtbook.xml
-# calls saxon.sh, transform dtbook.xml
-# and performs line breaking using linebreak.sh
-# printing output onto stdout
-
-./saxon.sh
-# calls saxon, offering its rich command line interface,
-# includes our extension function
-# (see resources/xsl/dtbook2sbsform.xsl
-
-./linebreak.sh
-# breaks lines according to sbs rules:
-# only lines beginning with a blank will be broken
-# line width is 80 chars.
-
 2. Usage org.liblouis.LouisExtensionTransformerFactoryImpl
 
 java -Djavax.xml.transform.sax.SAXTransformerFactory YourAppThatUsesJaxp
 Examples can be found in the xsl tests which are performed using
-utf-x [5]. See utfx.sh shell script.
+utf-x [5]. See utfx.sh shell script in project [6].
 
 3. Prerequisite installs:
 - liblouis [4]
 - java
-- sh
 
 4. References
 
@@ -50,6 +31,7 @@ utf-x [5]. See utfx.sh shell script.
 
 [4] http://code.google.com/p/liblouis/
 
-[5] http://utf-x.sourceforge.net/, however we're using an enhanced version,
-	which has been ported to work with saxon9he:
-	http://github.com/bwagner/utf-x-framework
+[5] http://utf-x.sourceforge.net/, we're using the svn version,
+	which has been ported to work with saxon9he.
+	
+[6] https://github.com/bwagner/dtbooktosbsform
