@@ -32,7 +32,6 @@
 	<property name="src.dir" value="src" />
 	<property name="test_src.dir" value="test_src" />
 	<property name="lib.dir" value="lib" />
-	<property name="app.manifest" value="MANIFEST.MF" />
 
     <presetdef name="my.javac">
 	<javac includeantruntime="false" />
@@ -52,7 +51,7 @@
 	<target name="default" depends="jar" />
 
 	<target name="jar" depends="compile, git.revision" description="build jar">
-		<jar jarfile="${app.jar}" basedir="${build.dir}" includes="**/*.class" excludes="**/*Test.class" manifest="${app.manifest}">
+		<jar jarfile="${app.jar}" basedir="${build.dir}" includes="**/*.class" excludes="**/*Test.class">
 			<manifest>
 				<attribute name="Built-By" value="${user.name}" />
 				<attribute name="Implementation-Version" value="${repository.version}" />
@@ -101,7 +100,6 @@
 		<delete file="${app.jar}" />
 		<delete file="${factory.jar}" />
 		<delete file="utfx_log.xml" />
-		<delete file="${app.manifest}" />
 	</target>
 
 	<available file=".git" type="dir" property="git.present" />
