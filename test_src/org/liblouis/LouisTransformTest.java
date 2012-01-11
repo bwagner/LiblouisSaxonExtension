@@ -75,7 +75,7 @@ public class LouisTransformTest {
 			public void hook() {
 				final String[] args = new String[] {
 						"-xsl:xsl/dtbook2sbsform.xsl",
-						"-s:resources/dtbook/dtbook.xml", };
+						"-s:resources/dtbook.xml", };
 
 				new LouisTransform().doTransform(args,
 						"java org.liblouis.LouisTransform");
@@ -95,7 +95,7 @@ public class LouisTransformTest {
 			public void hook() {
 				final String[] args = new String[] {
 						"-xsl:xsl/dtbook2sbsform.xsl",
-						"-s:resources/dtbook/dtbook.xml", "contraction=1",
+						"-s:resources/dtbook.xml", "contraction=1",
 						"cells_per_line=30", "hyphenation=true",
 						"show_original_page_numbers=false",
 						"detailed_accented_characters=foo" };
