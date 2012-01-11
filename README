@@ -1,17 +1,13 @@
 Liblouis Saxon Extension
 
-This project provides:
-
-a) a specialized javax.xml.transform.sax.SAXTransformerFactory
+This project provides a specialized javax.xml.transform.sax.SAXTransformerFactory
 that can be used to configure applications that respect the
 System property "javax.xml.transform.TransformerFactory".
 
 It uses saxon [3] with a java extension that offers translating text
 into braille using liblouis [4].
 
-1. Usage command line tools
-
-2. Usage org.liblouis.LouisExtensionTransformerFactoryImpl
+Usage org.liblouis.LouisExtensionTransformerFactoryImpl:
 
 java -Djavax.xml.transform.sax.SAXTransformerFactory YourAppThatUsesJaxp
 Examples can be found in the xsl tests which are performed using
