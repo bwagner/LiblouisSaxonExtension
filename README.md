@@ -40,5 +40,5 @@ License
 
 Copyright 2011 SBS.
 
-GNU Lesser General Public License as published by the Free Software Foundation,
+Licensed under GNU Lesser General Public License as published by the Free Software Foundation,
 either [version 3](http://www.gnu.org/licenses/gpl-3.0.html) of the License, or (at your option) any later version.
