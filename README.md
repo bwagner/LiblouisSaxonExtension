@@ -1,7 +1,9 @@
 Liblouis Saxon Extension
 ========================
 
-This project provides a specialized `javax.xml.transform.sax.SAXTransformerFactory`
+This project provides a saxon extension that allows to translate text nodes to braille using liblouis from within xsl. 
+
+It does this by providing a specialized `javax.xml.transform.sax.SAXTransformerFactory`
 that can be used to configure applications that respect the
 System property `"javax.xml.transform.TransformerFactory"`.
 
