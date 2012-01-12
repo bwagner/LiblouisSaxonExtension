@@ -1,6 +1,6 @@
 package org.liblouis;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -73,9 +73,8 @@ public class LouisTransformTest {
 		final String sysout = SysOutSaver.process(new SysOutSaver.Hook() {
 			@Override
 			public void hook() {
-				final String[] args = new String[] {
-						"-xsl:xsl/dtbook2sbsform.xsl",
-						"-s:resources/dtbook.xml", };
+				final String[] args = new String[] { "-xsl:resources/test.xsl",
+						"-s:resources/test.xml", };
 
 				new LouisTransform().doTransform(args,
 						"java org.liblouis.LouisTransform");
@@ -83,32 +82,8 @@ public class LouisTransformTest {
 
 		});
 
-		final String expected = " ,! qk br{n fox jumps ov} ! lazy dog4";
-		assertTrue(sysout.indexOf(expected) != -1);
+		final String expected = ",! qk br{n fox jumps ov} ! lazy dog4";
+		assertEquals(expected, sysout);
 	}
 
-	@Test
-	public void testSetparam() {
-
-		final String sysout = SysOutSaver.process(new SysOutSaver.Hook() {
-			@Override
-			public void hook() {
-				final String[] args = new String[] {
-						"-xsl:xsl/dtbook2sbsform.xsl",
-						"-s:resources/dtbook.xml", "contraction=1",
-						"cells_per_line=30", "hyphenation=true",
-						"show_original_page_numbers=false",
-						"detailed_accented_characters=foo" };
-
-				new LouisTransform().doTransform(args,
-						"java org.liblouis.LouisTransform");
-			}
-
-		});
-
-		assertTrue(sysout.contains("cells_per_line:30"));
-		assertTrue(sysout.contains("hyphenation:true"));
-		assertTrue(sysout.contains("show_original_page_numbers:false"));
-		assertTrue(sysout.contains("detailed_accented_characters:foo"));
-	}
 }

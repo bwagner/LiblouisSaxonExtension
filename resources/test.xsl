@@ -1,7 +1,5 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<?xml-stylesheet href="dtbook.2005.basic.css" type="text/css"?>
-<!DOCTYPE dtbook PUBLIC "-//NISO//DTD dtbook 2005-3//EN" "http://www.daisy.org/z3986/2005/dtbook-2005-3.dtd" >
-<dtbook xmlns="http://www.daisy.org/z3986/2005/dtbook/" version="2005-3" xml:lang="en-US">
+<?xml version="1.0" encoding="utf-8"?>
+
 	<!-- Copyright (C) 2010 Swiss Library for the Blind, Visually Impaired and Print Disabled -->
 	
 	<!-- This file is part of LiblouisSaxonExtension. -->
@@ -19,16 +17,14 @@
 	<!-- You should have received a copy of the GNU Lesser General Public -->
 	<!-- License along with this program. If not, see -->
 	<!-- <http://www.gnu.org/licenses/>. -->
-	<head>
-		<meta name="dc:Date" content="2008-04-28" />
-	</head>
-	<book showin="blp">
-		<bodymatter id="bodymatter_0001">
-			<level1>
-				<pagenum page="normal" id="page1">1</pagenum>
-				<p>The quick brown fox jumps over the lazy dog.</p>
-				<p />
-			</level1>
-		</bodymatter>
-	</book>
-</dtbook>
+	
+<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:louis="http://liblouis.org/liblouis">
+	
+  <xsl:output method="text" encoding="utf-8" indent="no"/>
+
+  <xsl:template match="text()">
+    <xsl:value-of select="louis:translate(string('en-us-g2.ctb'), string())"/>
+  </xsl:template>
+
+</xsl:stylesheet>
