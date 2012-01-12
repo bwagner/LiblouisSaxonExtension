@@ -34,7 +34,7 @@
 	<property name="lib.dir" value="lib" />
 
     <presetdef name="my.javac">
-	<javac includeantruntime="false" />
+		<javac includeantruntime="false" />
     </presetdef>
 
 	<path id="classpath.path">
@@ -117,27 +117,6 @@
 				<length string="${git.revision}" trim="yes" length="0" when="greater" />
 			</and>
 		</condition>
-	</target>
-
-	<target name="dist" depends="jar"
-		description="Builds a zipfile containing everything needed">
-	  <zip destfile="${app.name}.zip">
-	    <zipfileset dir="${lib.dir}" prefix="${app.name}/${lib.dir}">
-	      <include name="*.jar"/>
-	    </zipfileset>
-	    <zipfileset dir="." prefix="${app.name}">
-	      <include name="*.jar"/>
-	      <include name="COPYING.LESSER"/>
-	      <include name="README"/>
-	    </zipfileset>
-	    <zipfileset dir="." prefix="${app.name}" filemode="755">
-	      <include name="*.sh"/>
-	      <exclude name="utfx.sh"/>
-	    </zipfileset>
-	    <zipfileset dir="xsl" prefix="${app.name}/xsl">
-	      <include name="dtbook2sbsform.xsl"/>
-	    </zipfileset>
-	  </zip>
 	</target>
 
 </project>
